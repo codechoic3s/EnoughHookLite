@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Features\BunnyHop.cs" />
+    <Compile Include="Features\MagnetTrigger.cs" />
     <Compile Include="GameClasses\CSPlayer.cs" />
     <Compile Include="GameClasses\Entity.cs" />
     <Compile Include="GameClasses\EntityList.cs" />
@@ -59,9 +63,14 @@
     <Compile Include="Sys\VK.cs" />
     <Compile Include="Features\Trigger.cs" />
     <Compile Include="App.cs" />
+    <Compile Include="Utils\Config.cs" />
+    <Compile Include="Utils\ConfigManager.cs" />
+    <Compile Include="Utils\FeatureSettings\BunnyHop.cs" />
+    <Compile Include="Utils\FeatureSettings\Trigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

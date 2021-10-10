@@ -1,5 +1,6 @@
 ﻿using EnoughHookLite.Features;
 using EnoughHookLite.Modules;
+using EnoughHookLite.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,6 +28,8 @@ namespace EnoughHookLite
         public Trigger Trigger;
         public BunnyHop BunnyHop;
 
+        public ConfigManager ConfigManager;
+
         public void Start()
         {
             MainThread = new Thread(new ThreadStart(Work));
@@ -37,6 +40,8 @@ namespace EnoughHookLite
         {
             Title = RandomText();
             Console.Title = Title;
+
+            ConfigManager = new ConfigManager(AppDomain.CurrentDomain.BaseDirectory);
 
             Console.WriteLine("Waiting process...");
 

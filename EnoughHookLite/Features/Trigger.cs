@@ -38,7 +38,7 @@ namespace EnoughHookLite.Features
                 {
                     MRE.WaitOne(TimeSpan);
                     //Thread.Sleep(1);
-                    if (Process.GetKeyState(VK.LSHIFT))
+                    if (App.ConfigManager.CurrentConfig.Trigger.Enabled && Process.GetKeyState(App.ConfigManager.CurrentConfig.Trigger.Button))
                     {
                         var crossInd = App.Client.EntityList.LocalPlayer.CrosshairID;
 
@@ -52,8 +52,8 @@ namespace EnoughHookLite.Features
                                 App.Engine.Fire(false);
                             }
                         }
-                        }
                     }
+                }
             });
         }
     }

@@ -5,3 +5,6 @@ F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\EnoughHookLite.e
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\EnoughHookLite.pdb
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.exe
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.pdb
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\Newtonsoft.Json.dll
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\Newtonsoft.Json.xml
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.csproj.CopyComplete
