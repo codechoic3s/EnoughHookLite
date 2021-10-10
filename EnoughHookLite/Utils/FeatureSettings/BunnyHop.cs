@@ -9,5 +9,10 @@ namespace EnoughHookLite.Utils.FeatureSettings
     public struct BunnyHop
     {
         public bool Enabled;
+
+        public BunnyHop(bool state = true)
+        {
+            Enabled = state;
+        }
     }
 }

@@ -11,5 +11,11 @@ namespace EnoughHookLite.Utils.FeatureSettings
     {
         public bool Enabled;
         public VK Button;
+
+        public Trigger(VK button = VK.LSHIFT)
+        {
+            Enabled = true;
+            Button = button;
+        }
     }
 }

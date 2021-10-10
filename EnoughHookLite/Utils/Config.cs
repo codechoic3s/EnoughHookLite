@@ -16,6 +16,12 @@ namespace EnoughHookLite.Utils
         [Newtonsoft.Json.JsonIgnore]
         public string Name;
 
+        public Config()
+        {
+            Trigger = new Trigger(VK.SHIFT);
+            BunnyHop = new BunnyHop(true);
+        }
+
         public string Serialize()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
