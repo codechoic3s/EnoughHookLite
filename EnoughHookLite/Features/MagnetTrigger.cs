@@ -8,5 +8,6 @@ namespace EnoughHookLite.Features
 {
     public class MagnetTrigger
     {
+
     }
 }
