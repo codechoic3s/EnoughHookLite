@@ -1,0 +1,7 @@
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.csproj.AssemblyReference.cache
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.csproj.CoreCompileInputs.cache
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\EnoughHookLite.exe.config
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\EnoughHookLite.exe
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\EnoughHookLite.pdb
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.exe
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.pdb

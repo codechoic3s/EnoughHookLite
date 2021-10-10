@@ -11,6 +11,19 @@ namespace EnoughHookLite.Sys
     {
         public Process Process;
 
+        public int BaseAdr { get; private set; }
+        public int Size { get; private set; }
+
+        private System.Diagnostics.ProcessModule pModule;
+
+        public Module(System.Diagnostics.ProcessModule pm, Process proc)
+        {
+            pModule = pm;
+            Process = proc;
+            BaseAdr = (int)pm.BaseAddress;
+            Size = pm.ModuleMemorySize;
+        }
+
         public sbyte ReadSByte(int adr)
         {
             var data = Process.ReadData(adr, 1);

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EnoughHookLite.Modules;
+using EnoughHookLite.Sys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +11,15 @@ namespace EnoughHookLite.Features
 {
     public class Trigger
     {
-        public Unstable Unstable;
+        public App App;
         public Thread TH;
         public ManualResetEvent MRE;
         public TimeSpan TimeSpan;
         
 
-        public Trigger(Unstable unstable)
+        public Trigger(App app)
         {
-            Unstable = unstable;
+            App = app;
             MRE = new ManualResetEvent(false);
             TimeSpan = TimeSpan.FromMilliseconds(0.5);
         }
@@ -36,20 +38,22 @@ namespace EnoughHookLite.Features
                 {
                     MRE.WaitOne(TimeSpan);
                     //Thread.Sleep(1);
-                    if (Unstable.GetKeyState(Unstable.VK.LSHIFT))
+                    if (Process.GetKeyState(VK.LSHIFT))
                     {
-                        var team = Unstable.RPMInt((IntPtr)Unstable.LocalPlayerInstance + Unstable.TeamIDPTR);
-                        var crossInd = Unstable.RPMInt((IntPtr)Unstable.LocalPlayerInstance + Unstable.CrosshairIDPTR);
-                        var crossEnt = Unstable.RPMInt(Unstable.ClientModulePtr + Unstable.EntityListPTR + (crossInd - 1) * 16);
-                        var crossTeam = Unstable.RPMInt((IntPtr)crossEnt + Unstable.TeamIDPTR);
+                        var crossInd = App.Client.EntityList.LocalPlayer.CrosshairID;
 
-                        if (crossInd < 64 && crossInd > 0 && crossTeam != team)
+                        if (crossInd < 64 && crossInd > 0) 
                         {
-                            Unstable.Fire(true);
-                            Unstable.Fire(false);
+                            var crossEnt = App.Client.EntityList.GetByCrosshairID(crossInd - 1);
+
+                            if (crossEnt.Team != App.Client.EntityList.LocalPlayer.Team)
+                            {
+                                App.Engine.Fire(true);
+                                App.Engine.Fire(false);
+                            }
+                        }
                         }
                     }
-                }
             });
         }
     }

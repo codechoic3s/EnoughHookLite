@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EnoughHookLite.Modules;
+using EnoughHookLite.Sys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +12,12 @@ namespace EnoughHookLite.Features
     public class BunnyHop
     {
         public Thread TH;
-        public Unstable Unstable;
 
-        public BunnyHop(Unstable u)
+        public App App;
+
+        public BunnyHop(App app)
         {
-            Unstable = u;
+            App = app;
         }
 
         public void Start()
@@ -28,13 +31,12 @@ namespace EnoughHookLite.Features
             while (true)
             {
                 Thread.Sleep(1);
-                if (Unstable.GetKeyState(Unstable.VK.SPACE))
+                if (Process.GetKeyState(VK.SPACE))
                 {
-                    var flags = Unstable.RPMInt((IntPtr)Unstable.LocalPlayerInstance + Unstable.FlagsPTR);
-                    if (flags == 257)
+                    if (App.Client.EntityList.LocalPlayer.FFlags == 257)
                     {
-                        Unstable.Jump(true);
-                        Unstable.Jump(false);
+                        App.Engine.Jump(true);
+                        App.Engine.Jump(false);
                     }
                 }
             }

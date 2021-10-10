@@ -71,6 +71,21 @@ namespace EnoughHookLite.Sys
                 return null;
             }
         }
+
+        public Module GetModule(string name)
+        {
+            var mss = Proc.Modules;
+            var msco = mss.Count;
+            for (var i = 0; i < msco; i++)
+            {
+                var m = mss[i];
+                if (m.ModuleName == name)
+                {
+                    return new Module(m, this);
+                }
+            }
+            return null;
+        }
         
         public IntPtr SendMessage(int msg, int wparam, int lparam)
         {
