@@ -33,7 +33,7 @@ namespace EnoughHookLite.Features
                 Thread.Sleep(1);
                 if (Process.GetKeyState(VK.SPACE))
                 {
-                    if (App.Client.EntityList.LocalPlayer.FFlags == 257 || App.Client.EntityList.LocalPlayer.FFlags == 263)
+                    if (App.CanNext && App.ConfigManager.CurrentConfig.BunnyHop.Enabled && (App.Client.EntityList.LocalPlayer.FFlags == 257 || App.Client.EntityList.LocalPlayer.FFlags == 263))
                     {
                         App.Engine.Jump(true);
                         App.Engine.Jump(false);

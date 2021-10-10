@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EnoughHookLite.Features
 {
-    class MagnetTrigger
+    public class MagnetTrigger
     {
     }
 }

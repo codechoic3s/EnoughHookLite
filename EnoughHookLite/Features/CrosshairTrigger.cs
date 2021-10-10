@@ -9,15 +9,14 @@ using System.Threading.Tasks;
 
 namespace EnoughHookLite.Features
 {
-    public class Trigger
+    public class CrosshairTrigger
     {
         public App App;
         public Thread TH;
         public ManualResetEvent MRE;
         public TimeSpan TimeSpan;
-        
 
-        public Trigger(App app)
+        public CrosshairTrigger(App app)
         {
             App = app;
             MRE = new ManualResetEvent(false);
@@ -38,7 +37,7 @@ namespace EnoughHookLite.Features
                 {
                     MRE.WaitOne(TimeSpan);
                     //Thread.Sleep(1);
-                    if (App.ConfigManager.CurrentConfig.Trigger.Enabled && Process.GetKeyState(App.ConfigManager.CurrentConfig.Trigger.Button))
+                    if (App.CanNext && App.ConfigManager.CurrentConfig.Trigger.Enabled && Process.GetKeyState(App.ConfigManager.CurrentConfig.Trigger.Button))
                     {
                         var crossInd = App.Client.EntityList.LocalPlayer.CrosshairID;
 

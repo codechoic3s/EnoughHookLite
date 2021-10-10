@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -18,7 +19,7 @@ namespace EnoughHookLite
     public class App
     {
         private string Title;
-        private const string LastBuild = "10/10/2021 8:00PM";
+        //private const string LastBuild = "10/10/2021 8:00PM";
 
         public Thread MainThread;
 
@@ -26,10 +27,12 @@ namespace EnoughHookLite
         public Client Client;
         public Engine Engine;
 
-        public Trigger Trigger;
+        public CrosshairTrigger Trigger;
         public BunnyHop BunnyHop;
 
         public ConfigManager ConfigManager;
+
+        public bool CanNext { get; private set; }
 
         internal bool ChangeName;
         internal string ChangeableName;
@@ -37,8 +40,18 @@ namespace EnoughHookLite
 
         public void Start()
         {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             MainThread = new Thread(new ParameterizedThreadStart(Work));
             MainThread.Start();
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var exception = (Exception)e.ExceptionObject;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(exception.Message);
+            File.WriteAllText("log.txt", exception.ToString());
+            Console.WriteLine("Log saved as log.txt");
         }
 
         private void Work(object obj)
@@ -48,7 +61,9 @@ namespace EnoughHookLite
                 Title = ChangeableName;
                 File.Delete(RemoveName);
 
-                string text = "\n/EnoughHookLite/\n" + "Last Build: " + LastBuild + "\n";
+                var ver = Assembly.GetEntryAssembly().GetName().Version;
+
+                string text = "\n/EnoughHookLite/\n" + "build: " + ver.Build + "\n";
                 Console.WriteLine(text);
 
                 Title = ChangeableName;
@@ -73,11 +88,17 @@ namespace EnoughHookLite
 
                 Client.Start();
 
-                Trigger = new Trigger(this);
+                Trigger = new CrosshairTrigger(this);
                 BunnyHop = new BunnyHop(this);
 
                 Trigger.Start();
                 BunnyHop.Start();
+
+                while (true)
+                {
+                    CanNext = Process.IsForeground();
+                    Thread.Sleep(1000);
+                }
             }
             else
             {

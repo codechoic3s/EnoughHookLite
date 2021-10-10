@@ -9,12 +9,7 @@ namespace EnoughHookLite.Sys
 {
     public class Process
     {
-        [DllImport("user32.dll")]
-        static extern short GetAsyncKeyState(int vKey);
-        [DllImport("kernel32.dll")]
-        static extern bool ReadProcessMemory(IntPtr hProcess, int lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        
 
         private IntPtr Handle;
         private IntPtr WindowHandle;
@@ -28,7 +23,12 @@ namespace EnoughHookLite.Sys
 
         public static bool GetKeyState(VK key)
         {
-            return (GetAsyncKeyState((int)key) & 0x8000) != 0;
+            return (WinAPI.GetAsyncKeyState((int)key) & 0x8000) != 0;
+        }
+
+        public bool IsForeground()
+        {
+            return WindowHandle == WinAPI.GetForegroundWindow();
         }
 
         public static Process FindProcess(string name)
@@ -61,7 +61,7 @@ namespace EnoughHookLite.Sys
         {
             byte[] data = new byte[size];
             int readed = 0;
-            var ok = ReadProcessMemory(Handle, adr, data, size, ref readed);
+            var ok = WinAPI.ReadProcessMemory(Handle, adr, data, size, ref readed);
             if (ok && readed == size)
             {
                 return data;
@@ -89,7 +89,7 @@ namespace EnoughHookLite.Sys
         
         public IntPtr SendMessage(int msg, int wparam, int lparam)
         {
-            return SendMessage(WindowHandle, msg, wparam, lparam);
+            return WinAPI.SendMessage(WindowHandle, msg, wparam, lparam);
         }
     }
 }
