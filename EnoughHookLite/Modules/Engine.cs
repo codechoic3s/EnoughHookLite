@@ -23,6 +23,19 @@ namespace EnoughHookLite.Modules
             App = app;
         }
 
+        public float[] ViewMatrix
+        {
+            get
+            {
+                float[] matrix = new float[16];
+                for (var i = 0; i < 16; i++)
+                {
+                    matrix[i] = App.Client.ClientModule.ReadFloat(App.Client.ClientModule.BaseAdr + Offsets.csgo.signatures.dwViewMatrix + i * 4);
+                }
+                return matrix;
+            }
+        }
+
         public void Fire(bool state)
         {
             if (state)

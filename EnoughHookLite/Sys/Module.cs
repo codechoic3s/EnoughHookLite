@@ -74,6 +74,16 @@ namespace EnoughHookLite.Sys
             var data = Process.ReadData(adr, 8);
             return BitConverter.ToUInt64(data, 0);
         }
+        public string ReadString(int adr, int size, Encoding enc)
+        {
+            var data = Process.ReadData(adr, size);
+            var text = enc.GetString(data);
+            if (text.Contains('\0'))
+            {
+                text = text.Substring(0, text.IndexOf('\0'));
+            }
+            return text;
+        }
 
         public TStruct ReadStruct<TStruct>(int adr)
         {

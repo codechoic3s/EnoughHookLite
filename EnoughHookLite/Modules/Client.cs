@@ -32,6 +32,9 @@ namespace EnoughHookLite.Modules
         public int ClientState_MaxPlayers { get { return ClientModule.ReadInt(ClientState + Offsets.csgo.signatures.dwClientState_MaxPlayer); } }
         public int ClientState_GetLocalPlayer { get { return ClientModule.ReadInt(ClientState + Offsets.csgo.signatures.dwClientState_GetLocalPlayer); } }
         public Vector3 ClientState_ViewAngles { get { return ClientModule.ReadStruct<Vector3>(ClientState + Offsets.csgo.signatures.dwClientState_ViewAngles); } }
+        public string ClientState_MapName { get { return ClientModule.ReadString(ClientState + Offsets.csgo.signatures.dwClientState_Map, 32, Encoding.ASCII); } }
+        public string ClientState_MapDirectory { get { return ClientModule.ReadString(ClientState + Offsets.csgo.signatures.dwClientState_MapDirectory, 32, Encoding.ASCII); } }
 
+        public int PlayerResource { get { return ClientModule.ReadInt(ClientModule.BaseAdr + Offsets.csgo.signatures.dwPlayerResource); } }
     }
 }
