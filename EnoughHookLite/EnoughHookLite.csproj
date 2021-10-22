@@ -57,6 +57,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
@@ -75,6 +76,8 @@
     <Compile Include="GameClasses\Entity.cs" />
     <Compile Include="GameClasses\EntityList.cs" />
     <Compile Include="GameClasses\LocalPlayer.cs" />
+    <Compile Include="GameClasses\PlayerResource.cs" />
+    <Compile Include="GameClasses\Rank.cs" />
     <Compile Include="GameClasses\Team.cs" />
     <Compile Include="Modules\Client.cs" />
     <Compile Include="Modules\Engine.cs" />
@@ -113,7 +116,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseUniversalClock="False" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_StartDate="2021/10/10" BuildVersion_BuildVersioningStyle="None.None.Increment.None" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_StartDate="2021/10/10" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_UseUniversalClock="False" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

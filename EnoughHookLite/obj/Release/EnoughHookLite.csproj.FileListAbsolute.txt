@@ -3,8 +3,10 @@ F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\EnoughHookLite
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\EnoughHookLite.pdb
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\Newtonsoft.Json.dll
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\Newtonsoft.Json.xml
-F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.csproj.AssemblyReference.cache
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.csproj.CoreCompileInputs.cache
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.csproj.CopyComplete
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.exe
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.pdb
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\System.Numerics.Vectors.dll
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\System.Numerics.Vectors.xml
+F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.csproj.AssemblyReference.cache

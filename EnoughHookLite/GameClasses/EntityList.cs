@@ -12,7 +12,7 @@ namespace EnoughHookLite.GameClasses
     {
         public LocalPlayer LocalPlayer;
 
-        public Dictionary<int,CSPlayer> CSPlayers;
+        public List<CSPlayer> CSPlayers;
         public App App;
 
         private Thread TH;
@@ -20,7 +20,7 @@ namespace EnoughHookLite.GameClasses
         public EntityList(App app)
         {
             App = app;
-            CSPlayers = new Dictionary<int, CSPlayer>();
+            CSPlayers = new List<CSPlayer>();
         }
 
         public CSPlayer GetByCrosshairID(int id)
@@ -44,7 +44,7 @@ namespace EnoughHookLite.GameClasses
                 {
                     for (var i = 0; i < 64; i++)
                     {
-                        CSPlayers[i] = new CSPlayer(App);
+                        CSPlayers.Add(new CSPlayer(App, i));
                     }
                 }
 
@@ -55,6 +55,8 @@ namespace EnoughHookLite.GameClasses
                     var csp = CSPlayers[i];
                     if (csp.Pointer != ptr)
                         csp.Pointer = ptr;
+                    if (csp.Pointer == LocalPlayer.Pointer)
+                        LocalPlayer.Index = csp.Index;
                 }
 
                 // updating localplayer

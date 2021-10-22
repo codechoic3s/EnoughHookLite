@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace EnoughHookLite.GameClasses
 {
     public class CSPlayer : Entity
     {
-        public CSPlayer(App app) : base(app)
+        public CSPlayer(App app, int index) : base(app, index)
         {
         }
 
@@ -25,6 +26,21 @@ namespace EnoughHookLite.GameClasses
         public bool IsScoped { get { return App.Client.ClientModule.ReadStruct<bool>(Pointer + Offsets.csgo.netvars.m_bIsScoped); } }
         public int Clip1 { get { return App.Client.ClientModule.ReadInt(Pointer + Offsets.csgo.netvars.m_iClip1); } }
 
+        public Rank Rank { get { return App.Client.PlayerResource.GetRank(Index); } }
+        public int Wins { get { return App.Client.PlayerResource.GetWins(Index); } }
+
         public bool IsPlayer { get { var tm = (int)Team; bool ok = ((tm > 0) && (tm < 5)); return ok; } }
+
+        public int BoneMatrixPointer { get { return App.Client.ClientModule.ReadInt(Pointer + Offsets.csgo.netvars.m_dwBoneMatrix); } }
+
+        public Vector3 GetBonePosition(int BoneID)
+        {
+            int bonematrix = BoneMatrixPointer;
+            float x = App.Client.ClientModule.ReadFloat(bonematrix + 0x30 * BoneID + 0x0C);
+            float y = App.Client.ClientModule.ReadFloat(bonematrix + 0x30 * BoneID + 0x1C);
+            float z = App.Client.ClientModule.ReadFloat(bonematrix + 0x30 * BoneID + 0x2C);
+            //Console.WriteLine($"x:{x} y:{y} z:{z}");
+            return new Vector3(x, y, z);
+        }
     }
 }

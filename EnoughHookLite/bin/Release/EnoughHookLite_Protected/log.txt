@@ -1,0 +1,13 @@
+System.ArgumentNullException: Value cannot be null.
+Parameter name: value
+   at System.BitConverter.ToInt32(Byte[] value, Int32 startIndex)
+   at wn.b(Byte[] , Int32 , wn )
+   at EnoughHookLite.Sys.Module.ksc(Object , Int32 , Object )
+   at EnoughHookLite.Sys.Module.ReadInt(Int32 adr) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Module.cs:line 49
+   at q5.b(Object , Int32 adr, q5 )
+   at EnoughHookLite.GameClasses.EntityList.Work() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\EntityList.cs:line 54
+   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ThreadHelper.ThreadStart()

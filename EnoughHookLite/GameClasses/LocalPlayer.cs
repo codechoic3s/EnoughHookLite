@@ -9,7 +9,7 @@ namespace EnoughHookLite.GameClasses
 {
     public class LocalPlayer : CSPlayer
     {
-        public LocalPlayer(App app) : base(app)
+        public LocalPlayer(App app) : base(app, 0)
         {
         }
 

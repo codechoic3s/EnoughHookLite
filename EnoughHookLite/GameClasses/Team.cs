@@ -8,9 +8,9 @@ namespace EnoughHookLite.GameClasses
 {
     public enum Team : int
     {
-        Team1 = 1,
-        Team2 = 2,
-        Team3 = 3,
-        Team4 = 4,
+        Spectator = 1,
+        Terrorists = 2,
+        CounterTerrorists = 3,
+        Unknown = 4,
     }
 }

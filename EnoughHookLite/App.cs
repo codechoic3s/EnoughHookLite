@@ -21,13 +21,16 @@ namespace EnoughHookLite
         private string Title;
         //private const string LastBuild = "10/10/2021 8:00PM";
 
+        public bool ProtectStart;
+
         public Thread MainThread;
 
         public Process Process;
         public Client Client;
         public Engine Engine;
 
-        public CrosshairTrigger Trigger;
+        public CrosshairTrigger CrosshairTrigger;
+        public MagnetTrigger MagnetTrigger;
         public BunnyHop BunnyHop;
 
         public ConfigManager ConfigManager;
@@ -40,6 +43,7 @@ namespace EnoughHookLite
 
         public void Start()
         {
+            ProtectStart = false;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             MainThread = new Thread(new ParameterizedThreadStart(Work));
             MainThread.Start();
@@ -49,24 +53,34 @@ namespace EnoughHookLite
         {
             var exception = (Exception)e.ExceptionObject;
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(exception.Message);
-            File.WriteAllText("log.txt", exception.ToString());
+            Console.WriteLine(exception);
+            File.WriteAllText("log.txt", exception.StackTrace);
             Console.WriteLine("Log saved as log.txt");
         }
 
         private void Work(object obj)
         {
-            if (ChangeName)
+            if (ChangeName || !ProtectStart)
             {
-                Title = ChangeableName;
-                File.Delete(RemoveName);
+                if (ChangeName)
+                {
+                    Title = ChangeableName;
+                    File.Delete(RemoveName);
+                }
+                else if (!ProtectStart)
+                {
+                    Title = RandomText();
+                }
 
                 var ver = Assembly.GetEntryAssembly().GetName().Version;
 
-                string text = "\n/EnoughHookLite/\n" + "build: " + ver.Build + "\n";
+                string text = "";
+                text += "\n/EnoughHookLite/\n" + "build: " + ver.Build + "\n\n";
+                text += "Include features:\n";
+                text += "   1. Trigger (Crosshair).\n";
+                text += "   2. Bunnyhop.\n";
                 Console.WriteLine(text);
 
-                Title = ChangeableName;
                 Console.Title = Title;
 
                 ConfigManager = new ConfigManager(AppDomain.CurrentDomain.BaseDirectory);
@@ -83,22 +97,41 @@ namespace EnoughHookLite
 
                 Process.AllocateHandles();
 
-                Client = new Client(Process.GetModule("client.dll"), this);
-                Engine = new Engine(Process.GetModule("engine.dll"), this);
+                var clm = Process.GetModule("client.dll", out bool cf);
+                var em = Process.GetModule("engine.dll", out bool ef);
 
-                Client.Start();
-
-                Trigger = new CrosshairTrigger(this);
-                BunnyHop = new BunnyHop(this);
-
-                Trigger.Start();
-                BunnyHop.Start();
-
-                while (true)
+                if (!cf)
                 {
-                    CanNext = Process.IsForeground();
-                    Thread.Sleep(1000);
+                    Console.WriteLine("Not founded client.dll");
                 }
+                else if (!ef)
+                {
+                    Console.WriteLine("Not founded engine.dll");
+                }
+                else
+                {
+                    Client = new Client(clm, this);
+                    Engine = new Engine(em, this);
+
+                    Engine.Start();
+                    Client.Start();
+
+                    CrosshairTrigger = new CrosshairTrigger(this);
+                    MagnetTrigger = new MagnetTrigger(this);
+                    BunnyHop = new BunnyHop(this);
+
+                    //CrosshairTrigger.Start();
+                    MagnetTrigger.Start();
+                    BunnyHop.Start();
+
+                    while (true)
+                    {
+                        CanNext = Process.IsForeground();
+                        Thread.Sleep(1000);
+                    }
+                }
+                Console.WriteLine("End...");
+                Console.ReadKey();
             }
             else
             {

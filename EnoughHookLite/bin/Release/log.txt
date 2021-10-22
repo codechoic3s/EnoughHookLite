@@ -1,0 +1,8 @@
+   at System.BitConverter.ToInt32(Byte[] value, Int32 startIndex)
+   at EnoughHookLite.Modules.Client.GetFovPlayer(Single FOV) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Modules\Client.cs:line 44
+   at EnoughHookLite.Features.MagnetTrigger.Work() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Features\MagnetTrigger.cs:line 38
+   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ThreadHelper.ThreadStart()

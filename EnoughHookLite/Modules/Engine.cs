@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EnoughHookLite.Modules
@@ -17,23 +19,73 @@ namespace EnoughHookLite.Modules
         public const int WM_KEYDOWN = 0x0100;
         public const int WM_KEYUP = 0x0101;
 
+        public TimeSpan TimeSpan;
+        private Thread TH;
+        private ManualResetEvent MRE;
+
         public Engine(Module m, App app)
         {
             EngineModule = m;
             App = app;
+            MRE = new ManualResetEvent(false);
         }
 
-        public float[] ViewMatrix
+        public void Start()
         {
-            get
+            TimeSpan = TimeSpan.FromMilliseconds(5);
+            TH = new Thread(new ThreadStart(Work));
+            TH.Start();
+        }
+
+        private void Work()
+        {
+            ViewMatrix = new float[16];
+            while (true)
             {
-                float[] matrix = new float[16];
+                MRE.WaitOne(TimeSpan);
                 for (var i = 0; i < 16; i++)
                 {
-                    matrix[i] = App.Client.ClientModule.ReadFloat(App.Client.ClientModule.BaseAdr + Offsets.csgo.signatures.dwViewMatrix + i * 4);
+                    ViewMatrix[i] = App.Client.ClientModule.ReadFloat(App.Client.ClientModule.BaseAdr + Offsets.csgo.signatures.dwViewMatrix + i * 4);
                 }
-                return matrix;
             }
+        }
+
+        public float[] ViewMatrix { get; private set; }
+
+        public Vector2 WorldToScreen(Vector3 target)
+        {
+            Vector2 _worldToScreenPos;
+            Vector3 to;
+            float w = 0.0f;
+            float[] viewmatrix = ViewMatrix;
+
+            to.X = viewmatrix[0] * target.X + viewmatrix[1] * target.Y + viewmatrix[2] * target.Z + viewmatrix[3];
+            to.Y = viewmatrix[4] * target.X + viewmatrix[5] * target.Y + viewmatrix[6] * target.Z + viewmatrix[7];
+
+            w = viewmatrix[12] * target.X + viewmatrix[13] * target.Y + viewmatrix[14] * target.Z + viewmatrix[15];
+
+            // behind us
+            if (w < 0.01f)
+                return new Vector2(0, 0);
+
+            to.X *= (1.0f / w);
+            to.Y *= (1.0f / w);
+
+            float width = App.Process.MidSize.X;
+            float height = App.Process.MidSize.Y;
+
+            float x = width / 2;
+            float y = height / 2;
+
+            x += 0.5f * to.X * width + 0.5f;
+            y -= 0.5f * to.Y * height + 0.5f;
+
+            to.X = x;
+            to.Y = y;
+
+            _worldToScreenPos.X = to.X;
+            _worldToScreenPos.Y = to.Y;
+            return _worldToScreenPos;
         }
 
         public void Fire(bool state)

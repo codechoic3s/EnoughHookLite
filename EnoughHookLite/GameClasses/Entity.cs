@@ -10,14 +10,16 @@ namespace EnoughHookLite.GameClasses
     public class Entity
     {
         public App App;
+        public int Index;
         public int Pointer;
 
-        public Entity(App app)
+        public Entity(App app, int index)
         {
             App = app;
+            Index = index;
         }
 
-        public Vector3 Clip1 { get { return App.Client.ClientModule.ReadStruct<Vector3>(Pointer + Offsets.csgo.netvars.m_vecOrigin); } }
+        public Vector3 VecOrigin { get { return App.Client.ClientModule.ReadStruct<Vector3>(Pointer + Offsets.csgo.netvars.m_vecOrigin); } }
         public bool Dormant { get { return App.Client.ClientModule.ReadStruct<bool>(Pointer + Offsets.csgo.signatures.m_bDormant); } }
         public float SpawnTime { get { return App.Client.ClientModule.ReadFloat(Pointer + Offsets.csgo.signatures.m_flSpawnTime); } }
     }
