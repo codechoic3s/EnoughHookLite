@@ -13,6 +13,14 @@ namespace EnoughHookLite.GameClasses
         public int Index;
         public int Pointer;
 
+        public bool IsNull
+        {
+            get
+            {
+                return Pointer == 0;
+            }
+        }
+
         public Entity(App app, int index)
         {
             App = app;

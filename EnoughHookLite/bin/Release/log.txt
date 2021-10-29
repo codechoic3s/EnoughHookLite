@@ -1,8 +1,11 @@
-   at System.BitConverter.ToInt32(Byte[] value, Int32 startIndex)
-   at EnoughHookLite.Modules.Client.GetFovPlayer(Single FOV) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Modules\Client.cs:line 44
-   at EnoughHookLite.Features.MagnetTrigger.Work() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Features\MagnetTrigger.cs:line 38
+   at System.Diagnostics.ProcessManager.OpenProcess(Int32 processId, Int32 access, Boolean throwIfExited)
+   at System.Diagnostics.NtProcessManager.GetModuleInfos(Int32 processId, Boolean firstModuleOnly)
+   at System.Diagnostics.ProcessManager.GetModuleInfos(Int32 processId)
+   at System.Diagnostics.Process.get_Modules()
+   at EnoughHookLite.Sys.Process.GetModule(String name, Boolean& finded) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Process.cs:line 81
+   at EnoughHookLite.App.Work(Object obj) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\App.cs:line 98
    at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
    at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
    at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
    at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
-   at System.Threading.ThreadHelper.ThreadStart()
+   at System.Threading.ThreadHelper.ThreadStart(Object obj)

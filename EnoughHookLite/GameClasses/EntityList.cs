@@ -53,8 +53,10 @@ namespace EnoughHookLite.GameClasses
                 {
                     var ptr = App.Client.ClientModule.ReadInt(App.Client.ClientModule.BaseAdr + Offsets.csgo.signatures.dwEntityList + (i * 0x10));
                     var csp = CSPlayers[i];
-                    if (csp.Pointer != ptr)
+                    if (csp.Pointer != ptr && ptr != 0)
+                    {
                         csp.Pointer = ptr;
+                    }
                     if (csp.Pointer == LocalPlayer.Pointer)
                         LocalPlayer.Index = csp.Index;
                 }

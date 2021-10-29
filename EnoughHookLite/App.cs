@@ -43,7 +43,7 @@ namespace EnoughHookLite
 
         public void Start()
         {
-            ProtectStart = false;
+            ProtectStart = true;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             MainThread = new Thread(new ParameterizedThreadStart(Work));
             MainThread.Start();
@@ -77,7 +77,7 @@ namespace EnoughHookLite
                 string text = "";
                 text += "\n/EnoughHookLite/\n" + "build: " + ver.Build + "\n\n";
                 text += "Include features:\n";
-                text += "   1. Trigger (Crosshair).\n";
+                text += "   1. Trigger.\n";
                 text += "   2. Bunnyhop.\n";
                 Console.WriteLine(text);
 
@@ -120,13 +120,14 @@ namespace EnoughHookLite
                     MagnetTrigger = new MagnetTrigger(this);
                     BunnyHop = new BunnyHop(this);
 
-                    //CrosshairTrigger.Start();
-                    MagnetTrigger.Start();
+                    CrosshairTrigger.Start();
+                    //MagnetTrigger.Start();
                     BunnyHop.Start();
 
                     while (true)
                     {
                         CanNext = Process.IsForeground();
+                        Process.UpdateWindow();
                         Thread.Sleep(1000);
                     }
                 }

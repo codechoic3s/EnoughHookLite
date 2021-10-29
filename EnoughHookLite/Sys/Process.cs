@@ -1,6 +1,8 @@
-﻿using System;
+﻿using EnoughHookLite.Utils;
+using System;
 using System.Drawing;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using static EnoughHookLite.Sys.WinAPI;
 
 namespace EnoughHookLite.Sys
@@ -13,6 +15,8 @@ namespace EnoughHookLite.Sys
         public Vector2 Size;
         public Vector2 MidSize;
         public Point Position;
+
+        public Matrix MatrixViewport;
 
         private System.Diagnostics.Process Proc;
 
@@ -68,7 +72,7 @@ namespace EnoughHookLite.Sys
             }
             else
             {
-                return null;
+                throw new Exception($"Native code: {Marshal.GetLastWin32Error()}, Ptr: {adr}, Read size: {size}, IsReaded={ok}, ReadedSize={readed}");
             }
         }
 
@@ -105,18 +109,19 @@ namespace EnoughHookLite.Sys
         {
             RECT rect;
             Point point = default;
-            if (!WinAPI.ClientToScreen(WindowHandle, ref point))
+            if (WinAPI.ClientToScreen(WindowHandle, ref point))
             {
                 Position = point;
                 
             }
-            if (!WinAPI.GetClientRect(WindowHandle, out rect))
+            if (WinAPI.GetClientRect(WindowHandle, out rect))
             {
                 Size.X = rect.Right - rect.Left;
                 Size.Y = rect.Bottom - rect.Top;
                 MidSize.X = Size.X / 2f;
                 MidSize.Y = Size.Y / 2f;
             }
+            MatrixViewport = Utils.Math.GetMatrixViewport(Size);
         }
     }
 }

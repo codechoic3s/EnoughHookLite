@@ -55,12 +55,12 @@ namespace EnoughHookLite.Modules
         public Vector2 WorldToScreen(Vector3 target)
         {
             Vector2 _worldToScreenPos;
-            Vector3 to;
+            //Vector3 to;
             float w = 0.0f;
             float[] viewmatrix = ViewMatrix;
 
-            to.X = viewmatrix[0] * target.X + viewmatrix[1] * target.Y + viewmatrix[2] * target.Z + viewmatrix[3];
-            to.Y = viewmatrix[4] * target.X + viewmatrix[5] * target.Y + viewmatrix[6] * target.Z + viewmatrix[7];
+            _worldToScreenPos.X = viewmatrix[0] * target.X + viewmatrix[1] * target.Y + viewmatrix[2] * target.Z + viewmatrix[3];
+            _worldToScreenPos.Y = viewmatrix[4] * target.X + viewmatrix[5] * target.Y + viewmatrix[6] * target.Z + viewmatrix[7];
 
             w = viewmatrix[12] * target.X + viewmatrix[13] * target.Y + viewmatrix[14] * target.Z + viewmatrix[15];
 
@@ -68,23 +68,21 @@ namespace EnoughHookLite.Modules
             if (w < 0.01f)
                 return new Vector2(0, 0);
 
-            to.X *= (1.0f / w);
-            to.Y *= (1.0f / w);
+            _worldToScreenPos.X *= (1.0f / w);
+            _worldToScreenPos.Y *= (1.0f / w);
 
-            float width = App.Process.MidSize.X;
-            float height = App.Process.MidSize.Y;
+            float width = App.Process.Size.X;
+            float height = App.Process.Size.Y;
 
-            float x = width / 2;
-            float y = height / 2;
+            float x = App.Process.MidSize.X;
+            float y = App.Process.MidSize.Y;
 
-            x += 0.5f * to.X * width + 0.5f;
-            y -= 0.5f * to.Y * height + 0.5f;
+            x += 0.5f * _worldToScreenPos.X * width + 0.5f;
+            y -= 0.5f * _worldToScreenPos.Y * height + 0.5f;
 
-            to.X = x;
-            to.Y = y;
+            _worldToScreenPos.X = x;
+            _worldToScreenPos.Y = y;
 
-            _worldToScreenPos.X = to.X;
-            _worldToScreenPos.Y = to.Y;
             return _worldToScreenPos;
         }
 
