@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace EnoughHookLite
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
+        {
+            Start(args);
+        }
+
+        public static App Start(string[] args)
         {
             var app = new App();
             if (args.Length == 2)
@@ -18,6 +23,7 @@ namespace EnoughHookLite
                 app.RemoveName = args[1];
             }
             app.Start();
+            return app;
         }
     }
 }

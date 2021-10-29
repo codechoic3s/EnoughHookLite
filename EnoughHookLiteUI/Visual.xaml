@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="Visual" Height="450" Width="800">
     <Grid>
-        
+        <WindowsFormsHost x:Name="winform" HorizontalAlignment="Left" Margin="171,165,0,0" VerticalAlignment="Top" Height="{Binding Height, ElementName=grid}" Width="{Binding Width, ElementName=grid}"/>
     </Grid>
 </Window>

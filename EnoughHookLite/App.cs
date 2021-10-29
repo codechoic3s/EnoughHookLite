@@ -41,21 +41,32 @@ namespace EnoughHookLite
         internal string ChangeableName;
         internal string RemoveName;
 
+        internal Action<string, string> MessageCallback;
+
         public void Start()
         {
-            ProtectStart = true;
+            ProtectStart = false;
+            MessageCallback = ConsoleMessage;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             MainThread = new Thread(new ParameterizedThreadStart(Work));
             MainThread.Start();
+        }
+
+        private void ConsoleMessage(string title, string log)
+        {
+            Console.WriteLine($"{title} : {log}");
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var exception = (Exception)e.ExceptionObject;
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(exception);
+            var title = "Crash";
+            var log = exception.ToString();
             File.WriteAllText("log.txt", exception.StackTrace);
-            Console.WriteLine("Log saved as log.txt");
+            log += "Log saved as log.txt";
+
+            MessageCallback.Invoke(title, log);
         }
 
         private void Work(object obj)

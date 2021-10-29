@@ -148,5 +148,13 @@ namespace EnoughHookLite.Utils
                 M44 = 1,
             };
         }
+
+        /// <summary>
+        /// Check if value is infinity or NaN.
+        /// </summary>
+        public static bool IsInfinityOrNaN(this float value)
+        {
+            return float.IsNaN(value) || float.IsInfinity(value);
+        }
     }
 }

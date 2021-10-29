@@ -19,9 +19,16 @@ namespace EnoughHookLiteUI
     /// </summary>
     public partial class Visual : Window
     {
+        public bool isLoaded;
         public Visual()
         {
             InitializeComponent();
+            base.Loaded += Visual_Loaded;
+        }
+
+        private void Visual_Loaded(object sender, RoutedEventArgs e)
+        {
+            isLoaded = true;
         }
     }
 }

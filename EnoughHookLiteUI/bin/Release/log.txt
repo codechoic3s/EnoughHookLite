@@ -1,0 +1,2 @@
+   at EnoughHookLiteUI.Visualization.InitDevice()
+   at EnoughHookLiteUI.Program.Main(String[] args) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\Program.cs:line 13

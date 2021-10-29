@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="grid">
-        <WindowsFormsHost HorizontalAlignment="Left" Margin="171,165,0,0" VerticalAlignment="Top" Width="{Binding Height, ElementName=grid}"/>
+        
 
     </Grid>
 </Window>

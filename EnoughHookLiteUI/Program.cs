@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace EnoughHookLiteUI
 {
-    public class Program
+    class Program
     {
+        static void Main(string[] args)
+        {
+            var app = EnoughHookLite.Program.Start(args);
+
+            var visual = Visualization.Create();
+            visual.InitDevice();
+            VisualFeatures vf = new VisualFeatures(app, visual);
+            vf.Start();
+        }
     }
 }
