@@ -10,17 +10,16 @@ namespace EnoughHookLite.GameClasses
 {
     public class EntityList
     {
-        public LocalPlayer LocalPlayer;
+        public LocalPlayer LocalPlayer { get; private set; }
+        public bool IsWorking { get; private set; }
 
-        public List<CSPlayer> CSPlayers;
-        public App App;
-
-        private Thread TH;
+        internal Dictionary<int, CSPlayer> CSPlayers;
+        private App App;
 
         public EntityList(App app)
         {
             App = app;
-            CSPlayers = new List<CSPlayer>();
+            CSPlayers = new Dictionary<int, CSPlayer>();
         }
 
         public CSPlayer GetByCrosshairID(int id)
@@ -28,45 +27,56 @@ namespace EnoughHookLite.GameClasses
             return CSPlayers[id];
         }
 
-        public void Start()
+        internal async void RunTask()
         {
-            TH = new Thread(new ThreadStart(Work));
-            TH.Start();
-        }
-
-        private void Work()
-        {
+            IsWorking = true;
             LocalPlayer = new LocalPlayer(App);
-            while (true)
+            while (IsWorking)
             {
+                int maxplayers = App.Engine.ClientState_MaxPlayers;
+                int csc = CSPlayers.Count;
+
                 // filling csplayers
-                if (CSPlayers.Count < 64)
+                if (csc < maxplayers)
                 {
-                    for (var i = 0; i < 64; i++)
+                    int ost = (csc - maxplayers) + maxplayers;
+                    for (int i = ost; i < maxplayers; i++)
                     {
-                        CSPlayers.Add(new CSPlayer(App, i));
+                        CSPlayers.Add(i, new CSPlayer(App, i));
                     }
+                }
+                else if (csc > maxplayers)
+                {
+                    //int ost = csc - maxplayers;
+                    CSPlayers.Clear();
+                    //CSPlayers.RemoveRange(csc - 1, ost - 1);
                 }
 
                 // updating csplayers
-                for (var i = 0; i < 64; i++)
+                int elist = App.Client.NativeModule.BaseAdr + App.OffsetLoader.Offsets.Signatures.dwEntityList;
+                for (int i = 0; i < maxplayers; i++)
                 {
-                    var ptr = App.Client.ClientModule.ReadInt(App.Client.ClientModule.BaseAdr + Offsets.csgo.signatures.dwEntityList + (i * 0x10));
-                    var csp = CSPlayers[i];
-                    if (csp.Pointer != ptr && ptr != 0)
+                    int ptr = App.Client.NativeModule.ReadInt(elist + (i * 0x10));
+                    CSPlayer csp = CSPlayers[i];
+                    if (ptr != 0 && csp.Pointer != ptr)
                     {
                         csp.Pointer = ptr;
                     }
-                    if (csp.Pointer == LocalPlayer.Pointer)
-                        LocalPlayer.Index = csp.Index;
+                    //if (ptr == 0)
+                        //App.Log.LogIt($"{i} {ptr} null");
                 }
 
-                // updating localplayer
-                var localptr = App.Client.ClientModule.ReadInt(App.Client.ClientModule.BaseAdr + Offsets.csgo.signatures.dwLocalPlayer);
-                if (LocalPlayer.Pointer != localptr)
-                    LocalPlayer.Pointer = localptr;
+                if (CSPlayers.Count > 0) // fix
+                {
+                    // updating localplayer
+                    int localindx = App.Engine.ClientState_GetLocalPlayer;
+                    //var localptr = App.Client.ClientModule.ReadInt(App.Client.ClientModule.BaseAdr + Offsets.App.OffsetLoader.Offsets.Signatures.dwLocalPlayer);
+                    if (localindx < CSPlayers.Count)
+                        LocalPlayer.Pointer = CSPlayers[localindx].Pointer;
+                }
 
-                Thread.Sleep(1000);
+                await Task.Delay(3000);
+                //Thread.Sleep(3000);
             }
         }
     }

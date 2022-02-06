@@ -1,17 +1,19 @@
-﻿using EnoughHookLite.Features;
-using EnoughHookLite.Modules;
+﻿using EnoughHookLite.Modules;
+using EnoughHookLite.Scripting;
+using EnoughHookLite.Utilities;
 using EnoughHookLite.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Process = EnoughHookLite.Sys.Process;
 
 namespace EnoughHookLite
@@ -21,82 +23,107 @@ namespace EnoughHookLite
         private string Title;
         //private const string LastBuild = "10/10/2021 8:00PM";
 
-        public bool ProtectStart;
+        public bool ProtectStart { get; private set; }
+        public bool IsWorking { get; private set; }
 
-        public Thread MainThread;
+        internal Thread MainThread;
 
-        public Process Process;
-        public Client Client;
-        public Engine Engine;
+        public Process Process { get; private set; }
+        public Client Client { get; private set; }
+        public Engine Engine { get; private set; }
 
-        public CrosshairTrigger CrosshairTrigger;
-        public MagnetTrigger MagnetTrigger;
-        public BunnyHop BunnyHop;
+        public static Log Log = new Log();
 
-        public ConfigManager ConfigManager;
+        public JSLoader JSLoader { get; private set; }
+        public ConfigManager ConfigManager { get; private set; }
+        public static OffsetLoader OffsetLoader { get; private set; }
 
-        public bool CanNext { get; private set; }
+        public Action<App> BeforeSetupScript;
+        public Action<Point, Vector2> OnUpdate;
+
+        public bool IsForeground { get; private set; }
 
         internal bool ChangeName;
         internal string ChangeableName;
         internal string RemoveName;
 
-        internal Action<string, string> MessageCallback;
-
-        public void Start()
+        private void LogIt(string log, bool withaction = true)
         {
+            Log.LogIt("[Framework] " + log, withaction);
+        }
+
+        public void Start(string[] args)
+        {
+            if (args.Length == 2)
+            {
+                ChangeName = true;
+                ChangeableName = args[0];
+                RemoveName = args[1];
+            }
+
+            if (IsWorking)
+                LogIt("Is current working!");
+            else if (!IsWorking)
+                IsWorking = true;
+#if DEBUG
             ProtectStart = false;
-            MessageCallback = ConsoleMessage;
+#else
+            ProtectStart = true;
+#endif
+
+            Log.LogAction = ConsoleMessage;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            MainThread = new Thread(new ParameterizedThreadStart(Work));
+            MainThread = new Thread(Work);
             MainThread.Start();
         }
 
-        private void ConsoleMessage(string title, string log)
+        private void ConsoleMessage(string log)
         {
-            Console.WriteLine($"{title} : {log}");
+            Console.WriteLine(log);
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            var exception = (Exception)e.ExceptionObject;
+            Exception exception = (Exception)e.ExceptionObject;
             Console.ForegroundColor = ConsoleColor.Red;
-            var title = "Crash";
-            var log = exception.ToString();
-            File.WriteAllText("log.txt", exception.StackTrace);
-            log += "Log saved as log.txt";
-
-            MessageCallback.Invoke(title, log);
+            LogIt(exception.ToString());
+            string log = Log.Get();
+            File.WriteAllText("log.txt", log);
         }
 
-        private void Work(object obj)
+        private void Work()
         {
+            string basedir = AppDomain.CurrentDomain.BaseDirectory;
             if (ChangeName || !ProtectStart)
             {
                 if (ChangeName)
                 {
                     Title = ChangeableName;
+                    LogIt($"Trying remove {RemoveName}", false);
                     File.Delete(RemoveName);
+                    LogIt("Removed", false);
                 }
                 else if (!ProtectStart)
                 {
                     Title = RandomText();
                 }
 
-                var ver = Assembly.GetEntryAssembly().GetName().Version;
+                Version ver = Assembly.GetEntryAssembly().GetName().Version;
 
                 string text = "";
-                text += "\n/EnoughHookLite/\n" + "build: " + ver.Build + "\n\n";
-                text += "Include features:\n";
-                text += "   1. Trigger.\n";
-                text += "   2. Bunnyhop.\n";
-                Console.WriteLine(text);
+                text += 
+                    "\n/EnoughHookLite/\n" +
+                    "   ~js SDK host ~ \n" +
+                    "       build: " + ver.Build + 
+                    "\n";
+                //text += "Include features:\n";
+                //text += "   1. Trigger.\n";
+                //text += "   2. Bunnyhop.\n";
+                LogIt(text);
 
-                Console.Title = Title;
+                //Console.Title = Title;
 
-                ConfigManager = new ConfigManager(AppDomain.CurrentDomain.BaseDirectory);
-
-                Console.WriteLine("Waiting process...");
+                LogIt("Waiting process...");
 
                 while (Process is null)
                 {
@@ -104,72 +131,77 @@ namespace EnoughHookLite
                     Thread.Sleep(1000);
                 }
 
-                Console.WriteLine("Process finded!");
+                LogIt("Process finded!");
 
                 Process.AllocateHandles();
 
-                var clm = Process.GetModule("client.dll", out bool cf);
-                var em = Process.GetModule("engine.dll", out bool ef);
+                Sys.Module clm = Process.GetModule("client.dll", out bool cf);
+                Sys.Module em = Process.GetModule("engine.dll", out bool ef);
 
                 if (!cf)
                 {
-                    Console.WriteLine("Not founded client.dll");
+                    LogIt("Not founded client.dll");
                 }
                 else if (!ef)
                 {
-                    Console.WriteLine("Not founded engine.dll");
+                    LogIt("Not founded engine.dll");
                 }
                 else
                 {
+                    OffsetLoader = new OffsetLoader();
+                    OffsetLoader.Load();
+
                     Client = new Client(clm, this);
                     Engine = new Engine(em, this);
 
-                    Engine.Start();
                     Client.Start();
 
-                    CrosshairTrigger = new CrosshairTrigger(this);
-                    MagnetTrigger = new MagnetTrigger(this);
-                    BunnyHop = new BunnyHop(this);
+                    ConfigManager = new ConfigManager(basedir + @"/config.json");
+                    ConfigManager.Load();
 
-                    CrosshairTrigger.Start();
-                    //MagnetTrigger.Start();
-                    BunnyHop.Start();
+                    JSLoader = new JSLoader(this);
+
+                    JSLoader.AllocateScripts();
+                    BeforeSetupScript?.Invoke(this);
+                    JSLoader.SetupAll();
+                    JSLoader.StartAll();
 
                     while (true)
                     {
-                        CanNext = Process.IsForeground();
+                        IsForeground = Process.IsForeground();
                         Process.UpdateWindow();
+                        OnUpdate?.Invoke(Process.Position, Process.Size);
                         Thread.Sleep(1000);
                     }
                 }
-                Console.WriteLine("End...");
+                LogIt("End...");
                 Console.ReadKey();
             }
             else
             {
                 Title = RandomText();
-                var minpath = Title + ".exe";
-                var thispath = AppDomain.CurrentDomain.FriendlyName;
-                var bytes = File.ReadAllBytes(thispath);
+                string minpath = basedir + @"/" + Title + ".exe";
+                string thispath = basedir + @"/" + AppDomain.CurrentDomain.FriendlyName;
+                byte[] bytes = File.ReadAllBytes(thispath);
                 File.WriteAllBytes(minpath, bytes);
                 System.Diagnostics.Process.Start(new ProcessStartInfo() { FileName = minpath, Arguments = $"{Title} {thispath}" });
                 Environment.Exit(0);
             }
         }
 
-        private static string RandomText()
+        public static string RandomText()
         {
-            var rand = new Random();
+            Random rand = new Random();
 
             int size = rand.Next(5, 20);
             byte[] data = new byte[size];
 
-            var rand1 = new Random(rand.Next());
+            Random rand1 = new Random(rand.Next());
 
             for (var i = 0; i < size; i++)
             {
                 rand1 = new Random(rand1.Next());
-                var type = rand1.Next(0, 3);
+                int type = rand1.Next(0, 3);
                 if (type == 0)
                 {
                     data[i] = (byte)rand1.Next(65, 90);

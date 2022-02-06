@@ -11,97 +11,52 @@ namespace EnoughHookLite.Modules
 {
     public class Engine
     {
-        public Module EngineModule;
-        public App App;
+        public Module NativeModule { get; private set; }
+        private App App;
 
-        private const int WM_LBUTTONDOWN = 0x0201;
-        private const int WM_LBUTTONUP = 0x0202;
+        public const int WM_LBUTTONDOWN = 0x0201;
+        public const int WM_LBUTTONUP = 0x0202;
         public const int WM_KEYDOWN = 0x0100;
         public const int WM_KEYUP = 0x0101;
 
-        public TimeSpan TimeSpan;
-        private Thread TH;
-        private ManualResetEvent MRE;
+        public uint ClientState { get { return NativeModule.ReadUInt(NativeModule.BaseAdr + App.OffsetLoader.Offsets.Signatures.dwClientState); } }
+        public int ClientState_MaxPlayers { get { return NativeModule.ReadInt(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_MaxPlayer); } }
+        public int ClientState_GetLocalPlayer { get { return NativeModule.ReadInt(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_GetLocalPlayer); } }
+        public Vector3 ClientState_ViewAngles { get { return NativeModule.ReadStruct<Vector3>(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_ViewAngles); } }
+        public string ClientState_MapName { get { return NativeModule.ReadString(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_Map, 32, Encoding.ASCII); } }
+        public string ClientState_MapDirectory { get { return NativeModule.ReadString(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_MapDirectory, 32, Encoding.ASCII); } }
 
         public Engine(Module m, App app)
         {
-            EngineModule = m;
+            NativeModule = m;
             App = app;
-            MRE = new ManualResetEvent(false);
         }
 
-        public void Start()
+        public void LeftMouse(bool isdown)
         {
-            TimeSpan = TimeSpan.FromMilliseconds(5);
-            TH = new Thread(new ThreadStart(Work));
-            TH.Start();
-        }
-
-        private void Work()
-        {
-            ViewMatrix = new float[16];
-            while (true)
-            {
-                MRE.WaitOne(TimeSpan);
-                for (var i = 0; i < 16; i++)
-                {
-                    ViewMatrix[i] = App.Client.ClientModule.ReadFloat(App.Client.ClientModule.BaseAdr + Offsets.csgo.signatures.dwViewMatrix + i * 4);
-                }
-            }
-        }
-
-        public float[] ViewMatrix { get; private set; }
-
-        public Vector2 WorldToScreen(Vector3 target)
-        {
-            Vector2 _worldToScreenPos;
-            //Vector3 to;
-            float w = 0.0f;
-            float[] viewmatrix = ViewMatrix;
-
-            _worldToScreenPos.X = viewmatrix[0] * target.X + viewmatrix[1] * target.Y + viewmatrix[2] * target.Z + viewmatrix[3];
-            _worldToScreenPos.Y = viewmatrix[4] * target.X + viewmatrix[5] * target.Y + viewmatrix[6] * target.Z + viewmatrix[7];
-
-            w = viewmatrix[12] * target.X + viewmatrix[13] * target.Y + viewmatrix[14] * target.Z + viewmatrix[15];
-
-            // behind us
-            if (w < 0.01f)
-                return new Vector2(0, 0);
-
-            _worldToScreenPos.X *= (1.0f / w);
-            _worldToScreenPos.Y *= (1.0f / w);
-
-            float width = App.Process.Size.X;
-            float height = App.Process.Size.Y;
-
-            float x = App.Process.MidSize.X;
-            float y = App.Process.MidSize.Y;
-
-            x += 0.5f * _worldToScreenPos.X * width + 0.5f;
-            y -= 0.5f * _worldToScreenPos.Y * height + 0.5f;
-
-            _worldToScreenPos.X = x;
-            _worldToScreenPos.Y = y;
-
-            return _worldToScreenPos;
-        }
-
-        public void Fire(bool state)
-        {
-            if (state)
-                EngineModule.Process.SendMessage(WM_LBUTTONDOWN, 1, 0); //mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+            if (isdown)
+                LeftMouseDown();
             else
-                EngineModule.Process.SendMessage(WM_LBUTTONUP, 0, 0); //mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+                LeftMouseUp();
         }
+        public void LeftMouseDown()
+        {
+            NativeModule.Process.SendMessage(WM_LBUTTONDOWN, 1, 0); //mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+        }
+        public void LeftMouseUp()
+        {
+            NativeModule.Process.SendMessage(WM_LBUTTONUP, 0, 0); //mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+        }
+
         public void Jump(bool state)
         {
             if (state)
             {
-                EngineModule.Process.SendMessage(WM_KEYDOWN, 32, 3735553);
+                NativeModule.Process.SendMessage(WM_KEYDOWN, 32, 3735553);
 
             }
             else
-                EngineModule.Process.SendMessage(WM_KEYUP, 32, 3735553);
+                NativeModule.Process.SendMessage(WM_KEYUP, 32, 3735553);
         }
     }
 }

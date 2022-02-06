@@ -1,2 +1,19 @@
-   at EnoughHookLiteUI.Visualization.InitDevice()
-   at EnoughHookLiteUI.Program.Main(String[] args) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\Program.cs:line 13
+[Framework] Trying remove F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Release\/l1Y55U.exe
+[Framework] Removed
+[Framework] 
+/EnoughHookLite/
+ ~js SDK host ~build: 0
+
+
+[Framework] Waiting process...
+[Framework] System.ArgumentNullException: Value cannot be null.
+Parameter name: image
+   at System.Drawing.Graphics.FromImage(Image image)
+   at EnoughHookLiteUI.Utils.Drawer.Setup(UInt64 w, UInt64 h) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\Utils\Drawer.cs:line 55
+   at EnoughHookLiteUI.Windows.EHLWindow..ctor(App app) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\Windows\EHLWindow.xaml.cs:line 35
+   at EnoughHookLiteUI.Program.WWork(Object arg) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\Program.cs:line 28
+   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ThreadHelper.ThreadStart(Object obj)

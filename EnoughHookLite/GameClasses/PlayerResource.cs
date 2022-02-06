@@ -11,50 +11,45 @@ namespace EnoughHookLite.GameClasses
 {
     public class PlayerResource
     {
-        public int Pointer;
-        public Client Client;
-        private ManualResetEvent MRE;
-        public TimeSpan TimeSpan;
+        public int Pointer { get; internal set; }
+        public bool IsWorking { get; private set; }
 
-        private Thread TH;
+        private Client Client;
 
         public PlayerResource(Client client)
         {
             Client = client;
-            MRE = new ManualResetEvent(false);
-            TimeSpan = TimeSpan.FromSeconds(5);
         }
 
-        public void Start()
+        internal async void RunTask()
         {
-            TH = new Thread(new ThreadStart(Work));
-            TH.Start();
-        }
-
-        private void Work()
-        {
-            while (true)
+            IsWorking = true;
+            while (IsWorking)
             {
-                MRE.WaitOne(TimeSpan);
-                Pointer = Client.ClientModule.ReadInt(Client.ClientModule.BaseAdr + Offsets.csgo.signatures.dwPlayerResource);
+                Pointer = Client.NativeModule.ReadInt(Client.NativeModule.BaseAdr + App.OffsetLoader.Offsets.Signatures.dwPlayerResource);
+                await Task.Delay(5000);
             }
+        }
+        internal void Stop()
+        {
+            IsWorking = false;
         }
 
         public int GetWins(int csplayer_index)
         {
-            return Client.ClientModule.ReadInt(Pointer + csgo.netvars.m_iCompetitiveWins + csplayer_index * 4);
+            return Client.NativeModule.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_iCompetitiveWins + csplayer_index * 4);
         }
         public int GetWins(CSPlayer csplayer)
         {
-            return Client.ClientModule.ReadInt(Pointer + csgo.netvars.m_iCompetitiveWins + csplayer.Index * 4);
+            return Client.NativeModule.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_iCompetitiveWins + csplayer.Index * 4);
         }
         public Rank GetRank(CSPlayer csplayer)
         {
-            return (Rank)Client.ClientModule.ReadInt(Pointer + csgo.netvars.m_iCompetitiveRanking + csplayer.Index * 4);
+            return (Rank)Client.NativeModule.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_iCompetitiveRanking + csplayer.Index * 4);
         }
         public Rank GetRank(int csplayer_index)
         {
-            return (Rank)Client.ClientModule.ReadInt(Pointer + csgo.netvars.m_iCompetitiveRanking + csplayer_index * 4);
+            return (Rank)Client.NativeModule.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_iCompetitiveRanking + csplayer_index * 4);
         }
     }
 }

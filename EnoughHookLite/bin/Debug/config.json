@@ -1,0 +1,9 @@
+{
+  "bhop": {
+    "on": true
+  },
+  "trigger": {
+    "on": true,
+    "button": 86
+  }
+}

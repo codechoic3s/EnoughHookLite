@@ -1,7 +1,7 @@
 ﻿EnoughHookLiteUI
 
 
-exe
+winexe
 C#
 .cs
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\obj\Debug\
@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 
-21987981445
+1-273629732
 
-10-1713101258
-22-400050536
-MainWindow.xaml;Visual.xaml;
+11-970057795
+18-52394275
+Windows\EHLWindow.xaml;
 
 False
 

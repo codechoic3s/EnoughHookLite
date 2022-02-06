@@ -9,9 +9,9 @@ namespace EnoughHookLite.GameClasses
 {
     public class Entity
     {
-        public App App;
-        public int Index;
-        public int Pointer;
+        internal App App;
+        public int Index { get; internal set; }
+        public int Pointer { get; internal set; }
 
         public bool IsNull
         {
@@ -27,8 +27,13 @@ namespace EnoughHookLite.GameClasses
             Index = index;
         }
 
-        public Vector3 VecOrigin { get { return App.Client.ClientModule.ReadStruct<Vector3>(Pointer + Offsets.csgo.netvars.m_vecOrigin); } }
-        public bool Dormant { get { return App.Client.ClientModule.ReadStruct<bool>(Pointer + Offsets.csgo.signatures.m_bDormant); } }
-        public float SpawnTime { get { return App.Client.ClientModule.ReadFloat(Pointer + Offsets.csgo.signatures.m_flSpawnTime); } }
+        public Vector3 VecOrigin { get { return App.Client.NativeModule.ReadStruct<Vector3>(Pointer + App.OffsetLoader.Offsets.Netvars.m_vecOrigin); } }
+        public bool Dormant { get { return App.Client.NativeModule.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Signatures.m_bDormant); } }
+        public float SpawnTime { get { return App.Client.NativeModule.ReadFloat(Pointer + App.OffsetLoader.Offsets.Signatures.m_flSpawnTime); } }
+
+        public override string ToString()
+        {
+            return $"id:{Index} ptr:{Pointer} isnull:{IsNull}";
+        }
     }
 }

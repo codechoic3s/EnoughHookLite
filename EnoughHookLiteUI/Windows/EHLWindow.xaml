@@ -1,0 +1,14 @@
+﻿<Window x:Name="ehlwindow" x:Class="EnoughHookLiteUI.Windows.EHLWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EnoughHookLiteUI.Windows"
+        mc:Ignorable="d"
+        Title="EHLWindow" Height="450" Width="800" Topmost="True" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None" Background="{x:Null}">
+    <Grid x:Name="MainGrid">
+        <Image x:Name="CustomDraw"/>
+        <Grid x:Name="WindowsGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+    </Grid>
+</Window>

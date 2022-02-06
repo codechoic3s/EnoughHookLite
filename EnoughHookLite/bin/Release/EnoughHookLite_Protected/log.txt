@@ -1,12 +1,28 @@
-   at EnoughHookLite.Sys.Process.ReadData(Int32 adr, Int32 size) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Process.cs:line 75
-   at v.k(Object , Int32 adr, Int32 size, v )
-   at EnoughHookLite.Sys.Module.P2D(Object , Int32 adr, Int32 size, Object )
-   at EnoughHookLite.Sys.Module.ReadInt(Int32 adr) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Module.cs:line 49
-   at i.k(Object , Int32 adr, i )
-   at EnoughHookLite.GameClasses.EntityList.sgo(Object , Int32 adr, Object )
-   at EnoughHookLite.GameClasses.EntityList.Work() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\EntityList.cs:line 54
-   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+[Framework] Trying remove F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\EnoughHookLite_Protected\/EnoughHookLite.exe
+[Framework] Removed
+[Framework] 
+/EnoughHookLite/
+ ~js SDK host ~build: 263
+
+[Framework] Waiting process...
+[Framework] Process finded!
+[OffsetLoader] Loaded offsets.
+[ConfigManager] Config loaded
+[ScriptEngine] Allocating scripts...
+[ScriptEngine] Allocated 2 scripts.
+(bhop) Started.
+(trigger) Started.
+[Framework] System.Exception: Native code: 0, Ptr: 853607572, Read size: 4, IsReaded=False, ReadedSize=0
+   at EnoughHookLite.Sys.Process.ReadData(Int32 adr, Int32 size) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Process.cs:line 143
+   at .(Object , Int32 adr, Int32 size,  )
+   at EnoughHookLite.Sys.Module.ReadFloat(Int32 adr) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Module.cs:line 207
+   at .(Object , Int32 adr,  )
+   at EnoughHookLite.GameClasses.Camera.<ViewMatrixFetcher>d__14.MoveNext() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\Camera.cs:line 35
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.<>c.<ThrowAsync>b__6_1(Object state)
+   at System.Threading.QueueUserWorkItemCallback.WaitCallback_Context(Object state)
    at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
    at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
-   at System.Threading.ThreadHelper.ThreadStart()
+   at System.Threading.QueueUserWorkItemCallback.System.Threading.IThreadPoolWorkItem.ExecuteWorkItem()
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+   at System.Threading._ThreadPoolWaitCallback.PerformWaitCallback()

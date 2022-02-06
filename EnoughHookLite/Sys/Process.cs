@@ -12,11 +12,11 @@ namespace EnoughHookLite.Sys
         private IntPtr Handle;
         private IntPtr WindowHandle;
 
-        public Vector2 Size;
-        public Vector2 MidSize;
-        public Point Position;
+        public Vector2 Size { get; private set; }
+        public Vector2 MidSize { get; private set; }
+        public Point Position { get; private set; }
 
-        public Matrix MatrixViewport;
+        public Matrix MatrixViewport { get; private set; }
 
         private System.Diagnostics.Process Proc;
 
@@ -29,15 +29,19 @@ namespace EnoughHookLite.Sys
         {
             return (WinAPI.GetAsyncKeyState((int)key) & 0x8000) != 0;
         }
+        public static bool GetKeyState(int key)
+        {
+            return (WinAPI.GetAsyncKeyState(key) & 0x8000) != 0;
+        }
 
         public bool IsForeground()
         {
             return WindowHandle == WinAPI.GetForegroundWindow();
         }
 
-        public static Process FindProcess(string name)
+        internal static Process FindProcess(string name)
         {
-            var procs = System.Diagnostics.Process.GetProcessesByName(name);
+            System.Diagnostics.Process[] procs = System.Diagnostics.Process.GetProcessesByName(name);
             if (procs.Length > 0)
             {
                 return new Process(procs[0]);
@@ -46,7 +50,7 @@ namespace EnoughHookLite.Sys
                 return null;
         }
 
-        public bool AllocateHandles()
+        internal bool AllocateHandles()
         {
             bool ok = true;
             try
@@ -61,11 +65,75 @@ namespace EnoughHookLite.Sys
             return ok;
         }
 
-        public byte[] ReadData(int adr, int size)
+        public byte[] ReadData(IntPtr adr, int size)
         {
             byte[] data = new byte[size];
             int readed = 0;
-            var ok = WinAPI.ReadProcessMemory(Handle, adr, data, size, ref readed);
+            bool ok = WinAPI.ReadProcessMemory(Handle, adr, data, size, ref readed);
+            if (ok && readed == size)
+            {
+                return data;
+            }
+            else
+            {
+                throw new Exception($"Native code: {Marshal.GetLastWin32Error()}, Ptr: {adr}, Read size: {size}, IsReaded={ok}, ReadedSize={readed}");
+            }
+        }
+        public byte[] ReadData(ulong adr, int size)
+        {
+            if (adr < 0)
+                throw new Exception($"Not valid mapping!!! Ptr: {adr} Read size: {size}");
+            byte[] data = new byte[size];
+            int readed = 0;
+            bool ok = WinAPI.ReadProcessMemory(Handle, adr, data, size, ref readed);
+            if (ok && readed == size)
+            {
+                return data;
+            }
+            else
+            {
+                throw new Exception($"Native code: {Marshal.GetLastWin32Error()}, Ptr: {adr}, Read size: {size}, IsReaded={ok}, ReadedSize={readed}");
+            }
+        }
+        public byte[] ReadData(long adr, int size)
+        {
+            if (adr < 0)
+                throw new Exception($"Not valid mapping!!! Ptr: {adr} Read size: {size}");
+            byte[] data = new byte[size];
+            int readed = 0;
+            bool ok = WinAPI.ReadProcessMemory(Handle, adr, data, size, ref readed);
+            if (ok && readed == size)
+            {
+                return data;
+            }
+            else
+            {
+                throw new Exception($"Native code: {Marshal.GetLastWin32Error()}, Ptr: {adr}, Read size: {size}, IsReaded={ok}, ReadedSize={readed}");
+            }
+        }
+        public byte[] ReadData(uint adr, int size)
+        {
+            if (adr < 0)
+                throw new Exception($"Not valid mapping!!! Ptr: {adr} Read size: {size}");
+            byte[] data = new byte[size];
+            int readed = 0;
+            bool ok = WinAPI.ReadProcessMemory(Handle, adr, data, size, ref readed);
+            if (ok && readed == size)
+            {
+                return data;
+            }
+            else
+            {
+                throw new Exception($"Native code: {Marshal.GetLastWin32Error()}, Ptr: {adr}, Read size: {size}, IsReaded={ok}, ReadedSize={readed}");
+            }
+        }
+        public byte[] ReadData(int adr, int size)
+        {
+            if (adr < 0)
+                throw new Exception($"Not valid mapping!!! Ptr: {adr} Read size: {size}");
+            byte[] data = new byte[size];
+            int readed = 0;
+            bool ok = WinAPI.ReadProcessMemory(Handle, adr, data, size, ref readed);
             if (ok && readed == size)
             {
                 return data;
@@ -78,8 +146,8 @@ namespace EnoughHookLite.Sys
 
         public Module GetModule(string name, out bool finded)
         {
-            var mss = Proc.Modules;
-            var msco = mss.Count;
+            System.Diagnostics.ProcessModuleCollection mss = Proc.Modules;
+            int msco = mss.Count;
             for (var i = 0; i < msco; i++)
             {
                 var m = mss[i];
@@ -107,21 +175,23 @@ namespace EnoughHookLite.Sys
 
         public void UpdateWindow()
         {
-            RECT rect;
             Point point = default;
             if (WinAPI.ClientToScreen(WindowHandle, ref point))
             {
                 Position = point;
-                
             }
-            if (WinAPI.GetClientRect(WindowHandle, out rect))
+            if (WinAPI.GetClientRect(WindowHandle, out RECT rect))
             {
-                Size.X = rect.Right - rect.Left;
-                Size.Y = rect.Bottom - rect.Top;
-                MidSize.X = Size.X / 2f;
-                MidSize.Y = Size.Y / 2f;
+                var size = Size;
+                size.X = rect.Right - rect.Left;
+                size.Y = rect.Bottom - rect.Top;
+                Size = size;
+                var midsize = MidSize;
+                midsize.X = size.X / 2f;
+                midsize.Y = size.Y / 2f;
+                MidSize = midsize;
             }
-            MatrixViewport = Utils.Math.GetMatrixViewport(Size);
+            //MatrixViewport = Utils.Math.GetMatrixViewport(Size);
         }
     }
 }

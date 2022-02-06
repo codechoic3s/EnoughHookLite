@@ -1,0 +1,23 @@
+{
+  "script_fulldebug": true,
+  "script_autoreload": false,
+  "script_configs": {
+    "trigger": {
+      "elements": {
+        "on": true,
+        "key": 86
+      }
+    },
+    "bhop": {
+      "elements": {
+        "on": true
+      }
+    },
+    "rank_reveal": {
+      "elements": {
+        "on": true,
+        "update_key": 9.0
+      }
+    }
+  }
+}

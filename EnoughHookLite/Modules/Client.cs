@@ -6,46 +6,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EnoughHookLite.Modules
 {
     public class Client
     {
-        public Module ClientModule;
-        public App App;
-        
+        public Module NativeModule { get; private set; }
+        private App App;
+
+        private Thread ClientThread;
 
         public Client(Module m, App app)
         {
-            ClientModule = m;
+            NativeModule = m;
             App = app;
             EntityList = new EntityList(App);
             PlayerResource = new PlayerResource(this);
+            Camera = new Camera(App);
         }
 
         public void Start()
         {
-            EntityList.Start();
-            PlayerResource.Start();
+            ClientThread = new Thread(Work);
+            ClientThread.Start();
         }
 
-        public EntityList EntityList;
-        public PlayerResource PlayerResource;
+        private void Work()
+        {
+            EntityList.RunTask();
+            PlayerResource.RunTask();
+            Camera.ViewMatrixFetcher();
+        }
 
-        public int ClientState { get { return ClientModule.ReadInt(ClientModule.BaseAdr + Offsets.csgo.signatures.dwClientState); } }
-        public int ClientState_MaxPlayers { get { return ClientModule.ReadInt(ClientState + Offsets.csgo.signatures.dwClientState_MaxPlayer); } }
-        public int ClientState_GetLocalPlayer { get { return ClientModule.ReadInt(ClientState + Offsets.csgo.signatures.dwClientState_GetLocalPlayer); } }
-        public Vector3 ClientState_ViewAngles { get { return ClientModule.ReadStruct<Vector3>(ClientState + Offsets.csgo.signatures.dwClientState_ViewAngles); } }
-        public string ClientState_MapName { get { return ClientModule.ReadString(ClientState + Offsets.csgo.signatures.dwClientState_Map, 32, Encoding.ASCII); } }
-        public string ClientState_MapDirectory { get { return ClientModule.ReadString(ClientState + Offsets.csgo.signatures.dwClientState_MapDirectory, 32, Encoding.ASCII); } }
+        public EntityList EntityList { get; private set; }
+        public PlayerResource PlayerResource { get; private set; }
+        public Camera Camera { get; private set; }
 
         public bool InFOV(CSPlayer player, float FOV)
         {
             bool ok = false;
             for (var i = 0; i < 9; i++)
             {
-                Vector2 vector = App.Engine.WorldToScreen(player.GetBonePosition(i));
+                Vector2 vector = App.Client.Camera.WorldToScreen(player.GetBonePosition(i));
 
                 if (vector != Vector2.Zero)
                 {
@@ -56,7 +60,7 @@ namespace EnoughHookLite.Modules
                     }
                     else if (dist < FOV)
                     {
-                        Vector2 vector3 = App.Engine.WorldToScreen(player.GetBonePosition(i));
+                        Vector2 vector3 = App.Client.Camera.WorldToScreen(player.GetBonePosition(i));
                         if (Vector2.Distance(App.Process.MidSize, vector3) > dist)
                         {
                             ok = true;
@@ -69,8 +73,9 @@ namespace EnoughHookLite.Modules
         public CSPlayer GetFovPlayer(float FOV)
         {
             CSPlayer e = null;
-            foreach (CSPlayer Player in EntityList.CSPlayers)
+            foreach (var item in EntityList.CSPlayers)
             {
+                CSPlayer Player = item.Value;
                 if (!Player.IsNull 
                     && Player.Pointer != EntityList.LocalPlayer.Pointer 
                     && Player.IsPlayer 
