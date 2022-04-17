@@ -40,7 +40,7 @@ namespace EnoughHookLite.Sys
         {
             if (logging)
                 LogIt("Started scanning...");
-
+            ulong scanned = 0;
             foreach (var item in Modules)
             {
                 var module = item.Key;
@@ -50,10 +50,16 @@ namespace EnoughHookLite.Sys
                 var mco = module.Size;
                 var memorymodule = module.Process.ReadData(module.BaseAdr, mco);
 
+                bool finded = false;
+
                 for (var i = 0; i < mco; i++)
                 {
+                    if (finded)
+                        break;
                     for (var o = 0; o < lco; o++)
                     {
+                        if (finded)
+                            break;
                         var tsig = list[o];
                         var sig = tsig.Sig;
                         var sco = sig.Length;
@@ -86,6 +92,8 @@ namespace EnoughHookLite.Sys
 
                                 tsig.Pointer = result;
                                 tsig.Finded = true;
+                                finded = true;
+                                scanned++;
                             }
                         }
                     }
@@ -95,7 +103,7 @@ namespace EnoughHookLite.Sys
             Modules.Clear(); // clear all
 
             if (logging)
-                LogIt("Ended scanning.");
+                LogIt($"Ended scanning with {scanned} signatures.");
         }
 
         private void LogIt(string log)

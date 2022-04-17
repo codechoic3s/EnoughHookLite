@@ -1,4 +1,6 @@
-﻿using EnoughHookLite.Sys;
+﻿using EnoughHookLite.Modules;
+using EnoughHookLite.Sys;
+using EnoughHookLite.Utilities.Conf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +30,32 @@ namespace EnoughHookLite.Utilities
                 SignatureDumper.AddSignature(item.Value);
             }
             SignatureDumper.ScanSignatures(true);
+        }
+
+        private void LogIt(string log)
+        {
+            App.Log.LogIt("[SignatureManager] " + log);
+        }
+
+        public void ParseFromConfig(SignaturesConfig sc)
+        {
+            var components = sc.Components;
+            var cco = components.LongLength;
+
+            for (long i = 0; i < cco; i++)
+            {
+                var component = components[i];
+
+                if (!SubAPI.TryGetCustomModule(component.Module, out ManagedModule module))
+                {
+                    LogIt($"Failed get module {component.Module} by signature {component.Name}");
+                    continue;
+                }
+
+                Signature signature = new Signature(module.NativeModule, component.Offsets, component.Extra, component.Relative, component.Signature);
+
+                SignatureList.Add(component.Name, signature);
+            }
         }
     }
 }

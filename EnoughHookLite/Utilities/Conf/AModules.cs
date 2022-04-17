@@ -10,18 +10,18 @@ namespace EnoughHookLite.Utilities.Conf
     public sealed class AModules : SerializableConf<AModules>
     {
         [JsonProperty("client_module")]
-        public string ClientModule;
+        public string ClientModule { get; private set; }
         [JsonProperty("engine_module")]
-        public string EngineModule;
+        public string EngineModule { get; private set; }
 
-        [JsonProperty("other_modules")]
-        public List<string> OtherModules;
+        [JsonProperty("custom_modules")]
+        public List<string> CustomModules { get; private set; }
 
         public AModules()
         {
             ClientModule = "";
             EngineModule = "";
-            OtherModules = new List<string>();
+            CustomModules = new List<string>();
         }
     }
 }

@@ -1,9 +1,5 @@
 {
-  "bhop": {
-    "on": true
-  },
-  "trigger": {
-    "on": true,
-    "button": 86
-  }
+  "script_fulldebug": false,
+  "script_autoreload": false,
+  "script_configs": {}
 }

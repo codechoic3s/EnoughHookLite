@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameClasses\BasePlayer.cs" />
     <Compile Include="GameClasses\Camera.cs" />
     <Compile Include="GameClasses\CSPlayer.cs" />
     <Compile Include="GameClasses\Entity.cs" />
@@ -84,7 +85,7 @@
     <Compile Include="GameClasses\Team.cs" />
     <Compile Include="Modules\Client.cs" />
     <Compile Include="Modules\Engine.cs" />
-    <Compile Include="Modules\IManagedModule.cs" />
+    <Compile Include="Modules\ManagedModule.cs" />
     <Compile Include="OtherCode\Structs\BoneMartixVector.cs" />
     <Compile Include="OtherCode\Structs\CEntInfo.cs" />
     <Compile Include="OtherCode\Structs\ClassIDClass.cs" />
@@ -93,9 +94,14 @@
     <Compile Include="OtherCode\Structs\ePropType.cs" />
     <Compile Include="OtherCode\Structs\RecvProp_t.cs" />
     <Compile Include="OtherCode\Structs\RecvTable_t.cs" />
+    <Compile Include="Pointing\Attributes\NetvarAttribute.cs" />
+    <Compile Include="Pointing\Attributes\SignatureAttribute.cs" />
     <Compile Include="Pointing\SignaturesConsts.cs" />
     <Compile Include="Pointing\PointerCached.cs" />
     <Compile Include="Pointing\PointManager.cs" />
+    <Compile Include="Pointing\SpecialPointerCached.cs" />
+    <Compile Include="Pointing\TypeParser.cs" />
+    <Compile Include="Pointing\TypesParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting\ScriptAPI.cs" />
@@ -161,7 +167,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_StartDate="2021/10/10" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_UseUniversalClock="False" />
+      <UserProperties BuildVersion_UseUniversalClock="False" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_StartDate="2021/10/10" BuildVersion_BuildVersioningStyle="None.None.Increment.None" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

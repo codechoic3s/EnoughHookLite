@@ -11,16 +11,15 @@ using System.Threading.Tasks;
 
 namespace EnoughHookLite.Modules
 {
-    public class Client : IManagedModule
+    public class Client : ManagedModule
     {
         public Module NativeModule { get; private set; }
         public SubAPI SubAPI { get; private set; }
 
         private Thread ClientThread;
 
-        public Client(Module m, SubAPI api)
+        public Client(Module m, SubAPI api) : base(m)
         {
-            NativeModule = m;
             SubAPI = api;
             EntityList = new EntityList(SubAPI);
             Camera = new Camera(SubAPI);
@@ -44,6 +43,7 @@ namespace EnoughHookLite.Modules
         public PlayerResource PlayerResource { get; private set; }
         public Camera Camera { get; private set; }
 
+        /*
         public bool InFOV(CSPlayer player, float FOV)
         {
             bool ok = false;
@@ -86,31 +86,12 @@ namespace EnoughHookLite.Modules
                         var infov = InFOV(Player, FOV);
                         if (infov)
                             e = Player;
-                        /*
-                        Vector2 vector = App.Engine.WorldToScreen(Player.GetBonePosition(8));
-
-                        if (vector != Vector2.Zero)
-                        {
-                            float dist = Vector2.Distance(App.Process.MidSize, vector);
-                            if (dist < FOV && e == null)
-                            {
-                                e = Player;
-                            }
-                            else if (dist < FOV)
-                            {
-                                Vector2 vector3 = App.Engine.WorldToScreen(Player.GetBonePosition(8));
-                                if (Vector2.Distance(App.Process.MidSize, vector3) > dist)
-                                {
-                                    e = Player;
-                                }
-                            }
-                        }
-                        */
                     }
                 }
             }
             return e;
         }
+        
         public Vector2 GetAim()
         {
             var screenSize = SubAPI.Process.Size;
@@ -129,6 +110,8 @@ namespace EnoughHookLite.Modules
             var result = SubAPI.Process.MatrixViewport.Transform(pointClip);
             return new Vector2(result.X, result.Y);
         }
+        */
+        /*
         public Vector2 GetReverseAim()
         {
             var screenSize = SubAPI.Process.Size;
@@ -147,6 +130,7 @@ namespace EnoughHookLite.Modules
             var result = SubAPI.Process.MatrixViewport.Transform(pointClip);
             return new Vector2(result.X, result.Y);
         }
+        */
         public Vector2 NormalizedAim(Vector2 vec2)
         {
             var n = new Vector2(vec2.X, vec2.Y);

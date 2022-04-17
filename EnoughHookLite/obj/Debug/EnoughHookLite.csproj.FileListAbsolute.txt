@@ -15,3 +15,10 @@ E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.c
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.csproj.CoreCompileInputs.cache
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.exe
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.pdb
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\EnoughHookLite.exe.config
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\EnoughHookLite.exe
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\EnoughHookLite.pdb
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\Jint.dll
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\Newtonsoft.Json.dll
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\Newtonsoft.Json.xml
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.csproj.CopyComplete

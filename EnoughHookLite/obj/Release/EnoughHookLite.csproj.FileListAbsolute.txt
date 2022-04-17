@@ -10,3 +10,15 @@ F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\Newtonsoft.Jso
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\Newtonsoft.Json.xml
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.csproj.AssemblyReference.cache
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\Jint.dll
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\EnoughHookLite.exe.config
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\EnoughHookLite.exe
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\EnoughHookLite.pdb
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\Jint.dll
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\Newtonsoft.Json.dll
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\Newtonsoft.Json.xml
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.csproj.AssemblyReference.cache
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.csproj.SuggestedBindingRedirects.cache
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.csproj.CoreCompileInputs.cache
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.csproj.CopyComplete
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.exe
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.pdb

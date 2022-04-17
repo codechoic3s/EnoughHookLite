@@ -31,6 +31,20 @@ namespace EnoughHookLite.Pointing
         {
             return Signatures.TryGetValue(id, out pc);
         }
+        public bool AllocateSpecialNetvar(string id, out PointerCached pc)
+        {
+            if (!Netvars.TryGetValue(id, out pc))
+            {
+                string[] splited = id.Split('.');
+
+                var datatable = ClientClassParser.DataTables[splited[0]];
+                var variable = datatable.GetProperty(splited[1]);
+                pc = new PointerCached(variable.Offset);
+                Netvars.Add(id, pc);
+                return true;
+            }
+            return true;
+        }
         public bool AllocateNetvar(string id, out PointerCached pc)
         {
             if (!Netvars.TryGetValue(id, out pc))
@@ -46,13 +60,26 @@ namespace EnoughHookLite.Pointing
             return true;
         }
 
-        public void InitClientClasses()
+        private void LogIt(string log)
         {
+            App.Log.LogIt("[PointManager] " + log);
+        }
+
+        public bool InitClientClasses()
+        {
+            LogIt("Initing ClientClasses...");
             ClientClassParser = new ClientClassParser(SubAPI);
+            if (!SubAPI.TypesParser.TryParse(ClientClassParser))
+            {
+                LogIt("Failed parse ClientClass for signatures.");
+                return false;
+            }
             ClientClassParser.Parsing();
+            return true;
         }
         public void InitSignatures()
         {
+            LogIt("Initing signatures...");
             SignatureManager = new SignatureManager(SubAPI);
             SignatureManager.LoadSignatures();
         }

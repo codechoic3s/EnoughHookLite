@@ -1,4 +1,5 @@
 ﻿using EnoughHookLite.Pointing;
+using EnoughHookLite.Pointing.Attributes;
 using EnoughHookLite.Utilities.ClientClassManaging;
 using System;
 using System.Collections.Generic;
@@ -50,37 +51,16 @@ namespace EnoughHookLite.GameClasses
             SubAPI = api;
             Pointer = ptr;
             Index = index;
-
-            AllocatePointers();
         }
 
+        [Signature(SignaturesConsts.m_bDormant)]
         private PointerCached pDormant;
+
+        [Signature(SignaturesConsts.m_flSpawnTime)]
         private PointerCached pSpawnTime;
+
+        [Netvar("DT_BaseEntity.m_vecOrigin")]
         private PointerCached pVecOrigin;
-
-        private void AllocatePointers()
-        {
-            if (!SubAPI.PointManager.AllocateSignature(SignaturesConsts.dwGetAllClasses, out pDormant))
-            {
-                LogIt("Failed get pDormant");
-                return;
-            }
-            if (!SubAPI.PointManager.AllocateSignature(SignaturesConsts.dwGetAllClasses, out pSpawnTime))
-            {
-                LogIt("Failed get pSpawnTime");
-                return;
-            }
-            if (!SubAPI.PointManager.AllocateNetvar("DT_BaseEntity.m_vecOrigin", out pVecOrigin))
-            {
-                LogIt("Failed get pVecOrigin");
-                return;
-            }
-        }
-
-        private void LogIt(string log)
-        {
-            App.Log.LogIt("[Entity] " + log);
-        }
 
         public Vector3 VecOrigin { get { return SubAPI.Client.NativeModule.Process.RemoteMemory.ReadStruct<Vector3>(Pointer + pVecOrigin.Pointer); } }
         public bool Dormant { get { return SubAPI.Client.NativeModule.Process.RemoteMemory.ReadStruct<bool>(Pointer + pDormant.Pointer); } }

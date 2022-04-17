@@ -8,7 +8,9 @@ namespace EnoughHookLite.Utilities.Conf
 {
     public sealed class SignatureComponent
     {
-        public string Signature { get; set; }
+        public ulong Id { get; set; }
+        public string Name { get; set; }
+        public short[] Signature { get; set; }
         public int[] Offsets { get; set; }
         public int Extra { get; set; }
         public bool Relative { get; set; }
@@ -16,8 +18,10 @@ namespace EnoughHookLite.Utilities.Conf
 
         public SignatureComponent()
         {
-            Signature = "";
-            Offsets = new int[] { 0 };
+            Id = 0;
+            Name = "";
+            Signature = new short[] { 0, -1 };
+            Offsets = new int[0];
             Extra = 0;
             Relative = false;
             Module = "";

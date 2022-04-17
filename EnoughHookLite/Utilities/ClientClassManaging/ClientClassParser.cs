@@ -8,6 +8,7 @@ using EnoughHookLite.OtherCode.Structs;
 using System.Threading;
 using System.Runtime.InteropServices;
 using EnoughHookLite.Pointing;
+using EnoughHookLite.Pointing.Attributes;
 
 namespace EnoughHookLite.Utilities.ClientClassManaging
 {
@@ -20,18 +21,9 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
         public ClientClassParser(SubAPI subapi)
         {
             SubAPI = subapi;
-            AllocatePointers();
         }
 
-        private void AllocatePointers()
-        {
-            if (!SubAPI.PointManager.AllocateSignature(SignaturesConsts.dwGetAllClasses, out pGetAllClasses))
-            {
-                LogIt("Failed get GetAllClasses");
-                return;
-            }
-        }
-
+        [Signature(SignaturesConsts.dwGetAllClasses)]
         private PointerCached pGetAllClasses;
 
         public void Parsing()
@@ -57,7 +49,7 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
 
             RemoteMemory rm = SubAPI.Process.RemoteMemory;
 
-            int pFirst = SubAPI.Client.NativeModule.BaseAdr + (int)pGetAllClasses.Pointer;
+            int pFirst = SubAPI.Client.NativeModule.BaseAdr + pGetAllClasses.Pointer;
 
             ClientClass cls = rm.ReadStruct<ClientClass>(pFirst);
 

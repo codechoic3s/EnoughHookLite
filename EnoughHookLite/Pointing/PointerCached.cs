@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace EnoughHookLite.Pointing
 {
-    public sealed class PointerCached
+    public class PointerCached
     {
         public int Pointer { get; private set; }
 
-        public PointerCached(int p)
+        public PointerCached(int pointer)
         {
-            Pointer = p;
+            Pointer = pointer;
         }
     }
 }

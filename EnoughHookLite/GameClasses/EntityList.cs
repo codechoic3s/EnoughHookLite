@@ -2,6 +2,7 @@
 using EnoughHookLite.OtherCode;
 using EnoughHookLite.OtherCode.Structs;
 using EnoughHookLite.Pointing;
+using EnoughHookLite.Pointing.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace EnoughHookLite.GameClasses
         internal Dictionary<int, Entity> Entities { get; private set; }
         private SubAPI SubAPI;
 
+        [Signature(SignaturesConsts.dwEntityList)]
         private PointerCached pEntityList;
 
         public int LocalPlayerID { get; private set; }
@@ -27,22 +29,6 @@ namespace EnoughHookLite.GameClasses
         {
             SubAPI = api;
             Entities = new Dictionary<int, Entity>();
-
-            AllocatePointers();
-        }
-
-        private void LogIt(string log)
-        {
-            App.Log.LogIt("[EntityList] " + log);
-        }
-
-        private void AllocatePointers()
-        {
-            if (!SubAPI.PointManager.AllocateSignature(SignaturesConsts.dwEntityList, out pEntityList))
-            {
-                LogIt("Failed get entitylist");
-                return;
-            }
         }
 
         public Entity GetByID(int id)

@@ -1,5 +1,6 @@
 ﻿using EnoughHookLite.Modules;
 using EnoughHookLite.Pointing;
+using EnoughHookLite.Pointing.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace EnoughHookLite.GameClasses
 {
     public class PlayerResource
     {
+        private const string ClassName = "DT_CSPlayerResource";
+
         public int Pointer { get; internal set; }
         public bool IsWorking { get; private set; }
 
@@ -19,37 +22,14 @@ namespace EnoughHookLite.GameClasses
         public PlayerResource(Client client)
         {
             Client = client;
-            AllocatePointers();
-
         }
 
-        private void LogIt(string log)
-        {
-            Console.WriteLine("[PlayerResource] " + log);
-        }
-
+        [Signature(SignaturesConsts.dwPlayerResource)]
         private PointerCached pPlayerResource;
+        [Netvar(ClassName + ".m_iCompetitiveWins")]
         private PointerCached pCompetitiveWins;
+        [Netvar(ClassName + ".m_iCompetitiveRanking")]
         private PointerCached pCompetitiveRanking;
-
-        private void AllocatePointers()
-        {
-            if (!Client.SubAPI.PointManager.AllocateNetvar("DT_CSPlayerResource.m_iCompetitiveRanking", out pCompetitiveRanking))
-            {
-                LogIt("Failed get CompetitiveRanking");
-                return;
-            }
-            if (!Client.SubAPI.PointManager.AllocateNetvar("DT_CSPlayerResource.m_iCompetitiveWins", out pCompetitiveWins))
-            {
-                LogIt("Failed get CompetitiveWins");
-                return;
-            }
-            if (!Client.SubAPI.PointManager.AllocateSignature(SignaturesConsts.dwPlayerResource, out pCompetitiveWins))
-            {
-                LogIt("Failed get CompetitiveWins");
-                return;
-            }
-        }
 
         internal async void FetchMemoryAddress()
         {
@@ -64,9 +44,6 @@ namespace EnoughHookLite.GameClasses
         {
             IsWorking = false;
         }
-
-        
-
         public int GetWins(int csplayer_index)
         {
             return Client.NativeModule.Process.RemoteMemory.ReadInt(Pointer + pCompetitiveWins.Pointer + csplayer_index * 4);

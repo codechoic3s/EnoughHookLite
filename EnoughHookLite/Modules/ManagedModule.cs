@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace EnoughHookLite.Modules
 {
-    public interface IManagedModule
+    public class ManagedModule
     {
-        Module NativeModule { get; }
+        public Module NativeModule { get; private set; }
+
+        public ManagedModule(Module nm)
+        {
+            NativeModule = nm;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EnoughHookLite.Modules;
 using EnoughHookLite.Pointing;
+using EnoughHookLite.Pointing.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,28 +26,15 @@ namespace EnoughHookLite.GameClasses
             ViewMatrix = new float[ViewMatrixSize];
         }
 
+        [Signature(SignaturesConsts.dwViewMatrix)]
         private PointerCached pViewMatrix;
-
-        private void AllocatePointers()
-        {
-            if (!SubAPI.PointManager.AllocateSignature(SignaturesConsts.dwViewMatrix, out pViewMatrix))
-            {
-                LogIt("Failed get ViewMatrix");
-                return;
-            }
-        }
-
-        private void LogIt(string log)
-        {
-            App.Log.LogIt("[Camera] " + log);
-        }
 
         internal async void ViewMatrixFetcher()
         {
             IsWorking = true;
             while (IsWorking)
             {
-                int vmbase = SubAPI.Client.NativeModule.BaseAdr + (int)pViewMatrix.Pointer;
+                int vmbase = SubAPI.Client.NativeModule.BaseAdr + pViewMatrix.Pointer;
                 for (int i = 0; i < ViewMatrixSize; i++)
                 {
                     ViewMatrix[i] = SubAPI.Client.NativeModule.Process.RemoteMemory.ReadFloat(vmbase + (i * 4));

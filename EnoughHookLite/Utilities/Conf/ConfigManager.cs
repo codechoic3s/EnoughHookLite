@@ -9,15 +9,17 @@ namespace EnoughHookLite.Utilities.Conf
 {
     public sealed class ConfigManager
     {
-        internal string ConfigsPath;
+        internal string BasePath;
         public MinConf<MainConfig> Current { get; private set; }
         public MinConf<AModules> Modules { get; private set; }
         public MinConf<SignaturesConfig> Signatures { get; private set; }
 
-        public ConfigManager(string cpath)
+        public ConfigManager(string bpath)
         {
-            ConfigsPath = cpath;
-            Current = new MinConf<MainConfig>(ConfigsPath);
+            BasePath = bpath;
+            Current = new MinConf<MainConfig>(BasePath + @"/config.json");
+            Modules = new MinConf<AModules>(BasePath + @"/modules.json");
+            Signatures = new MinConf<SignaturesConfig>(BasePath + @"/signatures.json");
         }
 
         internal void Load()

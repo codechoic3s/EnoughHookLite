@@ -160,7 +160,7 @@ namespace EnoughHookLite
         private void LoadConfig(string basedir)
         {
             LogIt("Loading config...");
-            ConfigManager = new ConfigManager(basedir + @"/config.json");
+            ConfigManager = new ConfigManager(basedir);
             ConfigManager.Load();
         }
 
