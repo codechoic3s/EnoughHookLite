@@ -7,22 +7,39 @@ using System.Threading.Tasks;
 using EnoughHookLite.OtherCode.Structs;
 using System.Threading;
 using System.Runtime.InteropServices;
+using EnoughHookLite.Pointing;
 
 namespace EnoughHookLite.Utilities.ClientClassManaging
 {
     public sealed class ClientClassParser
     {
-        public static ClientClassParser Instance { get; private set; } = Instance = new ClientClassParser();
-
         public ManagedClientClass[] ClientClasses { get; private set; }
         public Dictionary<string, ManagedRecvTable> DataTables { get; private set; }
 
-        public void Parsing(SubAPI api)
+        public SubAPI SubAPI { get; private set; }
+        public ClientClassParser(SubAPI subapi)
+        {
+            SubAPI = subapi;
+            AllocatePointers();
+        }
+
+        private void AllocatePointers()
+        {
+            if (!SubAPI.PointManager.AllocateSignature(SignaturesConsts.dwGetAllClasses, out pGetAllClasses))
+            {
+                LogIt("Failed get GetAllClasses");
+                return;
+            }
+        }
+
+        private PointerCached pGetAllClasses;
+
+        public void Parsing()
         {
             LogIt("Parsing client classes...");
             do
             {
-                Parse(api);
+                Parse();
                 Thread.Sleep(500);
             } while (DataTables.Count == 0);
             LogIt("Successful parsed.");
@@ -33,14 +50,14 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
             App.Log.LogIt("[ClientClassParser] " + log);
         }
 
-        public void Parse(SubAPI api)
+        private void Parse()
         {
             List<ManagedClientClass> classes = new List<ManagedClientClass>();
             DataTables = new Dictionary<string, ManagedRecvTable>();
 
-            RemoteMemory rm = api.Process.RemoteMemory;
+            RemoteMemory rm = SubAPI.Process.RemoteMemory;
 
-            int pFirst = api.Client.NativeModule.BaseAdr + App.OffsetLoader.Offsets.Signatures.dwGetAllClasses;
+            int pFirst = SubAPI.Client.NativeModule.BaseAdr + (int)pGetAllClasses.Pointer;
 
             ClientClass cls = rm.ReadStruct<ClientClass>(pFirst);
 

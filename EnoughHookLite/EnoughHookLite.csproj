@@ -93,6 +93,9 @@
     <Compile Include="OtherCode\Structs\ePropType.cs" />
     <Compile Include="OtherCode\Structs\RecvProp_t.cs" />
     <Compile Include="OtherCode\Structs\RecvTable_t.cs" />
+    <Compile Include="Pointing\SignaturesConsts.cs" />
+    <Compile Include="Pointing\PointerCached.cs" />
+    <Compile Include="Pointing\PointManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting\ScriptAPI.cs" />
@@ -116,6 +119,8 @@
     <Compile Include="Utilities\ClientClassManaging\ManagedRecvProp.cs" />
     <Compile Include="Utilities\ClientClassManaging\ManagedRecvTable.cs" />
     <Compile Include="Utilities\ClientClassManaging\VmtToClassID.cs" />
+    <Compile Include="Utilities\Conf\SignatureComponent.cs" />
+    <Compile Include="Utilities\Conf\SignaturesConfig.cs" />
     <Compile Include="Utilities\IUnmanagedObject.cs" />
     <Compile Include="Utilities\Math.cs" />
     <Compile Include="OtherCode\Structs\Matrix.cs" />
@@ -126,7 +131,7 @@
     <Compile Include="OtherCode\Structs\studiohdr_t.cs" />
     <Compile Include="OtherCode\Structs\Viewport.cs" />
     <Compile Include="Utilities\ClientClassManaging\ClientClassParser.cs" />
-    <Compile Include="Utilities\Conf\EHLConfig.cs" />
+    <Compile Include="Utilities\Conf\MainConfig.cs" />
     <Compile Include="Utilities\Conf\ConfigManager.cs" />
     <Compile Include="Utilities\Log.cs" />
     <Compile Include="Utilities\MinConf.cs" />
@@ -156,7 +161,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseUniversalClock="False" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_StartDate="2021/10/10" BuildVersion_BuildVersioningStyle="None.None.Increment.None" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_StartDate="2021/10/10" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_UseUniversalClock="False" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

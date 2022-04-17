@@ -1,6 +1,7 @@
 ﻿using EnoughHookLite.Modules;
 using EnoughHookLite.OtherCode;
 using EnoughHookLite.OtherCode.Structs;
+using EnoughHookLite.Pointing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,30 @@ namespace EnoughHookLite.GameClasses
         internal Dictionary<int, Entity> Entities { get; private set; }
         private SubAPI SubAPI;
 
+        private PointerCached pEntityList;
+
         public int LocalPlayerID { get; private set; }
 
         public EntityList(SubAPI api)
         {
             SubAPI = api;
             Entities = new Dictionary<int, Entity>();
+
+            AllocatePointers();
+        }
+
+        private void LogIt(string log)
+        {
+            App.Log.LogIt("[EntityList] " + log);
+        }
+
+        private void AllocatePointers()
+        {
+            if (!SubAPI.PointManager.AllocateSignature(SignaturesConsts.dwEntityList, out pEntityList))
+            {
+                LogIt("Failed get entitylist");
+                return;
+            }
         }
 
         public Entity GetByID(int id)
@@ -80,7 +99,7 @@ namespace EnoughHookLite.GameClasses
             while (IsWorking)
             {
                 CEntInfo eentry;
-                int readptr = SubAPI.Client.NativeModule.BaseAdr + App.OffsetLoader.Offsets.Signatures.dwEntityList;
+                int readptr = SubAPI.Client.NativeModule.BaseAdr + (int)pEntityList.Pointer;
 
                 int eid = 0;
                 while (true)

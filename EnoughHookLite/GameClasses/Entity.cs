@@ -1,4 +1,5 @@
-﻿using EnoughHookLite.Utilities.ClientClassManaging;
+﻿using EnoughHookLite.Pointing;
+using EnoughHookLite.Utilities.ClientClassManaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace EnoughHookLite.GameClasses
                         return null;
 
                     int address = rm.ReadInt(pFn + 1);
-                    var clientClass = ClientClassParser.Instance.ClientClasses.FirstOrDefault(x => x.Pointer == address);
+                    var clientClass = SubAPI.PointManager.ClientClassParser.ClientClasses.FirstOrDefault(x => x.Pointer == address);
 
                     if (clientClass != null)
                         VmtToClassID.Instance[vmtAddress] = clientClass;
@@ -49,11 +50,41 @@ namespace EnoughHookLite.GameClasses
             SubAPI = api;
             Pointer = ptr;
             Index = index;
+
+            AllocatePointers();
         }
 
-        public Vector3 VecOrigin { get { return SubAPI.Client.NativeModule.Process.RemoteMemory.ReadStruct<Vector3>(Pointer + App.OffsetLoader.Offsets.Netvars.m_vecOrigin); } }
-        public bool Dormant { get { return SubAPI.Client.NativeModule.Process.RemoteMemory.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Signatures.m_bDormant); } }
-        public float SpawnTime { get { return SubAPI.Client.NativeModule.Process.RemoteMemory.ReadFloat(Pointer + App.OffsetLoader.Offsets.Signatures.m_flSpawnTime); } }
+        private PointerCached pDormant;
+        private PointerCached pSpawnTime;
+        private PointerCached pVecOrigin;
+
+        private void AllocatePointers()
+        {
+            if (!SubAPI.PointManager.AllocateSignature(SignaturesConsts.dwGetAllClasses, out pDormant))
+            {
+                LogIt("Failed get pDormant");
+                return;
+            }
+            if (!SubAPI.PointManager.AllocateSignature(SignaturesConsts.dwGetAllClasses, out pSpawnTime))
+            {
+                LogIt("Failed get pSpawnTime");
+                return;
+            }
+            if (!SubAPI.PointManager.AllocateNetvar("DT_BaseEntity.m_vecOrigin", out pVecOrigin))
+            {
+                LogIt("Failed get pVecOrigin");
+                return;
+            }
+        }
+
+        private void LogIt(string log)
+        {
+            App.Log.LogIt("[Entity] " + log);
+        }
+
+        public Vector3 VecOrigin { get { return SubAPI.Client.NativeModule.Process.RemoteMemory.ReadStruct<Vector3>(Pointer + pVecOrigin.Pointer); } }
+        public bool Dormant { get { return SubAPI.Client.NativeModule.Process.RemoteMemory.ReadStruct<bool>(Pointer + pDormant.Pointer); } }
+        public float SpawnTime { get { return SubAPI.Client.NativeModule.Process.RemoteMemory.ReadFloat(Pointer + pSpawnTime.Pointer); } }
 
         public override string ToString()
         {

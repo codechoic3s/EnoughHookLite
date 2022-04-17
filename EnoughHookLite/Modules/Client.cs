@@ -14,7 +14,7 @@ namespace EnoughHookLite.Modules
     public class Client : IManagedModule
     {
         public Module NativeModule { get; private set; }
-        private SubAPI SubAPI;
+        public SubAPI SubAPI { get; private set; }
 
         private Thread ClientThread;
 

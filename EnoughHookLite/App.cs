@@ -1,22 +1,16 @@
-﻿using EnoughHookLite.Modules;
+﻿using EnoughHookLite.Pointing;
 using EnoughHookLite.Scripting;
 using EnoughHookLite.Sys;
 using EnoughHookLite.Utilities;
 using EnoughHookLite.Utilities.ClientClassManaging;
 using EnoughHookLite.Utilities.Conf;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Numerics;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Process = EnoughHookLite.Sys.Process;
 
 namespace EnoughHookLite
 {
@@ -36,7 +30,6 @@ namespace EnoughHookLite
 
         public ScriptLoader JSLoader { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
-        public SignatureDumper SignatureDumper { get; private set; }
 
         public Action<App> BeforeSetupScript;
         public Action<Point, Vector2> OnUpdate;
@@ -123,16 +116,13 @@ namespace EnoughHookLite
                 LoadConfig(basedir);
 
                 //Console.Title = Title;
-                SubAPI = new SubAPI(ConfigManager.Current.Config.AModules);
+                SubAPI = new SubAPI(ConfigManager.Modules.Config);
                 SubAPI.ProcessFetch();
 
                 if (SubAPI.ModulesFetch())
                 {
-                    SignatureDumper = new SignatureDumper();
-                    LoadSignatures();
-                    SignatureDumper.ScanSignatures(true);
-                    
-                    ClientClassParser.Instance.Parsing(SubAPI);
+                    SubAPI.PointManager.InitSignatures();
+                    SubAPI.PointManager.InitClientClasses();
 
                     JSLoader = new ScriptLoader(this);
 
@@ -172,12 +162,6 @@ namespace EnoughHookLite
             LogIt("Loading config...");
             ConfigManager = new ConfigManager(basedir + @"/config.json");
             ConfigManager.Load();
-        }
-
-        private void LoadSignatures()
-        {
-
-            SignatureDumper.ScanSignatures(true);
         }
 
         public static string RandomText()

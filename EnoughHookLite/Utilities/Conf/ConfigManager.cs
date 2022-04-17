@@ -10,17 +10,24 @@ namespace EnoughHookLite.Utilities.Conf
     public sealed class ConfigManager
     {
         internal string ConfigsPath;
-        internal MinConf<EHLConfig> Current;
-        internal MinConf<AModules> Modules;
+        public MinConf<MainConfig> Current { get; private set; }
+        public MinConf<AModules> Modules { get; private set; }
+        public MinConf<SignaturesConfig> Signatures { get; private set; }
 
         public ConfigManager(string cpath)
         {
             ConfigsPath = cpath;
-            Current = new MinConf<EHLConfig>(ConfigsPath);
+            Current = new MinConf<MainConfig>(ConfigsPath);
         }
 
         internal void Load()
         {
+            Modules.DeserializeFile();
+            Modules.SerializeFile();
+
+            Signatures.DeserializeFile();
+            Signatures.SerializeFile();
+
             Current.DeserializeFile();
             Current.SerializeFile();
             LogIt("Config loaded");

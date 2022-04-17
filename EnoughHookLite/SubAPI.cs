@@ -1,13 +1,8 @@
 ﻿using EnoughHookLite.Modules;
+using EnoughHookLite.Pointing;
 using EnoughHookLite.Sys;
-using EnoughHookLite.Utilities;
 using EnoughHookLite.Utilities.Conf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace EnoughHookLite
 {
@@ -16,11 +11,12 @@ namespace EnoughHookLite
         public Process Process { get; private set; }
         public Client Client { get; private set; }
         public Engine Engine { get; private set; }
-
+        public PointManager PointManager { get; private set; }
 
         private AModules Amodules;
         public SubAPI(AModules am)
         {
+            PointManager = new PointManager(this);
             Amodules = am;
         }
 
