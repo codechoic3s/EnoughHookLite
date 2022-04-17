@@ -28,6 +28,16 @@ namespace EnoughHookLite
 
         public bool TryGetCustomModule(string name, out ManagedModule module)
         {
+            if (name == AModules.ClientModule)
+            {
+                module = Client;
+                return true;
+            }
+            else if (name == AModules.EngineModule)
+            {
+                module = Engine;
+                return true;
+            }
             return CustomModules.TryGetValue(name, out module);
         }
 
