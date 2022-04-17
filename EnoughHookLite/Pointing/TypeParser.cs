@@ -12,8 +12,8 @@ namespace EnoughHookLite.Pointing
     {
         private Type ClassType;
 
-        private (FieldInfo, SignatureAttribute)[] SignaturesFields;
-        private (FieldInfo, NetvarAttribute)[] NetvarsFields;
+        private FieldInfo[] SignaturesFields;
+        private FieldInfo[] NetvarsFields;
         private ulong NetvarFieldsLength;
         private ulong SignatureFieldsLength;
 
@@ -25,8 +25,8 @@ namespace EnoughHookLite.Pointing
 
             ClassType = type;
 
-            var slist = new List<(FieldInfo, SignatureAttribute)>();
-            var nlist = new List<(FieldInfo, NetvarAttribute)>();
+            var slist = new List<FieldInfo>();
+            var nlist = new List<FieldInfo>();
 
             ParseFields(ClassType, nlist, slist);
 
@@ -37,10 +37,10 @@ namespace EnoughHookLite.Pointing
             SignatureFieldsLength = (ulong)SignaturesFields.LongLength;
         }
 
-        public void ParseFields(Type type, List<(FieldInfo, NetvarAttribute)> nlist, List<(FieldInfo, SignatureAttribute)> slist)
+        public void ParseFields(Type type, List<FieldInfo> nlist, List<FieldInfo> slist)
         {
             var bt = ClassType.BaseType;
-            if (bt != null)
+            if (bt != typeof(object))
                 ParseFields(bt, nlist, slist);
 
             var fields = type.GetFields(BindingFlags.Instance);
@@ -50,13 +50,13 @@ namespace EnoughHookLite.Pointing
             {
                 var field = fields[i];
 
-                if (field.GetCustomAttribute<NetvarAttribute>() is NetvarAttribute na)
+                if (field.GetCustomAttribute<NetvarAttribute>() != null)
                 {
-                    nlist.Add((field, na));
+                    nlist.Add(field);
                 }
-                else if (field.GetCustomAttribute<SignatureAttribute>() is SignatureAttribute sa)
+                else if (field.GetCustomAttribute<SignatureAttribute>() != null)
                 {
-                    slist.Add((field, sa));
+                    slist.Add(field);
                 }
             }
         }
@@ -67,28 +67,30 @@ namespace EnoughHookLite.Pointing
             {
                 var field = SignaturesFields[i];
 
-                if (!PointManager.AllocateSignature(field.Item2.Id, out PointerCached pc))
+                var id = field.GetCustomAttribute<SignatureAttribute>().Id;
+                if (!PointManager.AllocateSignature(id, out PointerCached pc))
                 {
-                    LogIt("failed get signature " + field.Item2.Id);
+                    LogIt("failed get signature " + id);
 
                     return false;
                 }
 
-                field.Item1.SetValue(instance, pc);
+                field.SetValue(instance, pc);
             }
 
             for (ulong i = 0; i < NetvarFieldsLength; i++)
             {
                 var field = NetvarsFields[i];
 
-                if (!PointManager.AllocateNetvar(field.Item2.NameSpace, out PointerCached pc))
+                var nmspace = field.GetCustomAttribute<NetvarAttribute>().NameSpace;
+                if (!PointManager.AllocateNetvar(nmspace, out PointerCached pc))
                 {
-                    LogIt("failed get signature " + field.Item2.NameSpace);
+                    LogIt("failed get signature " + nmspace);
 
                     return false;
                 }
 
-                field.Item1.SetValue(instance, pc);
+                field.SetValue(instance, pc);
             }
 
             return true;

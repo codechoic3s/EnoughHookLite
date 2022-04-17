@@ -121,7 +121,7 @@ namespace EnoughHookLite
 
                 if (SubAPI.ModulesFetch())
                 {
-                    SubAPI.PointManager.InitSignatures();
+                    SubAPI.PointManager.InitSignatures(ConfigManager.Signatures.Config);
                     SubAPI.PointManager.InitClientClasses();
 
                     JSLoader = new ScriptLoader(this);

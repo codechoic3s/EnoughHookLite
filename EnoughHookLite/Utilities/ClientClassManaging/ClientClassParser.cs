@@ -9,23 +9,19 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using EnoughHookLite.Pointing;
 using EnoughHookLite.Pointing.Attributes;
-
 namespace EnoughHookLite.Utilities.ClientClassManaging
 {
     public sealed class ClientClassParser
     {
         public ManagedClientClass[] ClientClasses { get; private set; }
         public Dictionary<string, ManagedRecvTable> DataTables { get; private set; }
-
         public SubAPI SubAPI { get; private set; }
         public ClientClassParser(SubAPI subapi)
         {
             SubAPI = subapi;
         }
-
         [Signature(SignaturesConsts.dwGetAllClasses)]
-        private PointerCached pGetAllClasses;
-
+        public PointerCached pGetAllClasses;
         public void Parsing()
         {
             LogIt("Parsing client classes...");
@@ -36,23 +32,17 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
             } while (DataTables.Count == 0);
             LogIt("Successful parsed.");
         }
-
         private void LogIt(string log)
         {
             App.Log.LogIt("[ClientClassParser] " + log);
         }
-
         private void Parse()
         {
             List<ManagedClientClass> classes = new List<ManagedClientClass>();
             DataTables = new Dictionary<string, ManagedRecvTable>();
-
             RemoteMemory rm = SubAPI.Process.RemoteMemory;
-
             int pFirst = SubAPI.Client.NativeModule.BaseAdr + pGetAllClasses.Pointer;
-
             ClientClass cls = rm.ReadStruct<ClientClass>(pFirst);
-
             for (; cls.pNext != 0; pFirst = cls.pNext, cls = rm.ReadStruct<ClientClass>(pFirst))
             {
                 ManagedClientClass mcc = new ManagedClientClass(rm);
