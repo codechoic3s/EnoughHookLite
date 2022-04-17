@@ -1,4 +1,6 @@
 ﻿using EnoughHookLite.Modules;
+using EnoughHookLite.OtherCode;
+using EnoughHookLite.OtherCode.Structs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,69 +12,97 @@ namespace EnoughHookLite.GameClasses
 {
     public class EntityList
     {
-        public LocalPlayer LocalPlayer { get; private set; }
+        public LocalPlayer LocalPlayer => (LocalPlayer)Entities[LocalPlayerID];
         public bool IsWorking { get; private set; }
 
-        internal Dictionary<int, CSPlayer> CSPlayers;
-        private App App;
+        internal Dictionary<int, Entity> Entities { get; private set; }
+        private SubAPI SubAPI;
 
-        public EntityList(App app)
+        public int LocalPlayerID { get; private set; }
+
+        public EntityList(SubAPI api)
         {
-            App = app;
-            CSPlayers = new Dictionary<int, CSPlayer>();
+            SubAPI = api;
+            Entities = new Dictionary<int, Entity>();
         }
 
-        public CSPlayer GetByCrosshairID(int id)
+        public Entity GetByID(int id)
         {
-            return CSPlayers[id];
+            return Entities[id];
         }
 
-        internal async void RunTask()
+        internal Entity UpdateEntityB(int id, int ptr)
+        {
+            if (Entities.TryGetValue(id, out Entity entity))
+                entity.Pointer = ptr;
+            else 
+            {
+                entity = new Entity(SubAPI, ptr, id);
+                Entities.Add(id, entity);
+            }
+            return entity;
+        }
+        internal void RemoveEntities(params int[] ids)
+        {
+            int idco = ids.Length;
+            for (int i = 0; i < idco; i++)
+            {
+                Entities.Remove(ids[i]);
+            }
+        }
+        internal void RemoveNegativeEntities(params int[] ids)
+        {
+            List<int> removeids = new List<int>();
+            int idco = ids.Length;
+
+            foreach (var item in Entities)
+            {
+                int key = item.Key;
+                int reached = 0;
+                for (int i = 0; i < idco; i++)
+                {
+                    if (key == ids[i])
+                        reached++;
+                }
+                if (reached == 0)
+                {
+                    removeids.Add(key);
+                }
+            }
+
+            RemoveEntities(removeids.ToArray());
+        }
+
+        internal async void FetchEntityList()
         {
             IsWorking = true;
-            LocalPlayer = new LocalPlayer(App);
+            List<int> eids = new List<int>();
             while (IsWorking)
             {
-                int maxplayers = App.Engine.ClientState_MaxPlayers;
-                int csc = CSPlayers.Count;
+                CEntInfo eentry;
+                int readptr = SubAPI.Client.NativeModule.BaseAdr + App.OffsetLoader.Offsets.Signatures.dwEntityList;
 
-                // filling csplayers
-                if (csc < maxplayers)
+                int eid = 0;
+                while (true)
                 {
-                    int ost = (csc - maxplayers) + maxplayers;
-                    for (int i = ost; i < maxplayers; i++)
-                    {
-                        CSPlayers.Add(i, new CSPlayer(App, i));
-                    }
-                }
-                else if (csc > maxplayers)
-                {
-                    //int ost = csc - maxplayers;
-                    CSPlayers.Clear();
-                    //CSPlayers.RemoveRange(csc - 1, ost - 1);
+                    eid++;
+                    eentry = SubAPI.Client.NativeModule.Process.RemoteMemory.ReadStruct<CEntInfo>(readptr);
+                    if (eentry.pNext == eentry.pPrevious)
+                        break;
+                    if (eentry.pEntity == 0)
+                        continue;
+                    eids.Add(eid);
+                    var ent = UpdateEntityB(eid, eentry.pEntity);
                 }
 
-                // updating csplayers
-                int elist = App.Client.NativeModule.BaseAdr + App.OffsetLoader.Offsets.Signatures.dwEntityList;
-                for (int i = 0; i < maxplayers; i++)
-                {
-                    int ptr = App.Client.NativeModule.ReadInt(elist + (i * 0x10));
-                    CSPlayer csp = CSPlayers[i];
-                    if (ptr != 0 && csp.Pointer != ptr)
-                    {
-                        csp.Pointer = ptr;
-                    }
-                    //if (ptr == 0)
-                        //App.Log.LogIt($"{i} {ptr} null");
-                }
+                RemoveNegativeEntities(eids.ToArray());
+                eids.Clear();
 
-                if (CSPlayers.Count > 0) // fix
+                if (Entities.Count > 0) // fix
                 {
                     // updating localplayer
-                    int localindx = App.Engine.ClientState_GetLocalPlayer;
+                    LocalPlayerID = SubAPI.Engine.ClientState_GetLocalPlayer;
                     //var localptr = App.Client.ClientModule.ReadInt(App.Client.ClientModule.BaseAdr + Offsets.App.OffsetLoader.Offsets.Signatures.dwLocalPlayer);
-                    if (localindx < CSPlayers.Count)
-                        LocalPlayer.Pointer = CSPlayers[localindx].Pointer;
                 }
 
                 await Task.Delay(3000);

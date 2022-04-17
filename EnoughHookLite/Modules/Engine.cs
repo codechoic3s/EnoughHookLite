@@ -9,27 +9,25 @@ using System.Threading.Tasks;
 
 namespace EnoughHookLite.Modules
 {
-    public class Engine
+    public class Engine : IManagedModule
     {
         public Module NativeModule { get; private set; }
-        private App App;
 
         public const int WM_LBUTTONDOWN = 0x0201;
         public const int WM_LBUTTONUP = 0x0202;
         public const int WM_KEYDOWN = 0x0100;
         public const int WM_KEYUP = 0x0101;
 
-        public uint ClientState { get { return NativeModule.ReadUInt(NativeModule.BaseAdr + App.OffsetLoader.Offsets.Signatures.dwClientState); } }
-        public int ClientState_MaxPlayers { get { return NativeModule.ReadInt(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_MaxPlayer); } }
-        public int ClientState_GetLocalPlayer { get { return NativeModule.ReadInt(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_GetLocalPlayer); } }
-        public Vector3 ClientState_ViewAngles { get { return NativeModule.ReadStruct<Vector3>(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_ViewAngles); } }
-        public string ClientState_MapName { get { return NativeModule.ReadString(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_Map, 32, Encoding.ASCII); } }
-        public string ClientState_MapDirectory { get { return NativeModule.ReadString(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_MapDirectory, 32, Encoding.ASCII); } }
+        public uint ClientState { get { return NativeModule.Process.RemoteMemory.ReadUInt(NativeModule.BaseAdr + App.OffsetLoader.Offsets.Signatures.dwClientState); } }
+        public int ClientState_MaxPlayers { get { return NativeModule.Process.RemoteMemory.ReadInt(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_MaxPlayer); } }
+        public int ClientState_GetLocalPlayer { get { return NativeModule.Process.RemoteMemory.ReadInt(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_GetLocalPlayer); } }
+        public Vector3 ClientState_ViewAngles { get { return NativeModule.Process.RemoteMemory.ReadStruct<Vector3>(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_ViewAngles); } }
+        public string ClientState_MapName { get { return NativeModule.Process.RemoteMemory.ReadString(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_Map, 32, Encoding.ASCII); } }
+        public string ClientState_MapDirectory { get { return NativeModule.Process.RemoteMemory.ReadString(ClientState + (uint)App.OffsetLoader.Offsets.Signatures.dwClientState_MapDirectory, 32, Encoding.ASCII); } }
 
-        public Engine(Module m, App app)
+        public Engine(Module m)
         {
             NativeModule = m;
-            App = app;
         }
 
         public void LeftMouse(bool isdown)

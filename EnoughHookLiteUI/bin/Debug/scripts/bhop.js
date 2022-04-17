@@ -4,9 +4,12 @@ config.SetValue("on", false);
 
 sync_config(); // sync with current configuration
 
-var process = getProcess();
-var client = getClient();
-var engine = getEngine();
+var subapi = getSubAPI();
+
+var process = subapi.Process;
+var client = subapi.Client;
+var engine = subapi.Engine;
+
 var localplayer = client.EntityList.LocalPlayer;
 
 while (true)

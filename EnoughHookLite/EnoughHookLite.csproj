@@ -84,37 +84,55 @@
     <Compile Include="GameClasses\Team.cs" />
     <Compile Include="Modules\Client.cs" />
     <Compile Include="Modules\Engine.cs" />
-    <Compile Include="Offsets\csgo.cs" />
-    <Compile Include="Offsets\Netvars.cs" />
-    <Compile Include="Offsets\Signatures.cs" />
+    <Compile Include="Modules\IManagedModule.cs" />
+    <Compile Include="OtherCode\Structs\BoneMartixVector.cs" />
+    <Compile Include="OtherCode\Structs\CEntInfo.cs" />
+    <Compile Include="OtherCode\Structs\ClassIDClass.cs" />
+    <Compile Include="OtherCode\Structs\ClassIDManager.cs" />
+    <Compile Include="OtherCode\Structs\ClientClass.cs" />
+    <Compile Include="OtherCode\Structs\ePropType.cs" />
+    <Compile Include="OtherCode\Structs\RecvProp_t.cs" />
+    <Compile Include="OtherCode\Structs\RecvTable_t.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripting\JSApi.cs" />
-    <Compile Include="Scripting\JSConfig.cs" />
-    <Compile Include="Scripting\JSEvent.cs" />
-    <Compile Include="Scripting\JSLoader.cs" />
-    <Compile Include="Scripting\JSLocal.cs" />
+    <Compile Include="Scripting\ScriptAPI.cs" />
+    <Compile Include="Scripting\ScriptConfig.cs" />
+    <Compile Include="Scripting\ScriptEvent.cs" />
+    <Compile Include="Scripting\ScriptLoader.cs" />
+    <Compile Include="Scripting\ScriptLocal.cs" />
     <Compile Include="Scripting\Script.cs" />
+    <Compile Include="SubAPI.cs" />
     <Compile Include="Sys\Module.cs" />
     <Compile Include="Sys\Process.cs" />
+    <Compile Include="Sys\RemoteMemory.cs" />
+    <Compile Include="Sys\CompileCache.cs" />
+    <Compile Include="Sys\SignatureDumper.cs" />
+    <Compile Include="Sys\Signature.cs" />
     <Compile Include="Sys\VK.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Sys\WinAPI.cs" />
-    <Compile Include="OtherCode\Line3D.cs" />
-    <Compile Include="OtherCode\Math.cs" />
-    <Compile Include="OtherCode\Matrix.cs" />
-    <Compile Include="OtherCode\matrix3x4_t.cs" />
-    <Compile Include="OtherCode\mstudiobbox_t.cs" />
-    <Compile Include="OtherCode\mstudiobone_t.cs" />
-    <Compile Include="OtherCode\msudiohitboxset_tcs.cs" />
-    <Compile Include="OtherCode\studiohdr_t.cs" />
-    <Compile Include="OtherCode\Viewport.cs" />
-    <Compile Include="Utilities\EHLConfig.cs" />
-    <Compile Include="Utilities\ConfigManager.cs" />
+    <Compile Include="OtherCode\Structs\Line3D.cs" />
+    <Compile Include="Utilities\ClientClassManaging\ManagedClientClass.cs" />
+    <Compile Include="Utilities\ClientClassManaging\ManagedRecvProp.cs" />
+    <Compile Include="Utilities\ClientClassManaging\ManagedRecvTable.cs" />
+    <Compile Include="Utilities\ClientClassManaging\VmtToClassID.cs" />
+    <Compile Include="Utilities\IUnmanagedObject.cs" />
+    <Compile Include="Utilities\Math.cs" />
+    <Compile Include="OtherCode\Structs\Matrix.cs" />
+    <Compile Include="OtherCode\Structs\matrix3x4_t.cs" />
+    <Compile Include="OtherCode\Structs\mstudiobbox_t.cs" />
+    <Compile Include="OtherCode\Structs\mstudiobone_t.cs" />
+    <Compile Include="OtherCode\Structs\msudiohitboxset_tcs.cs" />
+    <Compile Include="OtherCode\Structs\studiohdr_t.cs" />
+    <Compile Include="OtherCode\Structs\Viewport.cs" />
+    <Compile Include="Utilities\ClientClassManaging\ClientClassParser.cs" />
+    <Compile Include="Utilities\Conf\EHLConfig.cs" />
+    <Compile Include="Utilities\Conf\ConfigManager.cs" />
     <Compile Include="Utilities\Log.cs" />
     <Compile Include="Utilities\MinConf.cs" />
-    <Compile Include="Utilities\OffsetLoader.cs" />
+    <Compile Include="Utilities\Conf\AModules.cs" />
     <Compile Include="Utilities\SerializableConf.cs" />
+    <Compile Include="Utilities\SignatureManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -132,10 +150,13 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripting\Apis\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_StartDate="2021/10/10" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_UseUniversalClock="False" />
+      <UserProperties BuildVersion_UseUniversalClock="False" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_StartDate="2021/10/10" BuildVersion_BuildVersioningStyle="None.None.Increment.None" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

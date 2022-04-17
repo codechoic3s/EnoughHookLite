@@ -1,7 +1,9 @@
 ﻿using EnoughHookLite.Modules;
 using EnoughHookLite.Scripting;
+using EnoughHookLite.Sys;
 using EnoughHookLite.Utilities;
-using EnoughHookLite.Utils;
+using EnoughHookLite.Utilities.ClientClassManaging;
+using EnoughHookLite.Utilities.Conf;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,15 +30,13 @@ namespace EnoughHookLite
 
         internal Thread MainThread;
 
-        public Process Process { get; private set; }
-        public Client Client { get; private set; }
-        public Engine Engine { get; private set; }
+        public SubAPI SubAPI { get; private set; }
 
         public static Log Log = new Log();
 
-        public JSLoader JSLoader { get; private set; }
+        public ScriptLoader JSLoader { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
-        public static OffsetLoader OffsetLoader { get; private set; }
+        public SignatureDumper SignatureDumper { get; private set; }
 
         public Action<App> BeforeSetupScript;
         public Action<Point, Vector2> OnUpdate;
@@ -114,63 +114,41 @@ namespace EnoughHookLite
                 text += 
                     "\n/EnoughHookLite/\n" +
                     "   ~js SDK host ~ \n" +
-                    "       build: " + ver.Build + 
-                    "\n";
+                    "       build: " + ver.Build + "\n";
                 //text += "Include features:\n";
                 //text += "   1. Trigger.\n";
                 //text += "   2. Bunnyhop.\n";
                 LogIt(text);
 
+                LoadConfig(basedir);
+
                 //Console.Title = Title;
+                SubAPI = new SubAPI(ConfigManager.Current.Config.AModules);
+                SubAPI.ProcessFetch();
 
-                LogIt("Waiting process...");
-
-                while (Process is null)
+                if (SubAPI.ModulesFetch())
                 {
-                    Process = Process.FindProcess("csgo");
-                    Thread.Sleep(1000);
-                }
+                    SignatureDumper = new SignatureDumper();
+                    LoadSignatures();
+                    SignatureDumper.ScanSignatures(true);
+                    
+                    ClientClassParser.Instance.Parsing(SubAPI);
 
-                LogIt("Process finded!");
-
-                Process.AllocateHandles();
-
-                Sys.Module clm = Process.GetModule("client.dll", out bool cf);
-                Sys.Module em = Process.GetModule("engine.dll", out bool ef);
-
-                if (!cf)
-                {
-                    LogIt("Not founded client.dll");
-                }
-                else if (!ef)
-                {
-                    LogIt("Not founded engine.dll");
-                }
-                else
-                {
-                    OffsetLoader = new OffsetLoader();
-                    OffsetLoader.Load();
-
-                    Client = new Client(clm, this);
-                    Engine = new Engine(em, this);
-
-                    Client.Start();
-
-                    ConfigManager = new ConfigManager(basedir + @"/config.json");
-                    ConfigManager.Load();
-
-                    JSLoader = new JSLoader(this);
+                    JSLoader = new ScriptLoader(this);
 
                     JSLoader.AllocateScripts();
                     BeforeSetupScript?.Invoke(this);
                     JSLoader.SetupAll();
+
+                    SubAPI.StartAll();
+
                     JSLoader.StartAll();
 
                     while (true)
                     {
-                        IsForeground = Process.IsForeground();
-                        Process.UpdateWindow();
-                        OnUpdate?.Invoke(Process.Position, Process.Size);
+                        IsForeground = SubAPI.Process.IsForeground();
+                        SubAPI.Process.UpdateWindow();
+                        OnUpdate?.Invoke(SubAPI.Process.Position, SubAPI.Process.Size);
                         Thread.Sleep(1000);
                     }
                 }
@@ -187,6 +165,19 @@ namespace EnoughHookLite
                 System.Diagnostics.Process.Start(new ProcessStartInfo() { FileName = minpath, Arguments = $"{Title} {thispath}" });
                 Environment.Exit(0);
             }
+        }
+
+        private void LoadConfig(string basedir)
+        {
+            LogIt("Loading config...");
+            ConfigManager = new ConfigManager(basedir + @"/config.json");
+            ConfigManager.Load();
+        }
+
+        private void LoadSignatures()
+        {
+
+            SignatureDumper.ScanSignatures(true);
         }
 
         public static string RandomText()

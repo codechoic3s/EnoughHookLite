@@ -15,11 +15,11 @@ namespace EnoughHookLite.GameClasses
 
         public int ViewMatrixSize { get; private set; }
 
-        private App App;
+        private SubAPI SubAPI;
 
-        public Camera(App app)
+        public Camera(SubAPI api)
         {
-            App = app;
+            SubAPI = api;
             ViewMatrixSize = 16;
             ViewMatrix = new float[ViewMatrixSize];
         }
@@ -29,10 +29,10 @@ namespace EnoughHookLite.GameClasses
             IsWorking = true;
             while (IsWorking)
             {
-                int vmbase = App.Client.NativeModule.BaseAdr + App.OffsetLoader.Offsets.Signatures.dwViewMatrix;
+                int vmbase = SubAPI.Client.NativeModule.BaseAdr + App.OffsetLoader.Offsets.Signatures.dwViewMatrix;
                 for (int i = 0; i < ViewMatrixSize; i++)
                 {
-                    ViewMatrix[i] = App.Client.NativeModule.ReadFloat(vmbase + (i * 4));
+                    ViewMatrix[i] = SubAPI.Client.NativeModule.Process.RemoteMemory.ReadFloat(vmbase + (i * 4));
                 }
                 await Task.Delay(5);
             }
@@ -57,11 +57,11 @@ namespace EnoughHookLite.GameClasses
             _worldToScreenPos.X *= (1.0f / w);
             _worldToScreenPos.Y *= (1.0f / w);
 
-            float width = App.Process.Size.X;
-            float height = App.Process.Size.Y;
+            float width = SubAPI.Process.Size.X;
+            float height = SubAPI.Process.Size.Y;
 
-            float x = App.Process.MidSize.X;
-            float y = App.Process.MidSize.Y;
+            float x = SubAPI.Process.MidSize.X;
+            float y = SubAPI.Process.MidSize.Y;
 
             x += 0.5f * _worldToScreenPos.X * width + 0.5f;
             y -= 0.5f * _worldToScreenPos.Y * height + 0.5f;

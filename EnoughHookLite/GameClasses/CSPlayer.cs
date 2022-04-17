@@ -1,4 +1,4 @@
-﻿using EnoughHookLite.Utils;
+﻿using EnoughHookLite.OtherCode.Structs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace EnoughHookLite.GameClasses
 {
     public class CSPlayer : Entity
     {
-        public CSPlayer(App app, int index) : base(app, index)
+        public CSPlayer(SubAPI api, int ptr, int index) : base(api, ptr, index)
         {
             /*
             _StudioBones = new mstudiobone_t[128];
@@ -19,26 +19,26 @@ namespace EnoughHookLite.GameClasses
             */
         }
 
-        public int FFlags { get { return App.Client.NativeModule.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_fFlags); } }
-        public Team Team { get { return (Team)App.Client.NativeModule.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_iTeamNum); } }
-        public int Armor { get { return App.Client.NativeModule.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_ArmorValue); } }
-        public int Health { get { return App.Client.NativeModule.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_iHealth); } }
-        public bool HasHelmet { get { return App.Client.NativeModule.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bHasHelmet); } }
-        public bool HasDefuseKit { get { return App.Client.NativeModule.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bHasDefuser); } }
-        public bool IsDefusing { get { return App.Client.NativeModule.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bIsDefusing); } }
-        public bool InReload { get { return App.Client.NativeModule.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bInReload); } }
-        public bool Spotted { get { return App.Client.NativeModule.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bSpotted); } }
-        public bool SpottedByMask { get { return App.Client.NativeModule.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bSpottedByMask); } }
-        public bool IsScoped { get { return App.Client.NativeModule.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bIsScoped); } }
-        public int Clip1 { get { return App.Client.NativeModule.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_iClip1); } }
+        public int FFlags { get { return SubAPI.Process.RemoteMemory.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_fFlags); } }
+        public Team Team { get { return (Team)SubAPI.Process.RemoteMemory.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_iTeamNum); } }
+        public int Armor { get { return SubAPI.Process.RemoteMemory.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_ArmorValue); } }
+        public int Health { get { return SubAPI.Process.RemoteMemory.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_iHealth); } }
+        public bool HasHelmet { get { return SubAPI.Process.RemoteMemory.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bHasHelmet); } }
+        public bool HasDefuseKit { get { return SubAPI.Process.RemoteMemory.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bHasDefuser); } }
+        public bool IsDefusing { get { return SubAPI.Process.RemoteMemory.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bIsDefusing); } }
+        public bool InReload { get { return SubAPI.Process.RemoteMemory.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bInReload); } }
+        public bool Spotted { get { return SubAPI.Process.RemoteMemory.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bSpotted); } }
+        public bool SpottedByMask { get { return SubAPI.Process.RemoteMemory.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bSpottedByMask); } }
+        public bool IsScoped { get { return SubAPI.Process.RemoteMemory.ReadStruct<bool>(Pointer + App.OffsetLoader.Offsets.Netvars.m_bIsScoped); } }
+        public int Clip1 { get { return SubAPI.Process.RemoteMemory.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_iClip1); } }
 
-        public Rank Rank { get { return App.Client.PlayerResource.GetRank(Index); } }
-        public int Wins { get { return App.Client.PlayerResource.GetWins(Index); } }
+        public Rank Rank { get { return SubAPI.Client.PlayerResource.GetRank(Index); } }
+        public int Wins { get { return SubAPI.Client.PlayerResource.GetWins(Index); } }
 
         public bool IsPlayer { get { var tm = (int)Team; bool ok = ((tm > 0) && (tm < 5)); return ok; } }
         public bool IsAlive { get { return Health > 0; } }
 
-        public int BoneMatrixPointer { get { return App.Client.NativeModule.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_dwBoneMatrix); } }
+        public int BoneMatrixPointer { get { return SubAPI.Process.RemoteMemory.ReadInt(Pointer + App.OffsetLoader.Offsets.Netvars.m_dwBoneMatrix); } }
 
         /*
         public int AddressStudioHdr
@@ -142,11 +142,12 @@ namespace EnoughHookLite.GameClasses
         public Vector3 GetBonePosition(int BoneID)
         {
             int bonematrix = BoneMatrixPointer;
-            var adr = bonematrix + 0x30 * BoneID;
-            float x = App.Client.NativeModule.ReadFloat(adr + 0x0C);
-            float y = App.Client.NativeModule.ReadFloat(adr + 0x1C);
-            float z = App.Client.NativeModule.ReadFloat(adr + 0x2C);
-            return new Vector3(x, y, z);
+            int adr = bonematrix + 0x30 * BoneID;
+            BoneMartixVector vector = SubAPI.Process.RemoteMemory.ReadStruct<BoneMartixVector>(adr);
+            //float x = SubAPI.Client.NativeModule.Process.RemoteMemory.ReadFloat(adr + 0x0C);
+            //float y = SubAPI.Client.NativeModule.Process.RemoteMemory.ReadFloat(adr + 0x1C);
+            //float z = SubAPI.Client.NativeModule.Process.RemoteMemory.ReadFloat(adr + 0x2C);
+            return new Vector3(vector.X, vector.Y, vector.Z);
         }
     }
 }

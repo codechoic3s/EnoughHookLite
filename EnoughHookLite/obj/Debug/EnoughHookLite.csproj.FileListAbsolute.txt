@@ -10,3 +10,8 @@ F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.c
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\Newtonsoft.Json.dll
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\Newtonsoft.Json.xml
 F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\Jint.dll
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.csproj.AssemblyReference.cache
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.csproj.SuggestedBindingRedirects.cache
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.csproj.CoreCompileInputs.cache
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.exe
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.pdb

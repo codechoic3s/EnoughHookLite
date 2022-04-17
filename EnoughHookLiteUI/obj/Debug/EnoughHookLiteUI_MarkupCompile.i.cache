@@ -4,7 +4,7 @@
 winexe
 C#
 .cs
-F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\obj\Debug\
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\obj\Debug\
 EnoughHookLiteUI
 none
 false
@@ -13,8 +13,8 @@ DEBUG;TRACE
 1-273629732
 
 12951720326
-18-52394275
+18827345376
 Windows\EHLWindow.xaml;
 
-False
+True
 

@@ -17,13 +17,57 @@ namespace EnoughHookLite.Sys
         [DllImport("kernel32.dll")]
         internal static extern bool ReadProcessMemory(IntPtr hProcess, long lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
         [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, long lpBaseAddress, byte[] lpBuffer, uint dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, long lpBaseAddress, byte[] lpBuffer, long dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, long lpBaseAddress, byte[] lpBuffer, ulong dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, long lpBaseAddress, byte[] lpBuffer, IntPtr dwSize, ref int lpNumberOfBytesRead);
+
+        [DllImport("kernel32.dll")]
         internal static extern bool ReadProcessMemory(IntPtr hProcess, ulong lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, ulong lpBaseAddress, byte[] lpBuffer, uint dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, ulong lpBaseAddress, byte[] lpBuffer, long dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, ulong lpBaseAddress, byte[] lpBuffer, ulong dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, ulong lpBaseAddress, byte[] lpBuffer, IntPtr dwSize, ref int lpNumberOfBytesRead);
+
         [DllImport("kernel32.dll")]
         internal static extern bool ReadProcessMemory(IntPtr hProcess, int lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
         [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, int lpBaseAddress, byte[] lpBuffer, uint dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, int lpBaseAddress, byte[] lpBuffer, long dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, int lpBaseAddress, byte[] lpBuffer, ulong dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, int lpBaseAddress, byte[] lpBuffer, IntPtr dwSize, ref int lpNumberOfBytesRead);
+
+        [DllImport("kernel32.dll")]
         internal static extern bool ReadProcessMemory(IntPtr hProcess, uint lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
         [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, uint lpBaseAddress, byte[] lpBuffer, uint dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, uint lpBaseAddress, byte[] lpBuffer, long dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, uint lpBaseAddress, byte[] lpBuffer, ulong dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, uint lpBaseAddress, byte[] lpBuffer, IntPtr dwSize, ref int lpNumberOfBytesRead);
+
+        [DllImport("kernel32.dll")]
         internal static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, uint dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, long dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, ulong dwSize, ref int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll")]
+        internal static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, IntPtr dwSize, ref int lpNumberOfBytesRead);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
@@ -98,6 +142,16 @@ namespace EnoughHookLite.Sys
             public override string ToString()
             {
                 return string.Format(System.Globalization.CultureInfo.CurrentCulture, "{{Left={0},Top={1},Right={2},Bottom={3}}}", Left, Top, Right, Bottom);
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = -1819631549;
+                hashCode = hashCode * -1521134295 + Left.GetHashCode();
+                hashCode = hashCode * -1521134295 + Top.GetHashCode();
+                hashCode = hashCode * -1521134295 + Right.GetHashCode();
+                hashCode = hashCode * -1521134295 + Bottom.GetHashCode();
+                return hashCode;
             }
         }
     }

@@ -1,4 +1,4 @@
-[Framework] Trying remove F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\EnoughHookLite_Protected\/EnoughHookLite.exe
+[Framework] Trying remove E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\EnoughHookLite_Protected\/MnqO36m1RLusIBNNK6.exe
 [Framework] Removed
 [Framework] 
 /EnoughHookLite/
@@ -12,12 +12,28 @@
 [ScriptEngine] Allocated 2 scripts.
 (bhop) Started.
 (trigger) Started.
-[Framework] System.Exception: Native code: 0, Ptr: 853607572, Read size: 4, IsReaded=False, ReadedSize=0
+[Framework] System.Exception: Native code: 0, Ptr: 720125300, Read size: 4, IsReaded=False, ReadedSize=0
    at EnoughHookLite.Sys.Process.ReadData(Int32 adr, Int32 size) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Process.cs:line 143
    at .(Object , Int32 adr, Int32 size,  )
    at EnoughHookLite.Sys.Module.ReadFloat(Int32 adr) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Module.cs:line 207
    at .(Object , Int32 adr,  )
    at EnoughHookLite.GameClasses.Camera.<ViewMatrixFetcher>d__14.MoveNext() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\Camera.cs:line 35
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.<>c.<ThrowAsync>b__6_1(Object state)
+   at System.Threading.QueueUserWorkItemCallback.WaitCallback_Context(Object state)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.QueueUserWorkItemCallback.System.Threading.IThreadPoolWorkItem.ExecuteWorkItem()
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+   at System.Threading._ThreadPoolWaitCallback.PerformWaitCallback()
+[Framework] System.Exception: Native code: 87, Ptr: 904, Read size: 4, IsReaded=False, ReadedSize=0
+   at EnoughHookLite.Sys.Process.ReadData(UInt32 adr, Int32 size) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Process.cs:line 127
+   at .(Object , UInt32 adr, Int32 size,  )
+   at EnoughHookLite.Sys.Module.ReadInt(UInt32 adr) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Module.cs:line 270
+   at .(Object , UInt32 adr,  )
+   at EnoughHookLite.Modules.Engine.get_ClientState_MaxPlayers() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Modules\Engine.cs:line 23
+   at .(Object ,  )
+   at EnoughHookLite.GameClasses.EntityList.<RunTask>d__12.MoveNext() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\EntityList.cs:line 36
 --- End of stack trace from previous location where exception was thrown ---
    at System.Runtime.CompilerServices.AsyncMethodBuilderCore.<>c.<ThrowAsync>b__6_1(Object state)
    at System.Threading.QueueUserWorkItemCallback.WaitCallback_Context(Object state)

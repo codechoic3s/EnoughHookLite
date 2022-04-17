@@ -1,0 +1,14 @@
+[Framework] Trying remove E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\/MwxT7KS8.exe
+[Framework] Removed
+[Framework] 
+/EnoughHookLite/
+   ~js SDK host ~ 
+       build: 263
+
+[Framework] System.NullReferenceException: Object reference not set to an instance of an object.
+   at EnoughHookLite.App.Work() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\App.cs:line 120
+   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ThreadHelper.ThreadStart()

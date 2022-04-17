@@ -17,17 +17,17 @@ namespace EnoughHookLite.Scripting
         private Thread ExecuteThread;
 
         public Engine JSEngine { get; private set; }
-        internal JSLoader Loader;
-        internal JSConfig Config;
-        internal JSLocal Local;
+        internal ScriptLoader Loader;
+        internal ScriptConfig Config;
+        internal ScriptLocal Local;
 
-        public Script(JSLoader loader, string name, string script)
+        public Script(ScriptLoader loader, string name, string script)
         {
             Name = name;
             RawScript = script;
             Loader = loader;
-            Config = new JSConfig();
-            Local = new JSLocal(this, Loader.JSApi);
+            Config = new ScriptConfig();
+            Local = new ScriptLocal(this, Loader.JSApi);
         }
 
         public void Setup()
@@ -73,7 +73,7 @@ namespace EnoughHookLite.Scripting
             }
         }
 
-        internal JSEvent OnNewEvent(string name, string del_name)
+        internal ScriptEvent OnNewEvent(string name, string del_name)
         {
             bool state;
 
@@ -81,13 +81,13 @@ namespace EnoughHookLite.Scripting
             if (state)
             {
                 actions.Add((del_name, this));
-                return new JSEvent(Loader.JSApi, (del_name, this));
+                return new ScriptEvent(Loader.JSApi, (del_name, this));
             }
             state = Loader.JSApi.CustomCallbacks.TryGetValue(name, out actions);
             if (state)
             {
                 actions.Add((del_name, this));
-                return new JSEvent(Loader.JSApi, (del_name, this));
+                return new ScriptEvent(Loader.JSApi, (del_name, this));
             }
 
             return null;

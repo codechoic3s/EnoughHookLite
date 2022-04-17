@@ -1,9 +1,8 @@
-﻿using EnoughHookLite.Utils;
+﻿using EnoughHookLite.OtherCode.Structs;
 using System;
 using System.Drawing;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using static EnoughHookLite.Sys.WinAPI;
 
 namespace EnoughHookLite.Sys
 {
@@ -18,11 +17,14 @@ namespace EnoughHookLite.Sys
 
         public Matrix MatrixViewport { get; private set; }
 
+        public RemoteMemory RemoteMemory { get; private set; }
+
         private System.Diagnostics.Process Proc;
 
         public Process(System.Diagnostics.Process proc)
         {
             Proc = proc;
+            RemoteMemory = new RemoteMemory(this);
         }
 
         public static bool GetKeyState(VK key)
@@ -180,7 +182,7 @@ namespace EnoughHookLite.Sys
             {
                 Position = point;
             }
-            if (WinAPI.GetClientRect(WindowHandle, out RECT rect))
+            if (WinAPI.GetClientRect(WindowHandle, out WinAPI.RECT rect))
             {
                 var size = Size;
                 size.X = rect.Right - rect.Left;

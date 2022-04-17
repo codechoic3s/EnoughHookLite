@@ -1,24 +1,18 @@
 [Framework] 
 /EnoughHookLite/
- ~js SDK host ~build: 0
+   ~js SDK host ~ 
+       build: 0
 
-
-[Framework] Waiting process...
-[Framework] Process finded!
+[SubAPI] Waiting process...
+[SubAPI] Process finded!
 [OffsetLoader] Loaded offsets.
-[ConfigManager] Config loaded
-[ScriptEngine] Allocating scripts...
-[ScriptEngine] Allocated 4 scripts.
-(bhop) Started.
-(rank_reveal) Started.
-(testdraw) Started.
-(trigger) Started.
-[Framework] System.InvalidOperationException: The calling thread cannot access this object because a different thread owns it.
-   at System.Windows.Threading.Dispatcher.VerifyAccess()
-   at System.Windows.DependencyObject.GetValue(DependencyProperty dp)
-   at System.Windows.FrameworkElement.get_Width()
-   at EnoughHookLiteUI.Windows.EHLWindow.OnUpdate(Point pos, Vector2 size) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\Windows\EHLWindow.xaml.cs:line 53
-   at EnoughHookLite.App.Work() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\App.cs:line 175
+[ClientClassParser] Parsing client classes...
+[Framework] System.Exception: Not valid mapping!!! Ptr: -560510976 Read size: 32
+   at EnoughHookLite.Sys.Process.ReadData(Int32 adr, Int32 size) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Process.cs:line 135
+   at EnoughHookLite.Sys.RemoteMemory.ReadString(Int32 adr, Int32 size, Encoding enc) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\RemoteMemory.cs:line 225
+   at EnoughHookLite.Utilities.ClientClassManaging.ClientClassParser.Parse(SubAPI api) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Utilities\ClientClassManaging\ClientClassParser.cs:line 45
+   at EnoughHookLite.Utilities.ClientClassManaging.ClientClassParser.Parsing(SubAPI api) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Utilities\ClientClassManaging\ClientClassParser.cs:line 23
+   at EnoughHookLite.App.Work() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\App.cs:line 133
    at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
    at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
    at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
