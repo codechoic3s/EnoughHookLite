@@ -1,0 +1,675 @@
+{
+  "Components": [
+    {
+      "Id": 0,
+      "Name": "dwClientState",
+      "Signature": [
+        161,
+        -1,
+        -1,
+        -1,
+        -1,
+        51,
+        210,
+        106,
+        0,
+        106,
+        0,
+        51,
+        201,
+        137,
+        176
+      ],
+      "Offsets": [
+        1
+      ],
+      "Extra": 0,
+      "Relative": true,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 1,
+      "Name": "dwClientState_GetLocalPlayer",
+      "Signature": [
+        139,
+        128,
+        -1,
+        -1,
+        -1,
+        -1,
+        64,
+        195
+      ],
+      "Offsets": [
+        2
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 2,
+      "Name": "dwClientState_IsHLTV",
+      "Signature": [
+        128,
+        191,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        15,
+        132,
+        -1,
+        -1,
+        -1,
+        -1,
+        50,
+        219
+      ],
+      "Offsets": [
+        2
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 3,
+      "Name": "dwClientState_Map",
+      "Signature": [
+        5,
+        -1,
+        -1,
+        -1,
+        -1,
+        195,
+        204,
+        204,
+        204,
+        204,
+        204,
+        204,
+        204,
+        161
+      ],
+      "Offsets": [
+        1
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 4,
+      "Name": "dwClientState_MapDirectory",
+      "Signature": [
+        184,
+        -1,
+        -1,
+        -1,
+        -1,
+        195,
+        5,
+        -1,
+        -1,
+        -1,
+        -1,
+        195
+      ],
+      "Offsets": [
+        7
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 5,
+      "Name": "dwClientState_MaxPlayer",
+      "Signature": [
+        161,
+        -1,
+        -1,
+        -1,
+        -1,
+        139,
+        128,
+        -1,
+        -1,
+        -1,
+        -1,
+        195,
+        204,
+        204,
+        204,
+        204,
+        85,
+        139,
+        236,
+        138,
+        69,
+        8
+      ],
+      "Offsets": [
+        7
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 6,
+      "Name": "dwClientState_PlayerInfo",
+      "Signature": [
+        139,
+        137,
+        -1,
+        -1,
+        -1,
+        -1,
+        133,
+        201,
+        15,
+        132,
+        -1,
+        -1,
+        -1,
+        -1,
+        139,
+        1
+      ],
+      "Offsets": [
+        2
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 7,
+      "Name": "dwClientState_State",
+      "Signature": [
+        131,
+        184,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        15,
+        148,
+        192,
+        195
+      ],
+      "Offsets": [
+        2
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 8,
+      "Name": "dwClientState_ViewAngles",
+      "Signature": [
+        243,
+        15,
+        17,
+        134,
+        -1,
+        -1,
+        -1,
+        -1,
+        243,
+        15,
+        16,
+        68,
+        36,
+        -1,
+        243,
+        15,
+        17,
+        134
+      ],
+      "Offsets": [
+        4
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 9,
+      "Name": "clientstate_delta_ticks",
+      "Signature": [
+        199,
+        135,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        255,
+        21,
+        -1,
+        -1,
+        -1,
+        -1,
+        131,
+        196,
+        8
+      ],
+      "Offsets": [
+        2
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 10,
+      "Name": "clientstate_last_outgoing_command",
+      "Signature": [
+        139,
+        143,
+        -1,
+        -1,
+        -1,
+        -1,
+        139,
+        135,
+        -1,
+        -1,
+        -1,
+        -1,
+        65
+      ],
+      "Offsets": [
+        2
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 11,
+      "Name": "clientstate_choked_commands",
+      "Signature": [
+        139,
+        135,
+        -1,
+        -1,
+        -1,
+        -1,
+        65
+      ],
+      "Offsets": [
+        2
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 12,
+      "Name": "clientstate_net_channel",
+      "Signature": [
+        139,
+        143,
+        -1,
+        -1,
+        -1,
+        -1,
+        139,
+        1,
+        139,
+        64,
+        24
+      ],
+      "Offsets": [
+        2
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 13,
+      "Name": "dwPlayerResource",
+      "Signature": [
+        139,
+        61,
+        -1,
+        -1,
+        -1,
+        -1,
+        133,
+        255,
+        15,
+        132,
+        -1,
+        -1,
+        -1,
+        -1,
+        129,
+        199
+      ],
+      "Offsets": [
+        2
+      ],
+      "Extra": 0,
+      "Relative": true,
+      "Module": "client.dll"
+    },
+    {
+      "Id": 14,
+      "Name": "dwEntityList",
+      "Signature": [
+        187,
+        -1,
+        -1,
+        -1,
+        -1,
+        131,
+        255,
+        1,
+        15,
+        140,
+        -1,
+        -1,
+        -1,
+        -1,
+        59,
+        248
+      ],
+      "Offsets": [
+        1
+      ],
+      "Extra": 0,
+      "Relative": true,
+      "Module": "client.dll"
+    },
+    {
+      "Id": 15,
+      "Name": "dwGameDir",
+      "Signature": [
+        104,
+        -1,
+        -1,
+        -1,
+        -1,
+        141,
+        133,
+        -1,
+        -1,
+        -1,
+        -1,
+        80,
+        104,
+        -1,
+        -1,
+        -1,
+        -1,
+        104
+      ],
+      "Offsets": [
+        1
+      ],
+      "Extra": 0,
+      "Relative": true,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 16,
+      "Name": "dwGameRulesProxy",
+      "Signature": [
+        161,
+        -1,
+        -1,
+        -1,
+        -1,
+        133,
+        192,
+        15,
+        132,
+        -1,
+        -1,
+        -1,
+        -1,
+        128,
+        184,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        116,
+        122
+      ],
+      "Offsets": [
+        1
+      ],
+      "Extra": 0,
+      "Relative": true,
+      "Module": "client.dll"
+    },
+    {
+      "Id": 17,
+      "Name": "dwGetAllClasses",
+      "Signature": [
+        161,
+        -1,
+        -1,
+        -1,
+        -1,
+        195,
+        204,
+        204,
+        204,
+        204,
+        204,
+        204,
+        204,
+        204,
+        204,
+        204,
+        161,
+        -1,
+        -1,
+        -1,
+        -1,
+        185
+      ],
+      "Offsets": [
+        1,
+        0
+      ],
+      "Extra": 0,
+      "Relative": true,
+      "Module": "client.dll"
+    },
+    {
+      "Id": 18,
+      "Name": "dwGlobalVars",
+      "Signature": [
+        104,
+        -1,
+        -1,
+        -1,
+        -1,
+        104,
+        -1,
+        -1,
+        -1,
+        -1,
+        255,
+        80,
+        8,
+        133,
+        192
+      ],
+      "Offsets": [
+        1
+      ],
+      "Extra": 0,
+      "Relative": true,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 19,
+      "Name": "dwInput",
+      "Signature": [
+        185,
+        -1,
+        -1,
+        -1,
+        -1,
+        243,
+        15,
+        17,
+        4,
+        36,
+        255,
+        80,
+        16
+      ],
+      "Offsets": [
+        1
+      ],
+      "Extra": 0,
+      "Relative": true,
+      "Module": "client.dll"
+    },
+    {
+      "Id": 20,
+      "Name": "dwInterfaceLinkList",
+      "Signature": [
+        139,
+        53,
+        -1,
+        -1,
+        -1,
+        -1,
+        87,
+        133,
+        246,
+        116,
+        -1,
+        139,
+        125,
+        8,
+        139,
+        78,
+        4,
+        139,
+        199,
+        138,
+        17,
+        58,
+        16
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": true,
+      "Module": "client.dll"
+    },
+    {
+      "Id": 21,
+      "Name": "dwViewMatrix",
+      "Signature": [
+        15,
+        16,
+        5,
+        -1,
+        -1,
+        -1,
+        -1,
+        141,
+        133,
+        -1,
+        -1,
+        -1,
+        -1,
+        185
+      ],
+      "Offsets": [
+        3
+      ],
+      "Extra": 176,
+      "Relative": true,
+      "Module": "client.dll"
+    },
+    {
+      "Id": 22,
+      "Name": "m_bDormant",
+      "Signature": [
+        138,
+        129,
+        -1,
+        -1,
+        -1,
+        -1,
+        195,
+        50,
+        192
+      ],
+      "Offsets": [
+        2
+      ],
+      "Extra": 8,
+      "Relative": false,
+      "Module": "client.dll"
+    },
+    {
+      "Id": 23,
+      "Name": "is_c4_owner",
+      "Signature": [
+        86,
+        139,
+        241,
+        133,
+        246,
+        116,
+        49
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": true,
+      "Module": "client.dll"
+    },
+    {
+      "Id": 24,
+      "Name": "m_flSpawnTime",
+      "Signature": [
+        137,
+        134,
+        -1,
+        -1,
+        -1,
+        -1,
+        232,
+        -1,
+        -1,
+        -1,
+        -1,
+        128,
+        190,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "Offsets": [
+        2
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "client.dll"
+    }
+  ]
+}

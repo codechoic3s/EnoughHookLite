@@ -1,0 +1,298 @@
+{
+  "Components": [
+    {
+      "Id": 0,
+      "Name": "dwClientState",
+      "Signature": [
+      ],
+      "Offsets": [
+        1
+      ],
+      "Extra": 0,
+      "Relative": true,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 1,
+      "Name": "dwClientState_GetLocalPlayer",
+      "Signature": [
+      ],
+      "Offsets": [ 2 ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 2,
+      "Name": "dwClientState_IsHLTV",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 3,
+      "Name": "dwClientState_Map",
+      "Signature": [
+      ],
+      "Offsets": [1],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 4,
+      "Name": "dwClientState_MapDirectory",
+      "Signature": [
+      ],
+      "Offsets": [
+        7
+      ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 5,
+      "Name": "dwClientState_MaxPlayer",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 6,
+      "Name": "dwClientState_PlayerInfo",
+      "Signature": [
+      ],
+      "Offsets": [ 2 ],
+      "Extra": 0,
+      "Relative": false,
+      "Module": "engine.dll"
+    },
+    {
+      "Id": 7,
+      "Name": "dwClientState_State",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 8,
+      "Name": "dwClientState_ViewAngles",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 9,
+      "Name": "clientstate_delta_ticks",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 10,
+      "Name": "clientstate_last_outgoing_command",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 11,
+      "Name": "clientstate_choked_commands",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 12,
+      "Name": "clientstate_net_channel",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 13,
+      "Name": "dwPlayerResource",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 14,
+      "Name": "dwEntityList",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 15,
+      "Name": "dwGameDir",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 16,
+      "Name": "dwGameRulesProxy",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 17,
+      "Name": "dwGetAllClasses",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 18,
+      "Name": "dwGlobalVars",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 19,
+      "Name": "dwInput",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 20,
+      "Name": "dwInterfaceLinkList",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 21,
+      "Name": "dwViewMatrix",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 22,
+      "Name": "m_bDormant",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 23,
+      "Name": "is_c4_owner",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    },
+    {
+      "Id": 24,
+      "Name": "m_flSpawnTime",
+      "Signature": [
+        0,
+        -1
+      ],
+      "Offsets": [],
+      "Extra": 0,
+      "Relative": false,
+      "Module": ""
+    }
+  ]
+}
