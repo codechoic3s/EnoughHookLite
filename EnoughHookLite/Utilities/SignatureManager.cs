@@ -46,13 +46,13 @@ namespace EnoughHookLite.Utilities
             {
                 var component = components[i];
 
-                if (!SubAPI.TryGetCustomModule(component.Module, out ManagedModule module))
+                if (!SubAPI.TryGetModule(component.Module, out ManagedModule module))
                 {
                     LogIt($"Failed get module {component.Module} by signature {component.Name}");
                     continue;
                 }
 
-                Signature signature = new Signature(module.NativeModule, component.Offsets, component.Extra, component.Relative, component.Signature);
+                Signature signature = new Signature(module.NativeModule, component.Offsets, component.Extra, component.Relative, component.Name, component.Signature);
 
                 SignatureList.Add(component.Name, signature);
             }

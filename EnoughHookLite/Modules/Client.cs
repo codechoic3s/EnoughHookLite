@@ -34,6 +34,19 @@ namespace EnoughHookLite.Modules
 
         private void Work()
         {
+            if (!SubAPI.TypesParser.TryParse(EntityList))
+            {
+                Console.WriteLine("Failed parse EntityList to offsets");
+            }
+            if (!SubAPI.TypesParser.TryParse(PlayerResource))
+            {
+                Console.WriteLine("Failed parse PlayerResource to offsets");
+            }
+            if (!SubAPI.TypesParser.TryParse(Camera))
+            {
+                Console.WriteLine("Failed parse Camera to offsets");
+            }
+
             EntityList.FetchEntityList();
             PlayerResource.FetchMemoryAddress();
             Camera.ViewMatrixFetcher();

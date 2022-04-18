@@ -14,7 +14,6 @@ namespace EnoughHookLite
         public Engine Engine { get; private set; }
         public Dictionary<string, ManagedModule> CustomModules;
 
-
         public PointManager PointManager { get; private set; }
         public TypesParser TypesParser { get; private set; }
 
@@ -26,7 +25,7 @@ namespace EnoughHookLite
             ParseModules(am);
         }
 
-        public bool TryGetCustomModule(string name, out ManagedModule module)
+        public bool TryGetModule(string name, out ManagedModule module)
         {
             if (name == AModules.ClientModule)
             {

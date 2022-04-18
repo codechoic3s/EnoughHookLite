@@ -21,6 +21,7 @@ namespace EnoughHookLite.Sys
             if (Modules.TryGetValue(m, out List<Signature> list))
             {
                 list.Add(sig);
+                LogIt($"Exists {m.Name} adds {sig.Name}");
             }
             else
             {
@@ -29,18 +30,16 @@ namespace EnoughHookLite.Sys
                     sig
                 };
                 Modules.Add(m, list);
+                LogIt($"Creates {m.Name} adds {sig.Name}");
             }
-        }
-        public void AddSignature(Module m, params short[] sig)
-        {
-            AddSignature((m, sig));
         }
 
         public void ScanSignatures(bool logging = false)
         {
             if (logging)
-                LogIt("Started scanning...");
+                LogIt($"Started scanning {CountAllSignatures(Modules)}...");
             ulong scanned = 0;
+
             foreach (var item in Modules)
             {
                 var module = item.Key;
@@ -50,26 +49,24 @@ namespace EnoughHookLite.Sys
                 var mco = module.Size;
                 var memorymodule = module.Process.ReadData(module.BaseAdr, mco);
 
-                bool finded = false;
-
                 for (var i = 0; i < mco; i++)
                 {
-                    if (finded)
-                        break;
                     for (var o = 0; o < lco; o++)
                     {
-                        if (finded)
-                            break;
                         var tsig = list[o];
+                        if (tsig.Finded)
+                            continue;
+
                         var sig = tsig.Sig;
                         var sco = sig.Length;
 
                         if (memorymodule[i] == sig[0] || sig[0] == -1)
                         {
                             bool ok = true;
-                            for (var p = 1; p < sco; p++)
+                            for (var p = 0; p < sco; p++)
                             {
-                                if (memorymodule[i + p] != sig[p])
+                                var q1 = memorymodule[i + p] == sig[p] || sig[p] == -1;
+                                if (!q1)
                                 {
                                     ok = false;
                                     break;
@@ -92,7 +89,7 @@ namespace EnoughHookLite.Sys
 
                                 tsig.Pointer = result;
                                 tsig.Finded = true;
-                                finded = true;
+                                LogIt($"founded {tsig.Name} at {tsig.Pointer}");
                                 scanned++;
                             }
                         }
@@ -100,10 +97,20 @@ namespace EnoughHookLite.Sys
                 }
             }
 
-            Modules.Clear(); // clear all
-
             if (logging)
-                LogIt($"Ended scanning with {scanned} signatures.");
+                LogIt($"Ended scanning with {scanned}/{CountAllSignatures(Modules)} signatures.");
+
+            Modules.Clear(); // clear all
+        }
+
+        private ulong CountAllSignatures(Dictionary<Module, List<Signature>> modules)
+        {
+            ulong count = 0;
+            foreach (var module in modules)
+            {
+                count += (ulong)module.Value.Count;
+            }
+            return count;
         }
 
         private void LogIt(string log)

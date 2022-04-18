@@ -58,11 +58,14 @@ namespace EnoughHookLite
                 LogIt("Is current working!");
             else if (!IsWorking)
                 IsWorking = true;
+            ProtectStart = false;
+/*
 #if DEBUG
             ProtectStart = false;
 #else
             ProtectStart = true;
 #endif
+*/
 
             Log.LogAction = ConsoleMessage;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;

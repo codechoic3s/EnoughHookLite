@@ -8,13 +8,14 @@ namespace EnoughHookLite.Sys
 {
     public sealed class Signature
     {
+        public string Name;
         public short[] Sig;
         public int[] Offsets;
         public int Extra;
         public bool Relative;
 
         public int Pointer;
-        public bool Finded;
+        public bool Finded = false;
         public Module Module;
 
         public Signature(Module m, params short[] signature)
@@ -22,15 +23,17 @@ namespace EnoughHookLite.Sys
             Sig = signature;
             Module = m;
         }
-        public Signature(Module m, int[] offsets, int extra, bool relative, params short[] signature)
+        public Signature(Module m, int[] offsets, int extra, bool relative, string name, params short[] signature)
         {
             Sig = signature;
             Offsets = offsets;
             Extra = extra;
             Relative = relative;
+            Name = name;
             Module = m;
         }
 
+        /*
         public static implicit operator Signature(ValueTuple<Module, short[]> val)
         {
             return new Signature(val.Item1, val.Item2);
@@ -40,5 +43,6 @@ namespace EnoughHookLite.Sys
         {
             return new Signature(val.Item1, val.Item2, val.Item3, val.Item4, val.Item5);
         }
+        */
     }
 }
