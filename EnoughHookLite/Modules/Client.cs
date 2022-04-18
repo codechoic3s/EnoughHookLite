@@ -13,7 +13,6 @@ namespace EnoughHookLite.Modules
 {
     public class Client : ManagedModule
     {
-        public Module NativeModule { get; private set; }
         public SubAPI SubAPI { get; private set; }
 
         private Thread ClientThread;

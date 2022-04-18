@@ -8,6 +8,7 @@ namespace EnoughHookLite.Sys
 {
     public sealed class Signature
     {
+        public ulong Id;
         public string Name;
         public short[] Sig;
         public int[] Offsets;
@@ -23,13 +24,14 @@ namespace EnoughHookLite.Sys
             Sig = signature;
             Module = m;
         }
-        public Signature(Module m, int[] offsets, int extra, bool relative, string name, params short[] signature)
+        public Signature(Module m, int[] offsets, int extra, bool relative, string name, ulong id, params short[] signature)
         {
             Sig = signature;
             Offsets = offsets;
             Extra = extra;
             Relative = relative;
             Name = name;
+            Id = id;
             Module = m;
         }
 

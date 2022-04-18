@@ -52,7 +52,7 @@ namespace EnoughHookLite.Utilities
                     continue;
                 }
 
-                Signature signature = new Signature(module.NativeModule, component.Offsets, component.Extra, component.Relative, component.Name, component.Signature);
+                Signature signature = new Signature(module.NativeModule, component.Offsets, component.Extra, component.Relative, component.Name, component.Id, component.Signature);
 
                 SignatureList.Add(component.Name, signature);
             }

@@ -88,6 +88,23 @@ namespace EnoughHookLite.Pointing
             SignatureManager = new SignatureManager(SubAPI);
             SignatureManager.ParseFromConfig(sc);
             SignatureManager.LoadSignatures();
+            CacheParsedSignatures();
+        }
+
+        private void CacheParsedSignatures()
+        {
+            var slist = SignatureManager.SignatureDumper.Modules;
+            foreach (var module in slist)
+            {
+                foreach (var sig in module.Value)
+                {
+                    if (sig.Finded && !Signatures.ContainsKey(sig.Id))
+                    {
+                        Signatures.Add(sig.Id, new PointerCached(sig.Pointer));
+                    }
+                }
+            }
+            slist.Clear();
         }
     }
 }

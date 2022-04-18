@@ -21,7 +21,7 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
             SubAPI = subapi;
         }
         [Signature(SignaturesConsts.dwGetAllClasses)]
-        public PointerCached pGetAllClasses;
+        private PointerCached pGetAllClasses;
         public void Parsing()
         {
             LogIt("Parsing client classes...");

@@ -8,7 +8,7 @@ namespace EnoughHookLite.Sys
 {
     public sealed class SignatureDumper
     {
-        private Dictionary<Module, List<Signature>> Modules;
+        internal Dictionary<Module, List<Signature>> Modules { get; private set; }
 
         public SignatureDumper()
         {
@@ -21,7 +21,7 @@ namespace EnoughHookLite.Sys
             if (Modules.TryGetValue(m, out List<Signature> list))
             {
                 list.Add(sig);
-                LogIt($"Exists {m.Name} adds {sig.Name}");
+                //LogIt($"Exists {m.Name} adds {sig.Name}");
             }
             else
             {
@@ -30,7 +30,7 @@ namespace EnoughHookLite.Sys
                     sig
                 };
                 Modules.Add(m, list);
-                LogIt($"Creates {m.Name} adds {sig.Name}");
+                //LogIt($"Creates {m.Name} adds {sig.Name}");
             }
         }
 
@@ -99,8 +99,6 @@ namespace EnoughHookLite.Sys
 
             if (logging)
                 LogIt($"Ended scanning with {scanned}/{CountAllSignatures(Modules)} signatures.");
-
-            Modules.Clear(); // clear all
         }
 
         private ulong CountAllSignatures(Dictionary<Module, List<Signature>> modules)
