@@ -5,9 +5,12 @@ config.SetValue("key", VK.SHIFT);
 
 sync_config(); // sync with current configuration
 
-var process = getProcess();
-var client = getClient();
-var engine = getEngine();
+var subapi = getSubAPI();
+
+var process = subapi.Process;
+var client = subapi.Client;
+var engine = subapi.Engine;
+
 var entitylist = client.EntityList;
 var localplayer = entitylist.LocalPlayer;
 

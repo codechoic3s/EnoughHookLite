@@ -1,5 +1,5 @@
 {
-  "script_fulldebug": false,
+  "script_fulldebug": true,
   "script_autoreload": false,
   "script_configs": {
     "trigger": {

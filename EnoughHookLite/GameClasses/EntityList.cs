@@ -85,7 +85,7 @@ namespace EnoughHookLite.GameClasses
             while (IsWorking)
             {
                 CEntInfo eentry;
-                int readptr = SubAPI.Client.NativeModule.BaseAdr + (int)pEntityList.Pointer;
+                int readptr = SubAPI.Client.NativeModule.BaseAdr + pEntityList.Pointer;
 
                 int eid = 0;
                 while (true)

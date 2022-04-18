@@ -12,7 +12,7 @@ namespace EnoughHookLite
         public Process Process { get; private set; }
         public Client Client { get; private set; }
         public Engine Engine { get; private set; }
-        public Dictionary<string, ManagedModule> CustomModules;
+        private Dictionary<string, ManagedModule> CustomModules;
 
         public PointManager PointManager { get; private set; }
         public TypesParser TypesParser { get; private set; }
