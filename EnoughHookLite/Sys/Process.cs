@@ -8,8 +8,8 @@ namespace EnoughHookLite.Sys
 {
     public class Process
     {
-        private IntPtr Handle;
-        private IntPtr WindowHandle;
+        internal IntPtr Handle;
+        internal IntPtr WindowHandle;
 
         public Vector2 Size { get; private set; }
         public Vector2 MidSize { get; private set; }
@@ -25,15 +25,6 @@ namespace EnoughHookLite.Sys
         {
             Proc = proc;
             RemoteMemory = new RemoteMemory(this);
-        }
-
-        public static bool GetKeyState(VK key)
-        {
-            return (WinAPI.GetAsyncKeyState((int)key) & 0x8000) != 0;
-        }
-        public static bool GetKeyState(int key)
-        {
-            return (WinAPI.GetAsyncKeyState(key) & 0x8000) != 0;
         }
 
         public bool IsForeground()
@@ -164,6 +155,10 @@ namespace EnoughHookLite.Sys
         }
         
         public IntPtr SendMessage(int msg, int wparam, int lparam)
+        {
+            return WinAPI.SendMessage(WindowHandle, msg, wparam, lparam);
+        }
+        public IntPtr SendMessage(int msg, int wparam, string lparam)
         {
             return WinAPI.SendMessage(WindowHandle, msg, wparam, lparam);
         }

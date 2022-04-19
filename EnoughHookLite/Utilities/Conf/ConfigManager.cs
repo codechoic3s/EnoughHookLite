@@ -12,23 +12,28 @@ namespace EnoughHookLite.Utilities.Conf
         internal string BasePath;
         public MinConf<MainConfig> Current { get; private set; }
         public MinConf<AModules> Modules { get; private set; }
-        public MinConf<SignaturesConfig> Signatures { get; private set; }
+        public MinConf<EngineConfig> Engine { get; private set; }
+        public MinConf<DebugConfig> Debug { get; private set; }
 
         public ConfigManager(string bpath)
         {
             BasePath = bpath;
             Current = new MinConf<MainConfig>(BasePath + @"/config.json");
             Modules = new MinConf<AModules>(BasePath + @"/modules.json");
-            Signatures = new MinConf<SignaturesConfig>(BasePath + @"/signatures.json");
+            Engine = new MinConf<EngineConfig>(BasePath + @"/engine.json");
+            Debug = new MinConf<DebugConfig>(BasePath + @"/debug.json");
         }
 
         internal void Load()
         {
+            Debug.DeserializeFile();
+            Debug.SerializeFile();
+
             Modules.DeserializeFile();
             Modules.SerializeFile();
 
-            Signatures.DeserializeFile();
-            Signatures.SerializeFile();
+            Engine.DeserializeFile();
+            Engine.SerializeFile();
 
             Current.DeserializeFile();
             Current.SerializeFile();

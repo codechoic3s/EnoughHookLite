@@ -1,4 +1,7 @@
-﻿using Jint;
+﻿using EnoughHookLite.Utilities.Conf;
+using Jint;
+using Jint.Parser;
+using Jint.Runtime;
 using Jint.Runtime.Interop;
 using System;
 using System.Collections.Generic;
@@ -27,7 +30,7 @@ namespace EnoughHookLite.Scripting
             RawScript = script;
             Loader = loader;
             Config = new ScriptConfig();
-            Local = new ScriptLocal(this, Loader.JSApi);
+            Local = new ScriptLocal(loader.App.SubAPI, this, Loader.JSApi);
         }
 
         public void Setup()
@@ -57,7 +60,7 @@ namespace EnoughHookLite.Scripting
             }
             catch (Exception ex)
             {
-                var cfg = Loader.App.ConfigManager.Current.Config;
+                var cfg = Loader.App.ConfigManager.Debug.Config;
                 if (cfg.ScriptFullDebug)
                 {
                     LogIt($"Exception on execution: {ex}");
@@ -66,10 +69,15 @@ namespace EnoughHookLite.Scripting
                 {
                     LogIt($"Exception on execution: {ex.Message}");
                 }
-                if (cfg.ScriptAutoReload)
-                {
-                    Start();
-                }
+                HandleException(cfg);
+            }
+        }
+
+        private void HandleException(DebugConfig debug)
+        {
+            if (debug.ScriptAutoReload)
+            {
+                Start();
             }
         }
 

@@ -19,7 +19,7 @@ namespace EnoughHookLite.Pointing
 
         private PointManager PointManager;
 
-        public TypeParser(Type type, PointManager pm)
+        public TypeParser(Type type, PointManager pm, bool maintype = false)
         {
             PointManager = pm;
 
@@ -28,20 +28,22 @@ namespace EnoughHookLite.Pointing
             var slist = new List<(FieldInfo, SignatureAttribute)>();
             var nlist = new List<(FieldInfo, NetvarAttribute)>();
 
-            ParseFields(ClassType, ref nlist, ref slist);
+            ParseFields(ClassType, maintype, ref nlist, ref slist);
 
             SignaturesFields = slist.ToArray();
             NetvarsFields = nlist.ToArray();
 
             NetvarFieldsLength = (ulong)NetvarsFields.LongLength;
             SignatureFieldsLength = (ulong)SignaturesFields.LongLength;
+
+            //LogIt($"netvars: {NetvarFieldsLength} signatures: {SignatureFieldsLength}");
         }
 
-        private void ParseFields(Type type, ref List<(FieldInfo, NetvarAttribute)> nlist, ref List<(FieldInfo, SignatureAttribute)> slist)
+        private void ParseFields(Type type, bool maintype, ref List<(FieldInfo, NetvarAttribute)> nlist, ref List<(FieldInfo, SignatureAttribute)> slist)
         {
             var bt = ClassType.BaseType;
-            if (bt != typeof(object))
-                ParseFields(bt, ref nlist, ref slist);
+            if (bt != typeof(object) && !maintype)
+                ParseFields(bt, maintype, ref nlist, ref slist);
 
             var fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
             var flen = fields.LongLength;

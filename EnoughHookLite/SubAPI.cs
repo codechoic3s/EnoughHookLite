@@ -25,6 +25,18 @@ namespace EnoughHookLite
             ParseModules(am);
         }
 
+        public bool ParseDefaultModules()
+        {
+            LogIt("Parsing Engine...");
+            if (!TypesParser.TryParse(Engine, true))
+            {
+                LogIt("Failed parse Engine.");
+                return false;
+            }
+            LogIt("Parsed Engine.");
+            return true;
+        }
+
         public bool TryGetModule(string name, out ManagedModule module)
         {
             if (name == AModules.ClientModule)
@@ -60,16 +72,16 @@ namespace EnoughHookLite
             }
         }
 
-        public void ProcessFetch()
+        public void ProcessFetch(string processname)
         {
-            LogIt("Waiting process...");
+            LogIt($@"Waiting process ""{processname}""...");
             while (Process is null)
             {
-                Process = Process.FindProcess("csgo");
+                Process = Process.FindProcess(processname);
                 Thread.Sleep(1000);
             }
-            Process.AllocateHandles();
             LogIt("Process finded!");
+            Process.AllocateHandles();
         }
         public bool ModulesFetch()
         {

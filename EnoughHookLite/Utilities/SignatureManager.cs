@@ -37,7 +37,7 @@ namespace EnoughHookLite.Utilities
             App.Log.LogIt("[SignatureManager] " + log);
         }
 
-        public void ParseFromConfig(SignaturesConfig sc)
+        public void ParseFromConfig(EngineConfig sc)
         {
             var components = sc.Components;
             var cco = components.LongLength;

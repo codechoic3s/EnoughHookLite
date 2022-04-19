@@ -1,4 +1,5 @@
-﻿using Jint.Runtime.Interop;
+﻿using EnoughHookLite.Scripting.Apis;
+using Jint.Runtime.Interop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +11,21 @@ namespace EnoughHookLite.Scripting
 {
     public sealed class ScriptLocal
     {
-        private Dictionary<string, Type> Types;
-        private Dictionary<string, Delegate> Delegates;
-        private Dictionary<string, object> Values;
+        internal Dictionary<string, Type> Types { get; private set; }
+        internal Dictionary<string, Delegate> Delegates { get; private set; }
+        internal Dictionary<string, object> Values { get; private set; }
 
         private ScriptAPI JSApi;
         private Script Script;
 
+        private OffsetsAPI OffsetsAPI;
+        private ProcessEnvironmentAPI ProcessEnvironmentAPI;
+        private SourceEngineAPI SourceEngineAPI;
+        private InputAPI InputAPI;
+
         private Dictionary<string, object> LocalValues;
 
-        public ScriptLocal(Script script, ScriptAPI api)
+        public ScriptLocal(SubAPI subapi, Script script, ScriptAPI api)
         {
             JSApi = api;
             Script = script;
@@ -27,12 +33,13 @@ namespace EnoughHookLite.Scripting
             Values = new Dictionary<string, object>();
             Types = new Dictionary<string, Type>();
             LocalValues = new Dictionary<string, object>();
+
+            OffsetsAPI = new OffsetsAPI(subapi.PointManager);
+            ProcessEnvironmentAPI = new ProcessEnvironmentAPI(subapi);
+            SourceEngineAPI = new SourceEngineAPI(subapi.Client, subapi.Engine);
+            InputAPI = new InputAPI(subapi.Process);
         }
 
-        private void SetupTypes()
-        {
-            Types.Add("VK", typeof(Sys.VK));
-        }
         private void SetupSystemAPI()
         {
             Delegates.Add("twait", (Action<int>)Thread.Sleep);
@@ -55,11 +62,12 @@ namespace EnoughHookLite.Scripting
             Delegates.Add("GlobalAdd", (Action<string, object>)OnAddGlobalValue);
             Delegates.Add("GlobalDel", (Action<string>)OnDelGlobalValue);
         }
-        private void SetupAPI()
+        private void SetupSharedAPI()
         {
-            var app = Script.Loader.App;
-            Delegates.Add("getSubAPI", (Func<SubAPI>)(() => { return app.SubAPI; }));
-            Delegates.Add("getIsForeground", (Func<bool>)(() => { return app.IsForeground; }));
+            OffsetsAPI.SetupAPI(this);
+            ProcessEnvironmentAPI.SetupAPI(this);
+            SourceEngineAPI.SetupAPI(this);
+            InputAPI.SetupAPI(this);
         }
 
         private void OnDelLocalValue(string name)
@@ -92,10 +100,9 @@ namespace EnoughHookLite.Scripting
         {
             SetupSystemAPI();
             SetupConfigAPI();
-            SetupTypes();
             SetupCallbackAPI();
             SetupValueDefinition();
-            SetupAPI();
+            SetupSharedAPI();
         }
 
         public void LoadAPI()

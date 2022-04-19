@@ -6,6 +6,7 @@ using EnoughHookLite.Pointing.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace EnoughHookLite.GameClasses
 {
     public class EntityList
     {
-        public LocalPlayer LocalPlayer => (LocalPlayer)Entities[LocalPlayerID];
+        public Entity LocalPlayer => Entities[LocalPlayerID];
         public bool IsWorking { get; private set; }
 
         internal Dictionary<int, Entity> Entities { get; private set; }
@@ -86,18 +87,22 @@ namespace EnoughHookLite.GameClasses
             {
                 CEntInfo eentry;
                 int readptr = SubAPI.Client.NativeModule.BaseAdr + pEntityList.Pointer;
-
+                var centinfosize = Marshal.SizeOf<CEntInfo>();
                 int eid = 0;
                 while (true)
                 {
-                    eid++;
-                    eentry = SubAPI.Client.NativeModule.Process.RemoteMemory.ReadStruct<CEntInfo>(readptr);
+                    eentry = SubAPI.Client.NativeModule.Process.RemoteMemory.ReadStruct<CEntInfo>(readptr + (eid * centinfosize));
                     if (eentry.pNext == eentry.pPrevious)
+                    {
+                        //Console.WriteLine($"pNext {eentry.pNext} == {eentry.pPrevious} pPrevious");
                         break;
+                    }
+
                     if (eentry.pEntity == 0)
                         continue;
                     eids.Add(eid);
                     var ent = UpdateEntityB(eid, eentry.pEntity);
+                    eid++;
                 }
 
                 RemoveNegativeEntities(eids.ToArray());
@@ -109,8 +114,8 @@ namespace EnoughHookLite.GameClasses
                     LocalPlayerID = SubAPI.Engine.ClientState_GetLocalPlayer;
                     //var localptr = App.Client.ClientModule.ReadInt(App.Client.ClientModule.BaseAdr + Offsets.App.OffsetLoader.Offsets.Signatures.dwLocalPlayer);
                 }
-
-                await Task.Delay(3000);
+                //Console.WriteLine($"entities: {Entities.Count} lp: {LocalPlayerID}");
+                await Task.Delay(1000);
                 //Thread.Sleep(3000);
             }
         }

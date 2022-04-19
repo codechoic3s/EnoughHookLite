@@ -13,23 +13,23 @@ namespace EnoughHookLite.Modules
 {
     public class Engine : ManagedModule
     {
-        public Module NativeModule { get; private set; }
-
-        public const int WM_LBUTTONDOWN = 0x0201;
-        public const int WM_LBUTTONUP = 0x0202;
-        public const int WM_KEYDOWN = 0x0100;
-        public const int WM_KEYUP = 0x0101;
+        
 
         [Signature(SignaturesConsts.dwClientState)]
         private PointerCached pClientState;
+
         [Signature(SignaturesConsts.dwClientState_MaxPlayer)]
         private PointerCached pClientState_MaxPlayer;
+
         [Signature(SignaturesConsts.dwClientState_GetLocalPlayer)]
         private PointerCached pClientState_GetLocalPlayer;
+
         [Signature(SignaturesConsts.dwClientState_ViewAngels)]
         private PointerCached pClientState_ViewAngels;
+
         [Signature(SignaturesConsts.dwClientState_Map)]
         private PointerCached pClientState_Map;
+
         [Signature(SignaturesConsts.dwClientState_MapDirectory)]
         private PointerCached pClientState_MapDirectory;
 
@@ -45,6 +45,7 @@ namespace EnoughHookLite.Modules
            
         }
 
+        /*
         public void LeftMouse(bool isdown)
         {
             if (isdown)
@@ -71,5 +72,6 @@ namespace EnoughHookLite.Modules
             else
                 NativeModule.Process.SendMessage(WM_KEYUP, 32, 3735553);
         }
+        */
     }
 }

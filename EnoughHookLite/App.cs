@@ -30,6 +30,7 @@ namespace EnoughHookLite
 
         public ScriptLoader JSLoader { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
+        public DebugTools DebugTools { get; private set; }
 
         public Action<App> BeforeSetupScript;
         public Action<Point, Vector2> OnUpdate;
@@ -109,7 +110,7 @@ namespace EnoughHookLite
                 string text = "";
                 text += 
                     "\n/EnoughHookLite/\n" +
-                    "   ~js SDK host ~ \n" +
+                    "   ~ Source SDK js host ~ \n" +
                     "       build: " + ver.Build + "\n";
                 //text += "Include features:\n";
                 //text += "   1. Trigger.\n";
@@ -117,15 +118,21 @@ namespace EnoughHookLite
                 LogIt(text);
 
                 LoadConfig(basedir);
-
                 //Console.Title = Title;
                 SubAPI = new SubAPI(ConfigManager.Modules.Config);
-                SubAPI.ProcessFetch();
+                SubAPI.ProcessFetch(ConfigManager.Engine.Config.ProcessName);
+
+                DebugTools = new DebugTools(SubAPI, ConfigManager);
 
                 if (SubAPI.ModulesFetch())
                 {
-                    SubAPI.PointManager.InitSignatures(ConfigManager.Signatures.Config);
+                    SubAPI.PointManager.InitSignatures(ConfigManager.Engine.Config);
                     SubAPI.PointManager.InitClientClasses();
+
+                    DebugTools.OnStartDebug();
+
+                    if (!SubAPI.ParseDefaultModules())
+                        return;
 
                     JSLoader = new ScriptLoader(this);
 

@@ -5,36 +5,44 @@ config.SetValue("key", VK.SHIFT);
 
 sync_config(); // sync with current configuration
 
-var subapi = getSubAPI();
+var rm = getRemoteMemory();
 
-var process = subapi.Process;
-var client = subapi.Client;
-var engine = subapi.Engine;
+var entitylist = getEntityList();
 
-var entitylist = client.EntityList;
 var localplayer = entitylist.LocalPlayer;
+
+var pTeam = getNetvar("DT_BaseEntity.m_iTeamNum");
+log("aboba");
+var pCrosshairID = getNetvar("DT_CSPlayer.m_bHasDefuser");
 
 while (true)
 {
     twait(1);
     var ison = cfg.GetValue('on');
-    if (!ison || !getIsForeground())
+    if (!ison)
     {
         twait(100);
         continue;
     }
+
     var gkey = config.GetValue('key');
-    if (process.GetKeyState(gkey))
+    if (getKeyStateVK(gkey))
     {
-        var lccid = localplayer.CrosshairID;
+        
+        var lccid = rm.ReadIntInt(localplayer.Pointer + pCrosshairID.Pointer + 92);
+        
         if (lccid != NaN && lccid > 0 && lccid < 64)
         {
-            var entity = entitylist.GetByCrosshairID(lccid - 1);
-            if (localplayer.Team != entity.Team)
+            var entity = entitylist.GetByID(lccid - 1);
+
+            entteam = rm.ReadIntInt(entity.Pointer + pTeam.Pointer);
+            lcteam = rm.ReadIntInt(localplayer.Pointer + pTeam.Pointer);
+
+            if (lcteam != entteam)
             {
-                engine.LeftMouseDown();
-                if (!process.GetKeyState(VK.LBUTTON))
-                    engine.LeftMouseUp();
+                sendLButtonDown();
+                if (!getKeyStateVK(VK.LBUTTON))
+                    sendLButtonUp();
             }
         }
     }   

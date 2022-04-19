@@ -82,7 +82,7 @@ namespace EnoughHookLite.Pointing
             ClientClassParser.Parsing();
             return true;
         }
-        public void InitSignatures(SignaturesConfig sc)
+        public void InitSignatures(EngineConfig sc)
         {
             LogIt("Initing signatures...");
             SignatureManager = new SignatureManager(SubAPI);

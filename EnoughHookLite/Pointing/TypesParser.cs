@@ -17,12 +17,12 @@ namespace EnoughHookLite.Pointing
             PointManager = pm;
         }
 
-        public bool TryParse(object obj)
+        public bool TryParse(object obj, bool maintype = false)
         {
             var otype = obj.GetType();
             if (!typeParsers.TryGetValue(otype, out TypeParser typeParser))
             {
-                typeParser = new TypeParser(otype, PointManager);
+                typeParser = new TypeParser(otype, PointManager, maintype);
 
                 if (!typeParser.ParseInstance(obj))
                     return false;

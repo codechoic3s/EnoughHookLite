@@ -125,6 +125,12 @@
     <Compile Include="Pointing\TypesParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\Apis\APIWraps\ScriptRemoteMemory.cs" />
+    <Compile Include="Scripting\Apis\InputAPI.cs" />
+    <Compile Include="Scripting\Apis\OffsetsAPI.cs" />
+    <Compile Include="Scripting\Apis\ProcessEnvironmentAPI.cs" />
+    <Compile Include="Scripting\Apis\SourceEngineAPI.cs" />
+    <Compile Include="Scripting\SharedAPI.cs" />
     <Compile Include="Scripting\ScriptAPI.cs" />
     <Compile Include="Scripting\ScriptConfig.cs" />
     <Compile Include="Scripting\ScriptEvent.cs" />
@@ -136,18 +142,23 @@
     <Compile Include="Sys\Process.cs" />
     <Compile Include="Sys\RemoteMemory.cs" />
     <Compile Include="Sys\CompileCache.cs" />
+    <Compile Include="Sys\ScanCodeShort.cs" />
     <Compile Include="Sys\SignatureDumper.cs" />
     <Compile Include="Sys\Signature.cs" />
     <Compile Include="Sys\VK.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Sys\WinAPI.cs" />
     <Compile Include="OtherCode\Structs\Line3D.cs" />
+    <Compile Include="Sys\WMConsts.cs" />
     <Compile Include="Utilities\ClientClassManaging\ManagedClientClass.cs" />
     <Compile Include="Utilities\ClientClassManaging\ManagedRecvProp.cs" />
     <Compile Include="Utilities\ClientClassManaging\ManagedRecvTable.cs" />
     <Compile Include="Utilities\ClientClassManaging\VmtToClassID.cs" />
+    <Compile Include="Utilities\Conf\DebugConfig.cs" />
     <Compile Include="Utilities\Conf\SignatureComponent.cs" />
-    <Compile Include="Utilities\Conf\SignaturesConfig.cs" />
+    <Compile Include="Utilities\Conf\EngineConfig.cs" />
+    <Compile Include="Sys\InputHandler.cs" />
+    <Compile Include="Utilities\DebugTools.cs" />
     <Compile Include="Utilities\IUnmanagedObject.cs" />
     <Compile Include="Utilities\Math.cs" />
     <Compile Include="OtherCode\Structs\Matrix.cs" />
@@ -182,13 +193,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripting\Apis\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_StartDate="2021/10/10" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_UseUniversalClock="False" />
+      <UserProperties BuildVersion_UseUniversalClock="False" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_StartDate="2021/10/10" BuildVersion_BuildVersioningStyle="None.None.Increment.None" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
