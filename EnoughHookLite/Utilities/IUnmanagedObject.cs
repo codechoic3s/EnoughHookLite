@@ -8,8 +8,8 @@ namespace EnoughHookLite.Utilities
 {
     public interface IUnmanagedObject
     {
-        int Pointer { get; }
+        uint Pointer { get; }
         bool Computed { get; }
-        void Compute(int pointer);
+        void Compute(uint pointer);
     }
 }

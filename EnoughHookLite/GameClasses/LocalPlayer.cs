@@ -13,7 +13,7 @@ namespace EnoughHookLite.GameClasses
     public class LocalPlayer : CSPlayer
     {
         public const string ClassName = "DT_LocalPlayerExclusive";
-        public LocalPlayer(SubAPI api, int ptr) : base(api, ptr, 0)
+        public LocalPlayer(SubAPI api, uint ptr) : base(api, ptr, 0)
         {
         }
 

@@ -17,13 +17,13 @@ namespace EnoughHookLite.OtherCode.Structs
         [FieldOffset(0x8)]
         public int Flags;
         [FieldOffset(0xC)]
-        public int StringBufferSize;
+        public uint StringBufferSize;
         [FieldOffset(0x10)]
         public bool bInsideArray;
         [FieldOffset(0x14)]
         public int pExtraData;
         [FieldOffset(0x18)]
-        public int pArrayProp;
+        public uint pArrayProp;
         [FieldOffset(0x1C)]
         public int mrrayLengthProxy;
         [FieldOffset(0x20)]
@@ -31,13 +31,13 @@ namespace EnoughHookLite.OtherCode.Structs
         [FieldOffset(0x24)]
         public int DataTableProxyFn;
         [FieldOffset(0x28)]
-        public int pDataTable;
+        public uint pDataTable;
         [FieldOffset(0x2C)]
-        public int Offset;
+        public uint Offset;
         [FieldOffset(0x30)]
         public int ElementStride;
         [FieldOffset(0x34)]
-        public int nElements;
+        public uint nElements;
         [FieldOffset(0x38)]
         public int pParentArrayPropName;
 

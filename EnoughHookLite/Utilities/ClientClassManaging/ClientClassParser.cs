@@ -43,7 +43,7 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
             List<ManagedClientClass> classes = new List<ManagedClientClass>();
             DataTables = new Dictionary<string, ManagedRecvTable>();
             RemoteMemory rm = SubAPI.Process.RemoteMemory;
-            int pFirst = SubAPI.Client.NativeModule.BaseAdr + pGetAllClasses.Pointer;
+            uint pFirst = SubAPI.Client.NativeModule.BaseAdr + pGetAllClasses.Pointer;
             ClientClass cls = rm.ReadStruct<ClientClass>(pFirst);
             for (; cls.pNext != 0; pFirst = cls.pNext, cls = rm.ReadStruct<ClientClass>(pFirst))
             {
@@ -91,7 +91,7 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
             const int padding = 32;
 
             var bc = table.BaseClass.Value;
-            int currentOffset = 0;
+            uint currentOffset = 0;
             int pad = 0;
 
             if (bc != null)

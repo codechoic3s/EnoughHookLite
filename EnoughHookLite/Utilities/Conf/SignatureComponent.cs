@@ -12,7 +12,7 @@ namespace EnoughHookLite.Utilities.Conf
         public string Name { get; set; }
         public short[] Signature { get; set; }
         public int[] Offsets { get; set; }
-        public int Extra { get; set; }
+        public uint Extra { get; set; }
         public bool Relative { get; set; }
         public string Module { get; set; }
 

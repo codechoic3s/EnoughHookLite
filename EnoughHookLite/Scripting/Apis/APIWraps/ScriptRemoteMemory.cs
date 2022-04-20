@@ -15,17 +15,17 @@ namespace EnoughHookLite.Scripting.Apis.APIWraps
         {
             RemoteMemory = rm;
         }
-        public Vector3 ReadVector3Int(double adr)
+        public Vector3 ReadVector3UInt(double adr)
         {
-            return ReadStructInt<Vector3>(adr);
+            return ReadStructUInt<Vector3>(adr);
         }
-        public T ReadStructInt<T>(double adr)
+        public T ReadStructUInt<T>(double adr)
         {
-            return RemoteMemory.ReadStruct<T>((int)adr);
+            return RemoteMemory.ReadStruct<T>((uint)adr);
         }
-        public int ReadIntInt(double adr)
+        public int ReadIntUInt(double adr)
         {
-            return RemoteMemory.ReadInt((int)adr);
+            return RemoteMemory.ReadInt((uint)adr);
         }
         public int ReadIntIntptr(double adr)
         {
@@ -38,10 +38,6 @@ namespace EnoughHookLite.Scripting.Apis.APIWraps
         public int ReadIntUlong(double adr)
         {
             return RemoteMemory.ReadInt((ulong)adr);
-        }
-        public int ReadIntUInt(double adr)
-        {
-            return RemoteMemory.ReadInt((uint)adr);
         }
     }
 }

@@ -13,11 +13,11 @@ namespace EnoughHookLite.GameClasses
     public class Entity
     {
         internal SubAPI SubAPI;
-        public int Pointer { get; internal set; }
+        public uint Pointer { get; internal set; }
         public int Index { get; internal set; }
         public ManagedClientClass ClientClass { get
             {
-                int vmtAddress = Pointer + 0x8;
+                uint vmtAddress = Pointer + 0x8;
                 if (VmtToClassID.Instance.ContainsVMT(vmtAddress))
                     return VmtToClassID.Instance[vmtAddress];
                 else
@@ -46,7 +46,7 @@ namespace EnoughHookLite.GameClasses
             }
         }
 
-        public Entity(SubAPI api, int ptr, int index)
+        public Entity(SubAPI api, uint ptr, int index)
         {
             SubAPI = api;
             Pointer = ptr;

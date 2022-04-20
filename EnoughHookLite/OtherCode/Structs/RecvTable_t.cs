@@ -11,9 +11,9 @@ namespace EnoughHookLite.OtherCode.Structs
     public struct RecvTable_t
     {
         [FieldOffset(0x0)]
-        public int pProps;
+        public uint pProps;
         [FieldOffset(0x4)]
-        public int nProps;
+        public uint nProps;
         //[FieldOffset(0x8)]
         //EMTPY!
         [FieldOffset(0xC)]

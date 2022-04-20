@@ -1,4 +1,5 @@
 ﻿using EnoughHookLite.Scripting;
+using EnoughHookLiteUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,14 +13,25 @@ namespace EnoughHookLiteUI.ScriptAPI
     {
         internal Graphics GFX;
         private List<(string, Script)> DrawList;
-        public DrawAPI(Graphics gfx, List<(string, Script)> callbacklist)
+        private Drawer Drawer;
+        public DrawAPI(Graphics gfx, Drawer drawer, List<(string, Script)> callbacklist)
         {
             GFX = gfx;
             DrawList = callbacklist;
+            Drawer = drawer;
         }
 
         public override void OnSetupAPI(ISharedHandler local)
         {
+            local.AddDelegate("getDrawer", (Func<Drawer>)(() => { return Drawer; }));
+
+            local.AddType("Brush", typeof(Brush));
+            local.AddType("SolidBrush", typeof(SolidBrush));
+            local.AddType("Color", typeof(Color));
+            local.AddType("Pen", typeof(Pen));
+            local.AddType("Font", typeof(Font));
+            local.AddType("PointF", typeof(PointF));
+
             local.AddDelegate("drawString", (Action<string, Font, Brush, float, float>)GFX.DrawString);
             local.AddDelegate("drawLines", (Action<Pen, PointF[]>)GFX.DrawLines);
 
@@ -32,13 +44,6 @@ namespace EnoughHookLiteUI.ScriptAPI
             local.AddDelegate("drawCurve", (Action<Pen, PointF[]>)GFX.DrawCurve);
             local.AddDelegate("drawClosedCurve", (Action<Pen, PointF[]>)GFX.DrawClosedCurve);
             local.AddDelegate("fillClosedCurve", (Action<Brush, PointF[]>)GFX.FillClosedCurve);
-
-            local.AddType("Brush", typeof(Brush));
-            local.AddType("SolidBrush", typeof(SolidBrush));
-            local.AddType("Color", typeof(Color));
-            local.AddType("Pen", typeof(Pen));
-            local.AddType("Font", typeof(Font));
-            local.AddType("PointF", typeof(PointF));
 
             local.AddEvent("OnDraw", DrawList);
         }

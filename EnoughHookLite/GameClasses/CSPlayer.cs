@@ -14,7 +14,7 @@ namespace EnoughHookLite.GameClasses
     public class CSPlayer : BasePlayer
     {
         private const string ClassName = "DT_CSPlayer";
-        public CSPlayer(SubAPI api, int ptr, int index) : base(api, ptr, index)
+        public CSPlayer(SubAPI api, uint ptr, int index) : base(api, ptr, index)
         {
             /*
             _StudioBones = new mstudiobone_t[128];

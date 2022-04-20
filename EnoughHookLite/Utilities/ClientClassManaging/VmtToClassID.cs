@@ -8,11 +8,11 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
 {
     public sealed class VmtToClassID
     {
-        private Dictionary<int, ManagedClientClass> dict;
+        private Dictionary<uint, ManagedClientClass> dict;
 
         public static VmtToClassID Instance { get; private set; } = new VmtToClassID();
 
-        public ManagedClientClass this[int address]
+        public ManagedClientClass this[uint address]
         {
             get
             {
@@ -26,10 +26,10 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
 
         private VmtToClassID()
         {
-            dict = new Dictionary<int, ManagedClientClass>();
+            dict = new Dictionary<uint, ManagedClientClass>();
         }
 
-        public bool ContainsVMT(int address)
+        public bool ContainsVMT(uint address)
         {
             return dict.ContainsKey(address);
         }

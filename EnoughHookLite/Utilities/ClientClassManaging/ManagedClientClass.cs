@@ -12,7 +12,7 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
     {
         public bool Computed { get; private set; }
 
-        public int Pointer { get; private set; }
+        public uint Pointer { get; private set; }
 
         public CompileCache<ClientClass> ClientClass { get; private set; }
         public CompileCache<string> NetworkName { get; private set; }
@@ -22,14 +22,14 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
         private RemoteMemory RemoteMemory;
         public ManagedClientClass(RemoteMemory rm) { RemoteMemory = rm; }
 
-        public void Compute(int ptr)
+        public void Compute(uint ptr)
         {
             Pointer = ptr;
 
             ClientClass = new CompileCache<ClientClass>(() => { return RemoteMemory.ReadStruct<ClientClass>(ptr); });
             NetworkName = new CompileCache<string>(() => { return RemoteMemory.ReadString(ClientClass.Value.pNetworkName, 32, Encoding.ASCII); });
 
-            int precvtable = ClientClass.Value.pRecvTable;
+            uint precvtable = ClientClass.Value.pRecvTable;
             if (precvtable == 0xffff || precvtable == -1 || precvtable == 0)
                 RecvTable = null;
             else

@@ -25,6 +25,8 @@ namespace EnoughHookLite.GameClasses
         [Signature(SignaturesConsts.dwEntityList)]
         private PointerCached pEntityList;
 
+        public Entity[] pEntities => Entities.Values.ToArray();
+
         public EntityList(SubAPI api)
         {
             SubAPI = api;
@@ -36,7 +38,7 @@ namespace EnoughHookLite.GameClasses
             return Entities[id];
         }
 
-        internal Entity UpdateEntityB(int id, int ptr)
+        internal Entity UpdateEntityB(int id, uint ptr)
         {
             if (Entities.TryGetValue(id, out Entity entity))
                 entity.Pointer = ptr;
@@ -89,7 +91,7 @@ namespace EnoughHookLite.GameClasses
                 List<int> eids = new List<int>();
                 while (IsWorking)
                 {
-                    int readptr = SubAPI.Client.NativeModule.BaseAdr + pEntityList.Pointer;
+                    uint readptr = SubAPI.Client.NativeModule.BaseAdr + pEntityList.Pointer;
                     CEntInfo eentry;
                     var centinfosize = Marshal.SizeOf<CEntInfo>();
                     //int eid = 0;
@@ -106,10 +108,9 @@ namespace EnoughHookLite.GameClasses
                             break;
                         if (eentry.pEntity == 0)
                             continue;
-                        var abs = Math.Abs(eentry.pEntity);
-                        var ind = SubAPI.Process.RemoteMemory.ReadInt(abs + 0x64) - 1;
+                        var ind = SubAPI.Process.RemoteMemory.ReadInt(eentry.pEntity + 0x64) - 1;
 
-                        var ent = UpdateEntityB(ind, abs);
+                        var ent = UpdateEntityB(ind, eentry.pEntity);
                         //Console.WriteLine($"{oldeid} - {eentry}");
                         //Console.WriteLine(eentry.pEntity);
                         /*

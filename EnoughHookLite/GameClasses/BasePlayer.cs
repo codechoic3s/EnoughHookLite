@@ -12,7 +12,7 @@ namespace EnoughHookLite.GameClasses
     {
         private const string ClassName = "DT_BasePlayer";
 
-        public BasePlayer(SubAPI api, int ptr, int index) : base(api, ptr, index)
+        public BasePlayer(SubAPI api, uint ptr, int index) : base(api, ptr, index)
         {
         }
 

@@ -11,28 +11,28 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
 {
     public sealed class ManagedRecvProp : IUnmanagedObject
     {
-        public int Pointer { get; private set; }
+        public uint Pointer { get; private set; }
         public bool Computed { get; private set; }
 
         public CompileCache<RecvProp_t> RecvProp { get; private set; }
 
         public CompileCache<string> VarName { get; private set; }
 
-        public int Offset => RecvProp.Value.Offset;
-        public int StringBufferSize => RecvProp.Value.StringBufferSize;
+        public uint Offset => RecvProp.Value.Offset;
+        public uint StringBufferSize => RecvProp.Value.StringBufferSize;
         public ePropType PropType => RecvProp.Value.RecvType;
 
         public CompileCache<ManagedRecvTable> SubTable { get; private set; }
         public CompileCache<int> BaseClassDepth { get; private set; }
-        public CompileCache<int> Size { get; private set; }
+        public CompileCache<uint> Size { get; private set; }
         public ManagedRecvTable Table { get; private set; }
         public CompileCache<ManagedRecvProp[]> ArrayProp { get; private set; }
-        public int ElementCount => RecvProp.Value.nElements;
+        public uint ElementCount => RecvProp.Value.nElements;
 
         private RemoteMemory RemoteMemory;
         public ManagedRecvProp(RemoteMemory rm, ManagedRecvTable table) { RemoteMemory = rm; Table = table; }
 
-        public void Compute(int pointer)
+        public void Compute(uint pointer)
         {
             Pointer = pointer;
 
@@ -41,7 +41,7 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
 
             SubTable = new CompileCache<ManagedRecvTable>(() =>
             {
-                var pdatatable = RecvProp.Value.pDataTable;
+                uint pdatatable = RecvProp.Value.pDataTable;
                 if (pdatatable != 0)
                 {
                     var subtable = new ManagedRecvTable(RemoteMemory);
@@ -59,7 +59,7 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
 
             ArrayProp = new CompileCache<ManagedRecvProp[]>(GetProps);
 
-            Size = new CompileCache<int>(GetSize);
+            Size = new CompileCache<uint>(GetSize);
             
             Computed = true;
         }
@@ -74,10 +74,10 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
                 return new ManagedRecvProp[0];
 
             var props = new ManagedRecvProp[elementscount];
-            int size = Marshal.SizeOf<RecvProp_t>();
-            for (int i = 0; i < elementscount; i++)
+            uint size = (uint)Marshal.SizeOf<RecvProp_t>();
+            for (uint i = 0; i < elementscount; i++)
             {
-                int a = parrayprop + size * i;
+                uint a = parrayprop + size * i;
                 if (a == Pointer)
                     props[i] = this;
                 else
@@ -90,7 +90,7 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
             return props;
         }
 
-        private int GetSize()
+        private uint GetSize()
         {
             var subtable = SubTable.Value;
 
@@ -99,7 +99,7 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
 
             int size = RecvProp.Value.GetPropTypeSize();
             if (size >= 0)
-                return size;
+                return (uint)size;
 
             switch (PropType)
             {

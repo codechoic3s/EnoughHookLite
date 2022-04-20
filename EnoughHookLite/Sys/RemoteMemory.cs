@@ -59,6 +59,18 @@ namespace EnoughHookLite.Sys
             var data = Process.ReadData(adr, 4);
             return BitConverter.ToSingle(data, 0);
         }
+        public float[] ReadFloatArray(uint adr, uint size)
+        {
+            var data = Process.ReadData(adr, size * 4);
+            var floats = new float[size];
+            for (uint i = 0; i < size; i++)
+            {
+                var bytes = new byte[4];
+                Buffer.BlockCopy(data, (int)(i * 4), bytes, 0, 4);
+                floats[i] = BitConverter.ToSingle(bytes, 0);
+            }
+            return floats;
+        }
         public double ReadDouble(long adr)
         {
             var data = Process.ReadData(adr, 8);

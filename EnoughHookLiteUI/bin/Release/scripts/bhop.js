@@ -23,7 +23,7 @@ while (true)
     
     if (getKeyStateVK(VK.SPACE))
     {
-        var flags = rm.ReadIntInt(cached);
+        var flags = rm.ReadIntUInt(cached);
         if (flags == 257 || flags == 263)
         {
             sendKeyDown(VK.SPACE, ScanCodeShort.SPACE);

@@ -10,7 +10,7 @@ namespace EnoughHookLite.Pointing
     {
         public int Offset { get; private set; }
 
-        public SpecialPointerCached(int pointer, int offset) : base(pointer)
+        public SpecialPointerCached(uint pointer, int offset) : base(pointer)
         {
             Offset = offset;
         }

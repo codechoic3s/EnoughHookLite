@@ -34,11 +34,14 @@ namespace EnoughHookLite.GameClasses
             IsWorking = true;
             while (IsWorking)
             {
-                int vmbase = SubAPI.Client.NativeModule.BaseAdr + pViewMatrix.Pointer;
+                uint vmbase = SubAPI.Client.NativeModule.BaseAdr + pViewMatrix.Pointer;
+                ViewMatrix = SubAPI.Process.RemoteMemory.ReadFloatArray(vmbase, 16);
+                /*
                 for (int i = 0; i < ViewMatrixSize; i++)
                 {
                     ViewMatrix[i] = SubAPI.Client.NativeModule.Process.RemoteMemory.ReadFloat(vmbase + (i * 4));
                 }
+                */
                 await Task.Delay(5);
             }
         }

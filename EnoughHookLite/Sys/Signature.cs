@@ -12,10 +12,10 @@ namespace EnoughHookLite.Sys
         public string Name;
         public short[] Sig;
         public int[] Offsets;
-        public int Extra;
+        public uint Extra;
         public bool Relative;
 
-        public int Pointer;
+        public uint Pointer;
         public bool Finded = false;
         public Module Module;
 
@@ -24,7 +24,7 @@ namespace EnoughHookLite.Sys
             Sig = signature;
             Module = m;
         }
-        public Signature(Module m, int[] offsets, int extra, bool relative, string name, ulong id, params short[] signature)
+        public Signature(Module m, int[] offsets, uint extra, bool relative, string name, ulong id, params short[] signature)
         {
             Sig = signature;
             Offsets = offsets;

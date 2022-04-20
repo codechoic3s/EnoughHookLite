@@ -8,9 +8,9 @@ namespace EnoughHookLite.Pointing
 {
     public class PointerCached
     {
-        public int Pointer { get; private set; }
+        public uint Pointer { get; private set; }
 
-        public PointerCached(int pointer)
+        public PointerCached(uint pointer)
         {
             Pointer = pointer;
         }

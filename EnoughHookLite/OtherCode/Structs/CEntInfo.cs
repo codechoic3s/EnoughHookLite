@@ -11,13 +11,13 @@ namespace EnoughHookLite.OtherCode.Structs
     public struct CEntInfo
     {
         [FieldOffset(0x00)]
-        public int pEntity;
+        public uint pEntity;
         [FieldOffset(0x04)]
         public int SerialNumber;
         [FieldOffset(0x08)]
-        public int pPrevious;
+        public uint pPrevious;
         [FieldOffset(0x0C)]
-        public int pNext;
+        public uint pNext;
 
         public override string ToString()
         {

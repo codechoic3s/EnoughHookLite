@@ -12,21 +12,21 @@ namespace EnoughHookLite.OtherCode.Structs
     public struct ClientClass
     {
         [FieldOffset(0x08)]
-        public int pNetworkName;
+        public uint pNetworkName;
         [FieldOffset(0x0C)]
-        public int pRecvTable;
+        public uint pRecvTable;
         [FieldOffset(0x10)]
-        public int pNext;
+        public uint pNext;
         [FieldOffset(0x14)]
         public int ClassID;
 
-        public static ClientClass Read(RemoteMemory rm, int ptr)
+        public static ClientClass Read(RemoteMemory rm, uint ptr)
         {
             return new ClientClass
             {
-                pNetworkName = rm.ReadInt(ptr + 0x08),
-                pRecvTable = rm.ReadInt(ptr + 0x0C),
-                pNext = rm.ReadInt(ptr + 0x10),
+                pNetworkName = rm.ReadUInt(ptr + 0x08),
+                pRecvTable = rm.ReadUInt(ptr + 0x0C),
+                pNext = rm.ReadUInt(ptr + 0x10),
                 ClassID = rm.ReadInt(ptr + 0x14)
             };
         }

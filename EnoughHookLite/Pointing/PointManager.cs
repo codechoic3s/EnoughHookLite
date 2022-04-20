@@ -42,7 +42,7 @@ namespace EnoughHookLite.Pointing
 
                 var datatable = ClientClassParser.DataTables[splited[0]];
                 var variable = datatable.GetProperty(splited[1]);
-                pc = new PointerCached(variable.Offset);
+                pc = new PointerCached((uint)variable.Offset);
                 Netvars.Add(id, pc);
                 return true;
             }
@@ -56,7 +56,7 @@ namespace EnoughHookLite.Pointing
 
                 var datatable = ClientClassParser.DataTables[splited[0]];
                 var variable = datatable.GetProperty(splited[1]);
-                pc = new PointerCached(variable.Offset);
+                pc = new PointerCached((uint)variable.Offset);
                 Netvars.Add(id, pc);
                 return true;
             }
@@ -98,7 +98,7 @@ namespace EnoughHookLite.Pointing
                 {
                     if (sig.Finded && !Signatures.ContainsKey(sig.Id))
                     {
-                        Signatures.Add(sig.Id, new PointerCached(sig.Pointer));
+                        Signatures.Add(sig.Id, new PointerCached((uint)sig.Pointer));
                     }
                 }
             }

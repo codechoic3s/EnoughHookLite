@@ -49,7 +49,7 @@ namespace EnoughHookLite.Sys
                 var mco = module.Size;
                 var memorymodule = module.Process.ReadData(module.BaseAdr, mco);
 
-                for (var i = 0; i < mco; i++)
+                for (uint i = 0; i < mco; i++)
                 {
                     for (var o = 0; o < lco; o++)
                     {
@@ -75,13 +75,17 @@ namespace EnoughHookLite.Sys
 
                             if (ok)
                             {
-                                int result = module.BaseAdr + i;
+                                uint result = module.BaseAdr + i;
 
                                 var oco = tsig.Offsets.Length;
                                 for (var u = 0; u < oco; u++)
                                 {
-                                    result += tsig.Offsets[u];
-                                    result = module.Process.RemoteMemory.ReadInt(result);
+                                    var offset = tsig.Offsets[u];
+                                    if (offset >= 0)
+                                        result += (uint)offset;
+                                    else if (offset < 0)
+                                        result -= (uint)(offset - offset - offset);
+                                    result = module.Process.RemoteMemory.ReadUInt(result);
                                 }
 
                                 result += tsig.Extra - module.BaseAdr;

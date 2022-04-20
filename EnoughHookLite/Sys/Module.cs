@@ -11,8 +11,8 @@ namespace EnoughHookLite.Sys
     {
         public Process Process { get; private set; }
 
-        public int BaseAdr { get; private set; }
-        public int Size { get; private set; }
+        public uint BaseAdr { get; private set; }
+        public uint Size { get; private set; }
         public uint SizeAdr { get; private set; }
         public string Name { get; private set; }
 
@@ -22,8 +22,8 @@ namespace EnoughHookLite.Sys
         {
             pModule = pm;
             Process = proc;
-            BaseAdr = (int)pm.BaseAddress;
-            Size = pm.ModuleMemorySize;
+            BaseAdr = (uint)pm.BaseAddress;
+            Size = (uint)pm.ModuleMemorySize;
             SizeAdr = (uint)(BaseAdr + Size);
             Name = pm.ModuleName;
         }

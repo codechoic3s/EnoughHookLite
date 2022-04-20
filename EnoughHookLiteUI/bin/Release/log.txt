@@ -41,49 +41,11 @@
 [ClientClassParser] Parsing client classes...
 [ClientClassParser] Successful parsed.
 [ScriptEngine] Allocating scripts...
-[ScriptEngine] Allocated 2 scripts.
-(bhop) Started.
-(trigger) Started.
-(bhop) Exception on execution: System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary.
-   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
-   at EnoughHookLite.GameClasses.EntityList.get_LocalPlayer() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\EntityList.cs:line 18
-   --- End of inner exception stack trace ---
-   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
-   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
-   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
-   at System.Reflection.RuntimePropertyInfo.GetValue(Object obj, BindingFlags invokeAttr, Binder binder, Object[] index, CultureInfo culture)
-   at System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
-   at Jint.Runtime.Descriptors.Specialized.PropertyInfoDescriptor.get_Value()
-   at Jint.Native.Object.ObjectInstance.Get(String propertyName)
-   at Jint.Engine.GetValue(Object value)
-   at Jint.Runtime.StatementInterpreter.ExecuteVariableDeclaration(VariableDeclaration statement)
-   at Jint.Engine.ExecuteStatement(Statement statement)
-   at Jint.Runtime.StatementInterpreter.ExecuteStatementList(IEnumerable`1 statementList)
-   at Jint.Engine.Execute(Program program)
-   at Jint.Engine.Execute(String source)
-   at EnoughHookLite.Scripting.Script.Execution() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Scripting\Script.cs:line 56
-(trigger) Exception on execution: System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary.
-   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
-   at EnoughHookLite.GameClasses.EntityList.get_LocalPlayer() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\EntityList.cs:line 18
-   --- End of inner exception stack trace ---
-   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
-   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
-   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
-   at System.Reflection.RuntimePropertyInfo.GetValue(Object obj, BindingFlags invokeAttr, Binder binder, Object[] index, CultureInfo culture)
-   at System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
-   at Jint.Runtime.Descriptors.Specialized.PropertyInfoDescriptor.get_Value()
-   at Jint.Native.Object.ObjectInstance.Get(String propertyName)
-   at Jint.Engine.GetValue(Object value)
-   at Jint.Runtime.StatementInterpreter.ExecuteVariableDeclaration(VariableDeclaration statement)
-   at Jint.Engine.ExecuteStatement(Statement statement)
-   at Jint.Runtime.StatementInterpreter.ExecuteStatementList(IEnumerable`1 statementList)
-   at Jint.Engine.Execute(Program program)
-   at Jint.Engine.Execute(String source)
-   at EnoughHookLite.Scripting.Script.Execution() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Scripting\Script.cs:line 56
-[Framework] System.Exception: Native code: 0, Ptr: 912407924, Read size: 4, IsReaded=False, ReadedSize=0
-   at EnoughHookLite.Sys.Process.ReadData(Int32 adr, Int32 size) in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Process.cs:line 136
-   at EnoughHookLite.Sys.RemoteMemory.ReadFloat(Int32 adr) in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\RemoteMemory.cs:line 205
-   at EnoughHookLite.GameClasses.Camera.<ViewMatrixFetcher>d__15.MoveNext() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\Camera.cs:line 38
+[ScriptEngine] Allocated 0 scripts.
+[Framework] System.ArgumentException: Offset and length were out of bounds for the array or count is greater than the number of elements from index to the end of the source collection.
+   at System.Buffer.BlockCopy(Array src, Int32 srcOffset, Array dst, Int32 dstOffset, Int32 count)
+   at EnoughHookLite.Sys.RemoteMemory.ReadFloatArray(UInt32 adr, UInt32 size) in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\RemoteMemory.cs:line 69
+   at EnoughHookLite.GameClasses.Camera.<ViewMatrixFetcher>d__15.MoveNext() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\Camera.cs:line 37
 --- End of stack trace from previous location where exception was thrown ---
    at System.Runtime.CompilerServices.AsyncMethodBuilderCore.<>c.<ThrowAsync>b__6_1(Object state)
    at System.Threading.QueueUserWorkItemCallback.WaitCallback_Context(Object state)

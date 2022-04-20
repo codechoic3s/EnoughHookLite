@@ -136,6 +136,84 @@ namespace EnoughHookLite.Sys
                 throw new Exception($"Native code: {Marshal.GetLastWin32Error()}, Ptr: {adr}, Read size: {size}, IsReaded={ok}, ReadedSize={readed}");
             }
         }
+        public byte[] ReadData(IntPtr adr, uint size)
+        {
+            byte[] data = new byte[size];
+            int readed = 0;
+            bool ok = WinAPI.ReadProcessMemory(Handle, adr, data, size, ref readed);
+            if (ok && readed == size)
+            {
+                return data;
+            }
+            else
+            {
+                throw new Exception($"Native code: {Marshal.GetLastWin32Error()}, Ptr: {adr}, Read size: {size}, IsReaded={ok}, ReadedSize={readed}");
+            }
+        }
+        public byte[] ReadData(ulong adr, uint size)
+        {
+            if (adr < 0)
+                throw new Exception($"Not valid mapping!!! Ptr: {adr} Read size: {size}");
+            byte[] data = new byte[size];
+            int readed = 0;
+            bool ok = WinAPI.ReadProcessMemory(Handle, adr, data, size, ref readed);
+            if (ok && readed == size)
+            {
+                return data;
+            }
+            else
+            {
+                throw new Exception($"Native code: {Marshal.GetLastWin32Error()}, Ptr: {adr}, Read size: {size}, IsReaded={ok}, ReadedSize={readed}");
+            }
+        }
+        public byte[] ReadData(long adr, uint size)
+        {
+            if (adr < 0)
+                throw new Exception($"Not valid mapping!!! Ptr: {adr} Read size: {size}");
+            byte[] data = new byte[size];
+            int readed = 0;
+            bool ok = WinAPI.ReadProcessMemory(Handle, adr, data, size, ref readed);
+            if (ok && readed == size)
+            {
+                return data;
+            }
+            else
+            {
+                throw new Exception($"Native code: {Marshal.GetLastWin32Error()}, Ptr: {adr}, Read size: {size}, IsReaded={ok}, ReadedSize={readed}");
+            }
+        }
+        public byte[] ReadData(uint adr, uint size)
+        {
+            if (adr < 0)
+                throw new Exception($"Not valid mapping!!! Ptr: {adr} Read size: {size}");
+            byte[] data = new byte[size];
+            int readed = 0;
+            bool ok = WinAPI.ReadProcessMemory(Handle, adr, data, size, ref readed);
+            if (ok && readed == size)
+            {
+                return data;
+            }
+            else
+            {
+                throw new Exception($"Native code: {Marshal.GetLastWin32Error()}, Ptr: {adr}, Read size: {size}, IsReaded={ok}, ReadedSize={readed}");
+            }
+        }
+        public byte[] ReadData(int adr, uint size)
+        {
+            if (adr < 0)
+                throw new Exception($"Not valid mapping!!! Ptr: {adr} Read size: {size}");
+            byte[] data = new byte[size];
+            int readed = 0;
+            bool ok = WinAPI.ReadProcessMemory(Handle, adr, data, size, ref readed);
+            if (ok && readed == size)
+            {
+                return data;
+            }
+            else
+            {
+                throw new Exception($"Native code: {Marshal.GetLastWin32Error()}, Ptr: {adr}, Read size: {size}, IsReaded={ok}, ReadedSize={readed}");
+            }
+        }
 
         public Module GetModule(string name, out bool finded)
         {
