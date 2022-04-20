@@ -25,7 +25,7 @@ namespace EnoughHookLite.Scripting
             Scripts = new Dictionary<string, Script>();
             Path = AppDomain.CurrentDomain.BaseDirectory + "\\scripts";
             App = app;
-            JSApi = new ScriptAPI();
+            JSApi = new ScriptAPI(app);
         }
 
         public void SetupAll()

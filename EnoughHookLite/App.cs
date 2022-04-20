@@ -67,7 +67,6 @@ namespace EnoughHookLite
             ProtectStart = true;
 #endif
 */
-
             Log.LogAction = ConsoleMessage;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             MainThread = new Thread(Work);
@@ -107,18 +106,18 @@ namespace EnoughHookLite
 
                 Version ver = Assembly.GetEntryAssembly().GetName().Version;
 
+                LoadConfig(basedir);
+
+                DebugTools = new DebugTools(this, ConfigManager);
+                DebugTools.OnStartDebug();
+
                 string text = "";
-                text += 
+                text +=
                     "\n/EnoughHookLite/\n" +
                     "   ~ Source SDK js host ~ \n" +
                     "       build: " + ver.Build + "\n";
                 LogIt(text);
 
-                LoadConfig(basedir);
-
-                DebugTools = new DebugTools(this, ConfigManager);
-                DebugTools.OnStartDebug();
-                
                 //Console.Title = Title;
                 SubAPI = new SubAPI(ConfigManager.Modules.Config);
                 SubAPI.ProcessFetch(ConfigManager.Engine.Config.ProcessName);

@@ -18,8 +18,6 @@ namespace EnoughHookLite.Scripting
         private ScriptAPI JSApi;
         private Script Script;
 
-        private List<SharedAPI> SharedApis;
-
         private Dictionary<string, object> LocalValues;
         private SubAPI SubAPI;
 
@@ -32,7 +30,6 @@ namespace EnoughHookLite.Scripting
             Values = new Dictionary<string, object>();
             Types = new Dictionary<string, Type>();
             LocalValues = new Dictionary<string, object>();
-            SharedApis = new List<SharedAPI>();
         }
 
         private void SetupSystemAPI()
@@ -56,17 +53,6 @@ namespace EnoughHookLite.Scripting
 
             Delegates.Add("GlobalAdd", (Action<string, object>)OnAddGlobalValue);
             Delegates.Add("GlobalDel", (Action<string>)OnDelGlobalValue);
-        }
-        private void SetupSharedAPI()
-        {
-            SharedApis.Add(new OffsetsAPI(SubAPI.PointManager));
-            SharedApis.Add(new ProcessEnvironmentAPI(SubAPI));
-            SharedApis.Add(new SourceEngineAPI(SubAPI.Client, SubAPI.Engine));
-            SharedApis.Add(new InputAPI(SubAPI.Process));
-            SharedApis.Add(new NumericsAPI());
-            SharedApis.Add(new CameraAPI(SubAPI.Client.Camera));
-
-            
         }
 
         private void OnDelLocalValue(string name)
@@ -94,14 +80,12 @@ namespace EnoughHookLite.Scripting
 
             Script.JSEngine.SetValue(name, value);
         }
-
         public void SetupDefaultAPI()
         {
             SetupSystemAPI();
             SetupConfigAPI();
             SetupCallbackAPI();
             SetupValueDefinition();
-            SetupSharedAPI();
         }
 
         public void LoadAPI()

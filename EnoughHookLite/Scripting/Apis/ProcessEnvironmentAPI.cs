@@ -21,6 +21,7 @@ namespace EnoughHookLite.Scripting.Apis
         {
             local.AddDelegate("getModule", (Func<string, ManagedModule>)GetModule);
 
+            //local.AddDelegate("getRemoteMemory", (Func<ScriptRemoteMemory>)(() => { return new ScriptRemoteMemory(SubAPI.Process.RemoteMemory); }));
             local.AddDelegate("getRemoteMemory", (Func<ScriptRemoteMemory>)(() => { return new ScriptRemoteMemory(SubAPI.Process.RemoteMemory); }));
         }
 

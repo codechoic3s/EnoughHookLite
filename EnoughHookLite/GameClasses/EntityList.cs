@@ -77,65 +77,72 @@ namespace EnoughHookLite.GameClasses
 
             RemoveEntities(removeids.ToArray());
         }
-
+        private void LogIt(string log)
+        {
+            App.Log.LogIt("[EntityList] " + log);
+        }
         internal async void FetchEntityList()
         {
-            IsWorking = true;
-            List<int> eids = new List<int>();
-            while (IsWorking)
+            try
             {
-                int readptr = SubAPI.Client.NativeModule.BaseAdr + pEntityList.Pointer;
-                Console.WriteLine(readptr);
-                CEntInfo eentry = SubAPI.Process.RemoteMemory.ReadStruct<CEntInfo>(readptr);
-                
-                var centinfosize = Marshal.SizeOf<CEntInfo>();
-                int eid = 0;
-                int oldeid = 0;
-                Console.WriteLine($"first {eid} - {eentry}");
-                while (true)
+                IsWorking = true;
+                List<int> eids = new List<int>();
+                while (IsWorking)
                 {
-                    oldeid = eid;
-                    eid++;
-                    //eentry = SubAPI.Process.RemoteMemory.ReadStruct<CEntInfo>(readptr + (eid * centinfosize));
-
-                    eentry = SubAPI.Process.RemoteMemory.ReadStruct<CEntInfo>(readptr);
-
-                    readptr = eentry.pNext;
-                    if (eentry.pNext == eentry.pPrevious || eentry.pNext == 0)
-                        break;
-                    if (eentry.pEntity == 0)
-                        continue;
-                    //Console.WriteLine($"{oldeid} - {eentry}");
-                    //Console.WriteLine(eentry.pEntity);
-                    /*
-                    if (eentry.pNext <= 0 || eentry.pNext == eentry.pPrevious)
+                    int readptr = SubAPI.Client.NativeModule.BaseAdr + pEntityList.Pointer;
+                    CEntInfo eentry;
+                    var centinfosize = Marshal.SizeOf<CEntInfo>();
+                    //int eid = 0;
+                    //int oldeid = 0;
+                    //LogIt($"first {eid} - {eentry}");
+                    while (true)
                     {
-                        break;
+                        //eentry = SubAPI.Process.RemoteMemory.ReadStruct<CEntInfo>(readptr + (eid * centinfosize));
+
+                        eentry = SubAPI.Process.RemoteMemory.ReadStruct<CEntInfo>(readptr);
+
+                        readptr = eentry.pNext;
+                        if (eentry.pNext == eentry.pPrevious || eentry.pNext == 0)
+                            break;
+                        if (eentry.pEntity == 0)
+                            continue;
+                        var abs = Math.Abs(eentry.pEntity);
+                        var ind = SubAPI.Process.RemoteMemory.ReadInt(abs + 0x64) - 1;
+
+                        var ent = UpdateEntityB(ind, abs);
+                        //Console.WriteLine($"{oldeid} - {eentry}");
+                        //Console.WriteLine(eentry.pEntity);
+                        /*
+                        if (eentry.pNext <= 0 || eentry.pNext == eentry.pPrevious)
+                        {
+                            break;
+                        }
+                        if (eentry.pEntity <= 0)
+                            continue;
+                        */
+
+                        eids.Add(ind);
+                        //Console.WriteLine($"added entity {preeid} {eentry.pEntity}");
                     }
-                    if (eentry.pEntity <= 0)
-                        continue;
-                    */
 
-                    eids.Add(oldeid);
+                    RemoveNegativeEntities(eids.ToArray());
+                    eids.Clear();
 
-                    var ent = UpdateEntityB(oldeid, eentry.pEntity);
-                    
-                    //Console.WriteLine($"added entity {preeid} {eentry.pEntity}");
+                    if (Entities.Count > 0) // fix
+                    {
+                        // updating localplayer
+                        LocalPlayerID = SubAPI.Engine.ClientState_GetLocalPlayer;
+                        //Console.Title = SubAPI.Engine.ClientState_MapName;
+                        //var localptr = App.Client.ClientModule.ReadInt(App.Client.ClientModule.BaseAdr + Offsets.App.OffsetLoader.Offsets.Signatures.dwLocalPlayer);
+                    }
+                    //Console.WriteLine($"entities: {Entities.Count} lp: {LocalPlayerID}");
+                    await Task.Delay(500);
+                    //Thread.Sleep(3000);
                 }
-
-                RemoveNegativeEntities(eids.ToArray());
-                eids.Clear();
-
-                if (Entities.Count > 0) // fix
-                {
-                    // updating localplayer
-                    LocalPlayerID = SubAPI.Engine.ClientState_GetLocalPlayer;
-                    //Console.Title = SubAPI.Engine.ClientState_MapName;
-                    //var localptr = App.Client.ClientModule.ReadInt(App.Client.ClientModule.BaseAdr + Offsets.App.OffsetLoader.Offsets.Signatures.dwLocalPlayer);
-                }
-                Console.WriteLine($"entities: {Entities.Count} lp: {LocalPlayerID}");
-                await Task.Delay(100);
-                //Thread.Sleep(3000);
+            }
+            catch (Exception ex)
+            {
+                LogIt(ex.ToString());
             }
         }
     }

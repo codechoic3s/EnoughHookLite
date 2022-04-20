@@ -1,4 +1,5 @@
-﻿using Jint.Runtime.Interop;
+﻿using EnoughHookLite.Scripting.Apis;
+using Jint.Runtime.Interop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace EnoughHookLite.Scripting
         internal Dictionary<string, object> GlobalValues;
         internal List<SharedAPI> SharedApis;
 
-        public ScriptAPI()
+        public ScriptAPI(App app)
         {
             Callbacks = new Dictionary<string, List<(string, Script)>>();
             CustomCallbacks = new Dictionary<string, List<(string, Script)>>();
@@ -34,6 +35,15 @@ namespace EnoughHookLite.Scripting
             CustomValues = new Dictionary<string, object>();
 
             GlobalValues = new Dictionary<string, object>();
+
+            SharedApis.Add(new OffsetsAPI(app.SubAPI.PointManager));
+            SharedApis.Add(new ProcessEnvironmentAPI(app.SubAPI));
+            SharedApis.Add(new SourceEngineAPI(app.SubAPI.Client, app.SubAPI.Engine));
+            SharedApis.Add(new InputAPI(app.SubAPI.Process));
+            SharedApis.Add(new NumericsAPI());
+            SharedApis.Add(new CameraAPI(app.SubAPI.Client.Camera));
+
+            
         }
 
         public void ClearAllCustom()
@@ -87,6 +97,10 @@ namespace EnoughHookLite.Scripting
 
         public void LoadAPI(Script script)
         {
+            foreach (var item in SharedApis)
+            {
+                item.SetupAPI(this);
+            }
             foreach (var item in CustomTypes)
             {
                 script.JSEngine.SetValue(item.Key, TypeReference.CreateTypeReference(script.JSEngine, item.Value));
@@ -98,10 +112,6 @@ namespace EnoughHookLite.Scripting
             foreach (var item in CustomValues)
             {
                 script.JSEngine.SetValue(item.Key, (dynamic)item.Value);
-            }
-            foreach (var item in SharedApis)
-            {
-                item.SetupAPI(this);
             }
         }
 

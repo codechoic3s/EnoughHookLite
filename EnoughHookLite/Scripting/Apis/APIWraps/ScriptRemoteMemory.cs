@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +14,10 @@ namespace EnoughHookLite.Scripting.Apis.APIWraps
         public ScriptRemoteMemory(RemoteMemory rm)
         {
             RemoteMemory = rm;
+        }
+        public Vector3 ReadVector3Int(double adr)
+        {
+            return ReadStructInt<Vector3>(adr);
         }
         public T ReadStructInt<T>(double adr)
         {

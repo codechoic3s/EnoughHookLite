@@ -1,15 +1,94 @@
+[Framework] Loading config...
+[ConfigManager] Config loaded
+[DebugTools] Successfully connected to remotedebugger host.
 [Framework] 
 /EnoughHookLite/
    ~ Source SDK js host ~ 
-       build: 0
+       build: 263
 
-[Framework] Loading config...
-[ConfigManager] Config loaded
-[Framework] System.NullReferenceException: Object reference not set to an instance of an object.
-   at EnoughHookLite.Utilities.DebugTools.OnStartDebug() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Utilities\DebugTools.cs:line 48
-   at EnoughHookLite.App.Work() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\App.cs:line 119
-   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+[SubAPI] Waiting process "csgo"...
+[SubAPI] Process finded!
+[PointManager] Initing signatures...
+[SignatureDumper] Started scanning 26...
+[SignatureDumper] founded dwClientState_PlayerInfo at 21184
+[SignatureDumper] founded dwClientState_GetLocalPlayer at 384
+[SignatureDumper] founded dwClientState_ViewAngles at 19856
+[SignatureDumper] founded dwClientState_MaxPlayer at 904
+[SignatureDumper] founded dwClientState_State at 264
+[SignatureDumper] founded dwClientState_MapDirectory at 392
+[SignatureDumper] founded dwClientState_Map at 652
+[SignatureDumper] founded dwGlobalVars at 5819592
+[SignatureDumper] founded dwClientState at 5820356
+[SignatureDumper] founded dwClientState_IsHLTV at 19784
+[SignatureDumper] founded clientstate_net_channel at 156
+[SignatureDumper] founded clientstate_last_outgoing_command at 19756
+[SignatureDumper] founded clientstate_choked_commands at 19760
+[SignatureDumper] founded clientstate_delta_ticks at 372
+[SignatureDumper] founded dwGameDir at 6469760
+[SignatureDumper] founded m_bDormant at 237
+[SignatureDumper] founded dwViewMatrix at 81542516
+[SignatureDumper] founded dwGetAllClasses at 14550884
+[SignatureDumper] founded dwInput at 86129200
+[SignatureDumper] founded dwEntityList at 81601628
+[SignatureDumper] founded m_flSpawnTime at 66496
+[SignatureDumper] founded is_c4_owner at 3967120
+[SignatureDumper] founded dwGameRulesProxy at 86965180
+[SignatureDumper] founded dwPlayerResource at 52432064
+[SignatureDumper] founded m_iID at 139823460
+[SignatureDumper] founded dwInterfaceLinkList at 9867956
+[SignatureDumper] Ended scanning with 26/26 signatures.
+[PointManager] Initing ClientClasses...
+[ClientClassParser] Parsing client classes...
+[ClientClassParser] Successful parsed.
+[ScriptEngine] Allocating scripts...
+[ScriptEngine] Allocated 2 scripts.
+(bhop) Started.
+(trigger) Started.
+(bhop) Exception on execution: System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary.
+   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EnoughHookLite.GameClasses.EntityList.get_LocalPlayer() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\EntityList.cs:line 18
+   --- End of inner exception stack trace ---
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.GetValue(Object obj, BindingFlags invokeAttr, Binder binder, Object[] index, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   at Jint.Runtime.Descriptors.Specialized.PropertyInfoDescriptor.get_Value()
+   at Jint.Native.Object.ObjectInstance.Get(String propertyName)
+   at Jint.Engine.GetValue(Object value)
+   at Jint.Runtime.StatementInterpreter.ExecuteVariableDeclaration(VariableDeclaration statement)
+   at Jint.Engine.ExecuteStatement(Statement statement)
+   at Jint.Runtime.StatementInterpreter.ExecuteStatementList(IEnumerable`1 statementList)
+   at Jint.Engine.Execute(Program program)
+   at Jint.Engine.Execute(String source)
+   at EnoughHookLite.Scripting.Script.Execution() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Scripting\Script.cs:line 56
+(trigger) Exception on execution: System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary.
+   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at EnoughHookLite.GameClasses.EntityList.get_LocalPlayer() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\EntityList.cs:line 18
+   --- End of inner exception stack trace ---
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   at System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.GetValue(Object obj, BindingFlags invokeAttr, Binder binder, Object[] index, CultureInfo culture)
+   at System.Reflection.RuntimePropertyInfo.GetValue(Object obj, Object[] index)
+   at Jint.Runtime.Descriptors.Specialized.PropertyInfoDescriptor.get_Value()
+   at Jint.Native.Object.ObjectInstance.Get(String propertyName)
+   at Jint.Engine.GetValue(Object value)
+   at Jint.Runtime.StatementInterpreter.ExecuteVariableDeclaration(VariableDeclaration statement)
+   at Jint.Engine.ExecuteStatement(Statement statement)
+   at Jint.Runtime.StatementInterpreter.ExecuteStatementList(IEnumerable`1 statementList)
+   at Jint.Engine.Execute(Program program)
+   at Jint.Engine.Execute(String source)
+   at EnoughHookLite.Scripting.Script.Execution() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Scripting\Script.cs:line 56
+[Framework] System.Exception: Native code: 0, Ptr: 912407924, Read size: 4, IsReaded=False, ReadedSize=0
+   at EnoughHookLite.Sys.Process.ReadData(Int32 adr, Int32 size) in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Process.cs:line 136
+   at EnoughHookLite.Sys.RemoteMemory.ReadFloat(Int32 adr) in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\RemoteMemory.cs:line 205
+   at EnoughHookLite.GameClasses.Camera.<ViewMatrixFetcher>d__15.MoveNext() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\Camera.cs:line 38
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.<>c.<ThrowAsync>b__6_1(Object state)
+   at System.Threading.QueueUserWorkItemCallback.WaitCallback_Context(Object state)
    at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
    at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
-   at System.Threading.ThreadHelper.ThreadStart()
+   at System.Threading.QueueUserWorkItemCallback.System.Threading.IThreadPoolWorkItem.ExecuteWorkItem()
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+   at System.Threading._ThreadPoolWaitCallback.PerformWaitCallback()

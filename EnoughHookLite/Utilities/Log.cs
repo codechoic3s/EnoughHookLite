@@ -11,6 +11,7 @@ namespace EnoughHookLite.Utilities
     {
         private List<string> Logs;
         public Action<string> LogAction;
+        public Action<string> AltLogAction;
 
         public Log()
         {
@@ -21,7 +22,8 @@ namespace EnoughHookLite.Utilities
         {
             Logs.Add(l);
             if (withaction)
-                LogAction(l);
+                LogAction?.Invoke(l);
+            AltLogAction?.Invoke(l);
         }
 
         public string Get()

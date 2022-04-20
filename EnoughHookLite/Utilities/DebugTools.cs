@@ -43,7 +43,7 @@ namespace EnoughHookLite.Utilities
                         return false;
                     }
                 }
-                App.Log.LogAction = RemoteDebugger.Logger.SendLog;
+                App.Log.AltLogAction = RemoteDebugger.Logger.SendLog;
                 LogIt("Successfully connected to remotedebugger host.");
             }
             return true;
