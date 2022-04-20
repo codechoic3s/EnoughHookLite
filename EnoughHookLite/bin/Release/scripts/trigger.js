@@ -12,7 +12,6 @@ var entitylist = getEntityList();
 var localplayer = entitylist.LocalPlayer;
 
 var pTeam = getNetvar("DT_BaseEntity.m_iTeamNum");
-log("aboba");
 var pCrosshairID = getNetvar("DT_CSPlayer.m_bHasDefuser");
 
 while (true)
@@ -28,12 +27,12 @@ while (true)
     var gkey = config.GetValue('key');
     if (getKeyStateVK(gkey))
     {
-        
         var lccid = rm.ReadIntInt(localplayer.Pointer + pCrosshairID.Pointer + 92);
-        
-        if (lccid != NaN && lccid > 0 && lccid < 64)
+        var lid = lccid - 1;
+        log("trying id " + lid);
+        if (lccid != NaN && lccid > 0)
         {
-            var entity = entitylist.GetByID(lccid - 1);
+            var entity = entitylist.GetByID(lid);
 
             entteam = rm.ReadIntInt(entity.Pointer + pTeam.Pointer);
             lcteam = rm.ReadIntInt(localplayer.Pointer + pTeam.Pointer);

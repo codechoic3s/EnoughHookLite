@@ -1,19 +1,15 @@
-[Framework] Trying remove F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Release\/l1Y55U.exe
-[Framework] Removed
 [Framework] 
 /EnoughHookLite/
- ~js SDK host ~build: 0
+   ~ Source SDK js host ~ 
+       build: 0
 
-
-[Framework] Waiting process...
-[Framework] System.ArgumentNullException: Value cannot be null.
-Parameter name: image
-   at System.Drawing.Graphics.FromImage(Image image)
-   at EnoughHookLiteUI.Utils.Drawer.Setup(UInt64 w, UInt64 h) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\Utils\Drawer.cs:line 55
-   at EnoughHookLiteUI.Windows.EHLWindow..ctor(App app) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\Windows\EHLWindow.xaml.cs:line 35
-   at EnoughHookLiteUI.Program.WWork(Object arg) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\Program.cs:line 28
+[Framework] Loading config...
+[ConfigManager] Config loaded
+[Framework] System.NullReferenceException: Object reference not set to an instance of an object.
+   at EnoughHookLite.Utilities.DebugTools.OnStartDebug() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Utilities\DebugTools.cs:line 48
+   at EnoughHookLite.App.Work() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\App.cs:line 119
    at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
    at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
    at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
    at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
-   at System.Threading.ThreadHelper.ThreadStart(Object obj)
+   at System.Threading.ThreadHelper.ThreadStart()

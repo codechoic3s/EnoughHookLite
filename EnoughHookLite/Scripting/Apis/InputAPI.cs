@@ -16,23 +16,23 @@ namespace EnoughHookLite.Scripting.Apis
             Process = pc;
         }
 
-        internal override void SetupAPI(ScriptLocal local)
+        public override void OnSetupAPI(ISharedHandler local)
         {
-            local.Types.Add("VK", typeof(VK));
-            local.Types.Add("ScanCodeShort", typeof(ScanCodeShort));
+            local.AddType("VK", typeof(VK));
+            local.AddType("ScanCodeShort", typeof(ScanCodeShort));
 
-            local.Delegates.Add("sendKeyDown", (Action<VK, ScanCodeShort>)SendKeyDown);
-            local.Delegates.Add("sendKeyUp", (Action<VK, ScanCodeShort>)SendKeyUp);
+            local.AddDelegate("sendKeyDown", (Action<VK, ScanCodeShort>)SendKeyDown);
+            local.AddDelegate("sendKeyUp", (Action<VK, ScanCodeShort>)SendKeyUp);
 
-            local.Delegates.Add("sendLButtonDown", (Action)SendLButtonDown);
-            local.Delegates.Add("sendLButtonUp", (Action)SendLButtonUp);
-            local.Delegates.Add("sendRButtonDown", (Action)SendRButtonDown);
-            local.Delegates.Add("sendRButtonUp", (Action)SendRButtonUp);
+            local.AddDelegate("sendLButtonDown", (Action)SendLButtonDown);
+            local.AddDelegate("sendLButtonUp", (Action)SendLButtonUp);
+            local.AddDelegate("sendRButtonDown", (Action)SendRButtonDown);
+            local.AddDelegate("sendRButtonUp", (Action)SendRButtonUp);
 
-            local.Delegates.Add("sendString", (Action<string>)SendString);
+            local.AddDelegate("sendString", (Action<string>)SendString);
 
-            local.Delegates.Add("getKeyStateInt", (Func<int, bool>)InputHandler.GetKeyState);
-            local.Delegates.Add("getKeyStateVK", (Func<VK, bool>)InputHandler.GetKeyState);
+            local.AddDelegate("getKeyStateInt", (Func<int, bool>)InputHandler.GetKeyState);
+            local.AddDelegate("getKeyStateVK", (Func<VK, bool>)InputHandler.GetKeyState);
         }
         
         private void SendLButtonDown()

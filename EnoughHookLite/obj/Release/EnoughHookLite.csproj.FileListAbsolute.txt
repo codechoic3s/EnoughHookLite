@@ -22,3 +22,5 @@ E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.csproj.CopyComplete
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.exe
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Release\EnoughHookLite.pdb
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\RemoteDebugClient.dll
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\RemoteDebugClient.pdb

@@ -16,13 +16,13 @@ namespace EnoughHookLite.Scripting.Apis
             PointManager = pm;
         }
 
-        internal override void SetupAPI(ScriptLocal local)
+        public override void OnSetupAPI(ISharedHandler local)
         {
-            local.Types.Add("SignaturesConsts", typeof(SignaturesConsts));
+            local.AddType("SignaturesConsts", typeof(SignaturesConsts));
 
-            local.Delegates.Add("getSignature", (Func<ulong, PointerCached>)AllocateSignature);
-            local.Delegates.Add("getSignatureSC", (Func<SignaturesConsts, PointerCached>)AllocateSignature);
-            local.Delegates.Add("getNetvar", (Func<string, PointerCached>)AllocateNetvar);
+            local.AddDelegate("getSignature", (Func<ulong, PointerCached>)AllocateSignature);
+            local.AddDelegate("getSignatureSC", (Func<SignaturesConsts, PointerCached>)AllocateSignature);
+            local.AddDelegate("getNetvar", (Func<string, PointerCached>)AllocateNetvar);
         }
 
         private PointerCached AllocateSignature(SignaturesConsts id)

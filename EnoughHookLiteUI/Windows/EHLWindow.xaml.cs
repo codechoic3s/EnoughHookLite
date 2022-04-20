@@ -28,7 +28,7 @@ namespace EnoughHookLiteUI.Windows
     {
         private App App;
         private Drawer Drawer;
-        private List<(string, Script)> DrawList;
+        internal List<(string, Script)> DrawList;
         private WindowSystem WindowSystem;
 
         public EHLWindow(App app, string[] args)
@@ -74,16 +74,7 @@ namespace EnoughHookLiteUI.Windows
 
         private void SetupDrawAPI(App app)
         {
-            app.JSLoader.JSApi.AddValue("drawapi", Drawer.DrawAPI);
-
-            app.JSLoader.JSApi.AddType("Brush", typeof(System.Drawing.Brush));
-            app.JSLoader.JSApi.AddType("SolidBrush", typeof(SolidBrush));
-            app.JSLoader.JSApi.AddType("Color", typeof(System.Drawing.Color));
-            app.JSLoader.JSApi.AddType("Pen", typeof(System.Drawing.Pen));
-            app.JSLoader.JSApi.AddType("Font", typeof(Font));
-            app.JSLoader.JSApi.AddType("PointF", typeof(PointF));
-
-            app.JSLoader.JSApi.AddEvent("OnDraw", DrawList);
+            app.JSLoader.JSApi.AddSharedAPI(Drawer.DrawAPI);
         }
 
         private void DrawAll()

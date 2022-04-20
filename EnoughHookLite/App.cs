@@ -112,24 +112,23 @@ namespace EnoughHookLite
                     "\n/EnoughHookLite/\n" +
                     "   ~ Source SDK js host ~ \n" +
                     "       build: " + ver.Build + "\n";
-                //text += "Include features:\n";
-                //text += "   1. Trigger.\n";
-                //text += "   2. Bunnyhop.\n";
                 LogIt(text);
 
                 LoadConfig(basedir);
+
+                DebugTools = new DebugTools(this, ConfigManager);
+                DebugTools.OnStartDebug();
+                
                 //Console.Title = Title;
                 SubAPI = new SubAPI(ConfigManager.Modules.Config);
                 SubAPI.ProcessFetch(ConfigManager.Engine.Config.ProcessName);
-
-                DebugTools = new DebugTools(SubAPI, ConfigManager);
 
                 if (SubAPI.ModulesFetch())
                 {
                     SubAPI.PointManager.InitSignatures(ConfigManager.Engine.Config);
                     SubAPI.PointManager.InitClientClasses();
 
-                    DebugTools.OnStartDebug();
+                    DebugTools.OnDumpDebug();
 
                     if (!SubAPI.ParseDefaultModules())
                         return;

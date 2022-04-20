@@ -17,11 +17,11 @@ namespace EnoughHookLite.Scripting.Apis
             SubAPI = subapi;
         }
 
-        internal override void SetupAPI(ScriptLocal local)
+        public override void OnSetupAPI(ISharedHandler local)
         {
-            local.Delegates.Add("getModule", (Func<string, ManagedModule>)GetModule);
+            local.AddDelegate("getModule", (Func<string, ManagedModule>)GetModule);
 
-            local.Delegates.Add("getRemoteMemory", (Func<ScriptRemoteMemory>)(() => { return new ScriptRemoteMemory(SubAPI.Process.RemoteMemory); }));
+            local.AddDelegate("getRemoteMemory", (Func<ScriptRemoteMemory>)(() => { return new ScriptRemoteMemory(SubAPI.Process.RemoteMemory); }));
         }
 
         private ManagedModule GetModule(string name)

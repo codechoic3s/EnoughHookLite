@@ -1,6 +1,7 @@
 ﻿using EnoughHookLite.Utilities.Conf;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,20 +12,52 @@ namespace EnoughHookLite.Utilities
     {
         private const string DebugFolder = "debug";
         private const string ClientClassesDumpCPP = "clientclasses.cpp";
-
-        public SubAPI SubAPI { get; private set; }
+        public App App { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
-
-        public DebugTools(SubAPI sub, ConfigManager cfgs)
+        public RemoteDebugger RemoteDebugger { get; private set; }
+        public DebugTools(App app, ConfigManager cfgs)
         {
-           SubAPI = sub;
-           ConfigManager = cfgs;
+            App = app;
+            ConfigManager = cfgs;
+        }
+        public void OnDumpDebug()
+        {
+            var path = AppDomain.CurrentDomain.BaseDirectory + "/" + DebugFolder;
+            if (ConfigManager.Debug.Config.DumpClientClassesCPP)
+            {
+                CreateFolder(path);
+                App.SubAPI.PointManager.ClientClassParser.DumpCppClasses(path + "/" + ClientClassesDumpCPP);
+            }
+        }
+        public bool OnStartDebug()
+        {
+            if (ConfigManager.Debug.Config.RemoteDebug)
+            {
+                RemoteDebugger = new RemoteDebugger();
+                RemoteDebugger.Start(ConfigManager.Debug.Config);
+                while (!RemoteDebugger.IsConnected)
+                {
+                    if (RemoteDebugger.HasError)
+                    {
+                        LogIt("Failed connect remote debug.");
+                        return false;
+                    }
+                }
+                App.Log.LogAction = RemoteDebugger.Logger.SendLog;
+                LogIt("Successfully connected to remotedebugger host.");
+            }
+            return true;
         }
 
-        public void OnStartDebug()
+        private void LogIt(string str)
         {
-            if (ConfigManager.Debug.Config.DumpClientClassesCPP)
-                SubAPI.PointManager.ClientClassParser.DumpCppClasses(AppDomain.CurrentDomain.BaseDirectory + "/" + DebugFolder + "/" + ClientClassesDumpCPP);
+            App.Log.LogIt("[DebugTools] " + str);
+        }
+
+        private void CreateFolder(string path)
+        {
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
         }
     }
 }

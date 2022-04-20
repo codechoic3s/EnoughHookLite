@@ -18,6 +18,13 @@ namespace EnoughHookLite.Utilities.Conf
         [JsonProperty("script_autoreload")]
         public bool ScriptAutoReload { get; private set; }
 
+        [JsonProperty("remotedebug")]
+        public bool RemoteDebug { get; private set; }
+        [JsonProperty("remotedebug_host")]
+        public string RemoteDebugHost { get; private set; }
+        [JsonProperty("remotedebug_port")]
+        public int RemoteDebugPort { get; private set; }
+
         public DebugConfig()
         {
             DumpClientClassesCPP = false;

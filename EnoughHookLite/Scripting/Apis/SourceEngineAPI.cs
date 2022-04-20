@@ -19,9 +19,9 @@ namespace EnoughHookLite.Scripting.Apis
             Engine = eng;
         }
 
-        internal override void SetupAPI(ScriptLocal local)
+        public override void OnSetupAPI(ISharedHandler local)
         {
-            local.Delegates.Add("getEntityList", (Func<EntityList>)(() => Client.EntityList));
+            local.AddDelegate("getEntityList", (Func<EntityList>)(() => Client.EntityList));
         }
     }
 }

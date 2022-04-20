@@ -27,13 +27,11 @@ namespace EnoughHookLite
 
         public bool ParseDefaultModules()
         {
-            LogIt("Parsing Engine...");
             if (!TypesParser.TryParse(Engine, true))
             {
                 LogIt("Failed parse Engine.");
                 return false;
             }
-            LogIt("Parsed Engine.");
             return true;
         }
 

@@ -14,7 +14,10 @@ namespace EnoughHookLite.Scripting.Apis.APIWraps
         {
             RemoteMemory = rm;
         }
-
+        public T ReadStructInt<T>(double adr)
+        {
+            return RemoteMemory.ReadStruct<T>((int)adr);
+        }
         public int ReadIntInt(double adr)
         {
             return RemoteMemory.ReadInt((int)adr);

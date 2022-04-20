@@ -8,6 +8,15 @@ namespace EnoughHookLite.Scripting
 {
     public abstract class SharedAPI
     {
-        internal abstract void SetupAPI(ScriptLocal local);
+        public bool Installed { get; private set; }
+        public void SetupAPI(ISharedHandler handler)
+        {
+            if (!Installed)
+            {
+                OnSetupAPI(handler);
+                Installed = true;
+            }
+        }
+        public abstract void OnSetupAPI(ISharedHandler handler);
     }
 }

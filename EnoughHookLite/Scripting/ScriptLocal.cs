@@ -11,33 +11,28 @@ namespace EnoughHookLite.Scripting
 {
     public sealed class ScriptLocal
     {
-        internal Dictionary<string, Type> Types { get; private set; }
-        internal Dictionary<string, Delegate> Delegates { get; private set; }
-        internal Dictionary<string, object> Values { get; private set; }
+        private Dictionary<string, Type> Types;
+        private Dictionary<string, Delegate> Delegates;
+        private Dictionary<string, object> Values;
 
         private ScriptAPI JSApi;
         private Script Script;
 
-        private OffsetsAPI OffsetsAPI;
-        private ProcessEnvironmentAPI ProcessEnvironmentAPI;
-        private SourceEngineAPI SourceEngineAPI;
-        private InputAPI InputAPI;
+        private List<SharedAPI> SharedApis;
 
         private Dictionary<string, object> LocalValues;
+        private SubAPI SubAPI;
 
         public ScriptLocal(SubAPI subapi, Script script, ScriptAPI api)
         {
+            SubAPI = subapi;
             JSApi = api;
             Script = script;
             Delegates = new Dictionary<string, Delegate>();
             Values = new Dictionary<string, object>();
             Types = new Dictionary<string, Type>();
             LocalValues = new Dictionary<string, object>();
-
-            OffsetsAPI = new OffsetsAPI(subapi.PointManager);
-            ProcessEnvironmentAPI = new ProcessEnvironmentAPI(subapi);
-            SourceEngineAPI = new SourceEngineAPI(subapi.Client, subapi.Engine);
-            InputAPI = new InputAPI(subapi.Process);
+            SharedApis = new List<SharedAPI>();
         }
 
         private void SetupSystemAPI()
@@ -64,10 +59,14 @@ namespace EnoughHookLite.Scripting
         }
         private void SetupSharedAPI()
         {
-            OffsetsAPI.SetupAPI(this);
-            ProcessEnvironmentAPI.SetupAPI(this);
-            SourceEngineAPI.SetupAPI(this);
-            InputAPI.SetupAPI(this);
+            SharedApis.Add(new OffsetsAPI(SubAPI.PointManager));
+            SharedApis.Add(new ProcessEnvironmentAPI(SubAPI));
+            SharedApis.Add(new SourceEngineAPI(SubAPI.Client, SubAPI.Engine));
+            SharedApis.Add(new InputAPI(SubAPI.Process));
+            SharedApis.Add(new NumericsAPI());
+            SharedApis.Add(new CameraAPI(SubAPI.Client.Camera));
+
+            
         }
 
         private void OnDelLocalValue(string name)

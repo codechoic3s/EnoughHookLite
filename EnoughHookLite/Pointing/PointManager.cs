@@ -72,13 +72,11 @@ namespace EnoughHookLite.Pointing
         {
             LogIt("Initing ClientClasses...");
             ClientClassParser = new ClientClassParser(SubAPI);
-            LogIt("Parsing ClientClass type for signature...");
             if (!SubAPI.TypesParser.TryParse(ClientClassParser))
             {
                 LogIt("Failed parse ClientClass for signatures.");
                 return false;
             }
-            LogIt("Parsed ClientClass...");
             ClientClassParser.Parsing();
             return true;
         }

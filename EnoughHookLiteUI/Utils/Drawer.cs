@@ -1,4 +1,5 @@
 ﻿using EnoughHookLiteUI.API;
+using EnoughHookLiteUI.ScriptAPI;
 using EnoughHookLiteUI.Windows;
 using System;
 using System.Collections.Generic;
@@ -56,7 +57,7 @@ namespace EnoughHookLiteUI.Utils
             Bitmap = new Bitmap((int)w, (int)h);
             Graphics = Graphics.FromImage(Bitmap);
             if (DrawAPI is null)
-                DrawAPI = new DrawAPI(Graphics);
+                DrawAPI = new DrawAPI(Graphics, Window.DrawList);
             else
                 DrawAPI.GFX = Graphics;
             WriteBitmap = new WriteableBitmap((int)Width, (int)Height, 96, 96, PixelFormats.Bgra32, null);

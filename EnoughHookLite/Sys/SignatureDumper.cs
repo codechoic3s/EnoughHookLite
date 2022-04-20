@@ -113,7 +113,7 @@ namespace EnoughHookLite.Sys
 
         private void LogIt(string log)
         {
-            App.Log.LogIt("[SignatureDumper] " + log);
+            App.Log.LogIt("[SignatureDumper] " + log, false);
         }
     }
 }
