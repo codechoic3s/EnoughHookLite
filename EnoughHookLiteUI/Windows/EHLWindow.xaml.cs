@@ -61,7 +61,8 @@ namespace EnoughHookLiteUI.Windows
             {
                 if (size.X != Width || size.Y != Height)
                 {
-                    Drawer.Setup((ulong)Width, (ulong)Height);
+                    //LogIt($"Changed resolution to {size.X}:{size.y}");
+                    Drawer.Setup((ulong)size.X, (ulong)size.Y);
                     CustomDraw.Source = Drawer.WriteBitmap;
                 }
 

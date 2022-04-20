@@ -32,20 +32,41 @@ namespace EnoughHookLiteUI.ScriptAPI
             local.AddType("Font", typeof(Font));
             local.AddType("PointF", typeof(PointF));
 
-            local.AddDelegate("drawString", (Action<string, Font, Brush, float, float>)GFX.DrawString);
+            local.AddDelegate("drawString", (Action<string, Font, Brush, double, double>)DrawString);
             local.AddDelegate("drawLines", (Action<Pen, PointF[]>)GFX.DrawLines);
 
-            local.AddDelegate("drawRectangle", (Action<Pen, float, float, float, float>)GFX.DrawRectangle);
-            local.AddDelegate("fillRectangle", (Action<Brush, float, float, float, float>)GFX.FillRectangle);
+            local.AddDelegate("drawRectangle", (Action<Pen, double, double, double, double>)DrawRectangle);
+            local.AddDelegate("fillRectangle", (Action<Brush, double, double, double, double>)FillRectangle);
 
-            local.AddDelegate("drawEllipse", (Action<Pen, float, float, float, float>)GFX.DrawEllipse);
-            local.AddDelegate("fillEllipse", (Action<Brush, float, float, float, float>)GFX.FillEllipse);
+            local.AddDelegate("drawEllipse", (Action<Pen, double, double, double, double>)DrawEllipse);
+            local.AddDelegate("fillEllipse", (Action<Brush, double, double, double, double>)FillEllipse);
 
             local.AddDelegate("drawCurve", (Action<Pen, PointF[]>)GFX.DrawCurve);
             local.AddDelegate("drawClosedCurve", (Action<Pen, PointF[]>)GFX.DrawClosedCurve);
             local.AddDelegate("fillClosedCurve", (Action<Brush, PointF[]>)GFX.FillClosedCurve);
 
             local.AddEvent("OnDraw", DrawList);
+        }
+
+        private void DrawString(string text, Font font, Brush brush, double x, double y)
+        {
+            GFX.DrawString(text, font, brush, (float)x, (float)y);
+        }
+        private void DrawRectangle(Pen pen, double x, double y, double w, double h)
+        {
+            GFX.DrawRectangle(pen, (float)x, (float)y, (float)w, (float)h);
+        }
+        private void FillRectangle(Brush brush, double x, double y, double w, double h)
+        {
+            GFX.FillRectangle(brush, (float)x, (float)y, (float)w, (float)h);
+        }
+        private void DrawEllipse(Pen pen, double x, double y, double w, double h)
+        {
+            GFX.DrawEllipse(pen, (float)x, (float)y, (float)w, (float)h);
+        }
+        private void FillEllipse(Brush brush, double x, double y, double w, double h)
+        {
+            GFX.FillEllipse(brush, (float)x, (float)y, (float)w, (float)h);
         }
     }
 }

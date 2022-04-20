@@ -93,7 +93,6 @@ namespace EnoughHookLite.GameClasses
                 {
                     uint readptr = SubAPI.Client.NativeModule.BaseAdr + pEntityList.Pointer;
                     CEntInfo eentry;
-                    var centinfosize = Marshal.SizeOf<CEntInfo>();
                     //int eid = 0;
                     //int oldeid = 0;
                     //LogIt($"first {eid} - {eentry}");

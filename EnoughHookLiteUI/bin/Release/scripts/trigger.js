@@ -27,15 +27,15 @@ while (true)
     var gkey = config.GetValue('key');
     if (getKeyStateVK(gkey))
     {
-        var lccid = rm.ReadIntUInt(localplayer.Pointer + pCrosshairID.Pointer + 92);
+        var lccid = rm.ReadUIntUInt(localplayer.Pointer + pCrosshairID.Pointer + 92);
         var lid = lccid - 1;
         //log("trying id " + lid);
         if (lccid != NaN && lccid > 0)
         {
             var entity = entitylist.GetByID(lid);
 
-            entteam = rm.ReadIntUInt(entity.Pointer + pTeam.Pointer);
-            lcteam = rm.ReadIntUInt(localplayer.Pointer + pTeam.Pointer);
+            entteam = rm.ReadUIntUInt(entity.Pointer + pTeam.Pointer);
+            lcteam = rm.ReadUIntUInt(localplayer.Pointer + pTeam.Pointer);
 
             if (lcteam != entteam)
             {
