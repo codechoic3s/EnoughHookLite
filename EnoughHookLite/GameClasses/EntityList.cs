@@ -83,6 +83,10 @@ namespace EnoughHookLite.GameClasses
         {
             App.Log.LogIt("[EntityList] " + log);
         }
+        private void ParseCEntInfo(CEntInfo info, ref uint prev)
+        {
+
+        }
         internal async void FetchEntityList()
         {
             try
@@ -93,20 +97,24 @@ namespace EnoughHookLite.GameClasses
                 {
                     uint readptr = SubAPI.Client.NativeModule.BaseAdr + pEntityList.Pointer;
                     CEntInfo eentry;
-                    //int eid = 0;
+                    //uint centinfosize = (uint)Marshal.SizeOf<CEntInfo>();
+                    //uint eid = 0;
                     //int oldeid = 0;
                     //LogIt($"first {eid} - {eentry}");
+                    uint prev = 0;
                     while (true)
                     {
                         //eentry = SubAPI.Process.RemoteMemory.ReadStruct<CEntInfo>(readptr + (eid * centinfosize));
+                        //eid++;
 
                         eentry = SubAPI.Process.RemoteMemory.ReadStruct<CEntInfo>(readptr);
 
-                        readptr = eentry.pNext;
                         if (eentry.pNext == eentry.pPrevious || eentry.pNext == 0)
                             break;
+                        readptr = eentry.pNext;
                         if (eentry.pEntity == 0)
                             continue;
+                        prev = eentry.pEntity;
                         var ind = SubAPI.Process.RemoteMemory.ReadInt(eentry.pEntity + 0x64) - 1;
 
                         var ent = UpdateEntityB(ind, eentry.pEntity);

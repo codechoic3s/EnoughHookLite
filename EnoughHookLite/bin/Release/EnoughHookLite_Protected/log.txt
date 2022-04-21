@@ -1,44 +1,30 @@
-[Framework] Trying remove E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Release\EnoughHookLite_Protected\/MnqO36m1RLusIBNNK6.exe
-[Framework] Removed
-[Framework] 
-/EnoughHookLite/
- ~js SDK host ~build: 263
-
-[Framework] Waiting process...
-[Framework] Process finded!
-[OffsetLoader] Loaded offsets.
-[ConfigManager] Config loaded
-[ScriptEngine] Allocating scripts...
-[ScriptEngine] Allocated 2 scripts.
-(bhop) Started.
-(trigger) Started.
-[Framework] System.Exception: Native code: 0, Ptr: 720125300, Read size: 4, IsReaded=False, ReadedSize=0
-   at EnoughHookLite.Sys.Process.ReadData(Int32 adr, Int32 size) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Process.cs:line 143
-   at .(Object , Int32 adr, Int32 size,  )
-   at EnoughHookLite.Sys.Module.ReadFloat(Int32 adr) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Module.cs:line 207
-   at .(Object , Int32 adr,  )
-   at EnoughHookLite.GameClasses.Camera.<ViewMatrixFetcher>d__14.MoveNext() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\Camera.cs:line 35
---- End of stack trace from previous location where exception was thrown ---
-   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.<>c.<ThrowAsync>b__6_1(Object state)
-   at System.Threading.QueueUserWorkItemCallback.WaitCallback_Context(Object state)
+[Framework] Loading config...
+[Framework] System.TypeInitializationException: The type initializer for 'Newtonsoft.Json.Utilities.JavaScriptUtils' threw an exception. ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at .(Object ,  )
+   at Newtonsoft.Json.Utilities.JavaScriptUtils..cctor()
+   --- End of inner exception stack trace ---
+   at Newtonsoft.Json.Utilities.JavaScriptUtils.GetCharEscapeFlags(StringEscapeHandling stringEscapeHandling, Char quoteChar)
+   at .(StringEscapeHandling stringEscapeHandling, Char quoteChar,  )
+   at Newtonsoft.Json.JsonTextWriter.UpdateCharEscapeFlags()
+   at .(Object ,  )
+   at Newtonsoft.Json.JsonTextWriter..ctor(TextWriter textWriter)
+   at Newtonsoft.Json.JsonConvert.SerializeObjectInternal(Object value, Type type, JsonSerializer jsonSerializer)
+   at .(Object value, Type type, JsonSerializer jsonSerializer,  )
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value, Type type, Formatting formatting, JsonSerializerSettings settings)
+   at .(Object value, Type type, Formatting formatting, JsonSerializerSettings settings,  )
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value, Formatting formatting, JsonSerializerSettings settings)
+   at .(Object value, Formatting formatting, JsonSerializerSettings settings,  )
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value, Formatting formatting)
+   at .(Object , Formatting ,  )
+   at EnoughHookLite.Utilities.MinConf`1.Serialize() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Utilities\MinConf.cs:line 22
+   at EnoughHookLite.Utilities.MinConf`1.SerializeFile() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Utilities\MinConf.cs:line 32
+   at EnoughHookLite.Utilities.Conf.ConfigManager.Load() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Utilities\Conf\ConfigManager.cs:line 30
+   at .(Object ,  )
+   at EnoughHookLite.App.LoadConfig(String basedir) in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\App.cs:line 172
+   at .(Object , String log,  )
+   at EnoughHookLite.App.Work() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\App.cs:line 109
+   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
    at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
    at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-   at System.Threading.QueueUserWorkItemCallback.System.Threading.IThreadPoolWorkItem.ExecuteWorkItem()
-   at System.Threading.ThreadPoolWorkQueue.Dispatch()
-   at System.Threading._ThreadPoolWaitCallback.PerformWaitCallback()
-[Framework] System.Exception: Native code: 87, Ptr: 904, Read size: 4, IsReaded=False, ReadedSize=0
-   at EnoughHookLite.Sys.Process.ReadData(UInt32 adr, Int32 size) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Process.cs:line 127
-   at .(Object , UInt32 adr, Int32 size,  )
-   at EnoughHookLite.Sys.Module.ReadInt(UInt32 adr) in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\Module.cs:line 270
-   at .(Object , UInt32 adr,  )
-   at EnoughHookLite.Modules.Engine.get_ClientState_MaxPlayers() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Modules\Engine.cs:line 23
-   at .(Object ,  )
-   at EnoughHookLite.GameClasses.EntityList.<RunTask>d__12.MoveNext() in F:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\EntityList.cs:line 36
---- End of stack trace from previous location where exception was thrown ---
-   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.<>c.<ThrowAsync>b__6_1(Object state)
-   at System.Threading.QueueUserWorkItemCallback.WaitCallback_Context(Object state)
-   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-   at System.Threading.QueueUserWorkItemCallback.System.Threading.IThreadPoolWorkItem.ExecuteWorkItem()
-   at System.Threading.ThreadPoolWorkQueue.Dispatch()
-   at System.Threading._ThreadPoolWaitCallback.PerformWaitCallback()
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ThreadHelper.ThreadStart()

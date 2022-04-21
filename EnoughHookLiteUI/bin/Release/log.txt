@@ -4,7 +4,7 @@
 [Framework] 
 /EnoughHookLite/
    ~ Source SDK js host ~ 
-       build: 263
+       build: 0
 
 [SubAPI] Waiting process "csgo"...
 [SubAPI] Process finded!
@@ -41,16 +41,9 @@
 [ClientClassParser] Parsing client classes...
 [ClientClassParser] Successful parsed.
 [ScriptEngine] Allocating scripts...
-[ScriptEngine] Allocated 0 scripts.
-[Framework] System.ArgumentException: Offset and length were out of bounds for the array or count is greater than the number of elements from index to the end of the source collection.
-   at System.Buffer.BlockCopy(Array src, Int32 srcOffset, Array dst, Int32 dstOffset, Int32 count)
-   at EnoughHookLite.Sys.RemoteMemory.ReadFloatArray(UInt32 adr, UInt32 size) in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\Sys\RemoteMemory.cs:line 69
-   at EnoughHookLite.GameClasses.Camera.<ViewMatrixFetcher>d__15.MoveNext() in E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\GameClasses\Camera.cs:line 37
---- End of stack trace from previous location where exception was thrown ---
-   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.<>c.<ThrowAsync>b__6_1(Object state)
-   at System.Threading.QueueUserWorkItemCallback.WaitCallback_Context(Object state)
-   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-   at System.Threading.QueueUserWorkItemCallback.System.Threading.IThreadPoolWorkItem.ExecuteWorkItem()
-   at System.Threading.ThreadPoolWorkQueue.Dispatch()
-   at System.Threading._ThreadPoolWaitCallback.PerformWaitCallback()
+[ScriptEngine] Allocated 3 scripts.
+(bhop) Started.
+(esp) Started.
+(trigger) Started.
+(esp) Exception on execution: ReferenceError: ents is not defined
+[Framework] TypeError: screenOrigin is undefined
