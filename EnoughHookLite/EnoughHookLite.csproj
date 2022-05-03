@@ -104,6 +104,8 @@
     <Compile Include="GameClasses\PlayerResource.cs" />
     <Compile Include="GameClasses\Rank.cs" />
     <Compile Include="GameClasses\Team.cs" />
+    <Compile Include="Logging\LogEntry.cs" />
+    <Compile Include="Logging\LogHandler.cs" />
     <Compile Include="Modules\Client.cs" />
     <Compile Include="Modules\Engine.cs" />
     <Compile Include="Modules\ManagedModule.cs" />
@@ -207,7 +209,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_StartDate="2021/10/10" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_UseUniversalClock="False" />
+      <UserProperties BuildVersion_UseUniversalClock="False" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_StartDate="2021/10/10" BuildVersion_BuildVersioningStyle="None.None.Increment.None" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

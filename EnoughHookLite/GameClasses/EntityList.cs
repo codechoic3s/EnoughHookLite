@@ -15,9 +15,8 @@ namespace EnoughHookLite.GameClasses
 {
     public class EntityList
     {
-        public Entity LocalPlayer => Entities[LocalPlayerID];
+        public Entity LocalPlayer { get; private set; }
         public bool IsWorking { get; private set; }
-        public int LocalPlayerID { get; private set; }
         public int Count => Entities.Count;
 
         internal Dictionary<int, Entity> Entities { get; private set; }
@@ -31,6 +30,7 @@ namespace EnoughHookLite.GameClasses
         {
             SubAPI = api;
             Entities = new Dictionary<int, Entity>();
+            LocalPlayer = new Entity(api, 0, 0);
         }
 
         public Entity GetByID(int id)
@@ -139,7 +139,8 @@ namespace EnoughHookLite.GameClasses
                     if (Entities.Count > 0) // fix
                     {
                         // updating localplayer
-                        LocalPlayerID = SubAPI.Engine.ClientState_GetLocalPlayer;
+                        LocalPlayer.Index = SubAPI.Engine.ClientState_GetLocalPlayer;
+                        LocalPlayer.Pointer = Entities[LocalPlayer.Index].Pointer;
                         //Console.Title = SubAPI.Engine.ClientState_MapName;
                         //var localptr = App.Client.ClientModule.ReadInt(App.Client.ClientModule.BaseAdr + Offsets.App.OffsetLoader.Offsets.Signatures.dwLocalPlayer);
                     }

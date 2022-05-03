@@ -186,24 +186,16 @@ namespace EnoughHookLite
                 rand1 = new Random(rand1.Next());
                 int type = rand1.Next(0, 3);
                 if (type == 0)
-                {
                     data[i] = (byte)rand1.Next(65, 90);
-                }
                 else if (type == 1)
-                {
                     data[i] = (byte)rand1.Next(97, 122);
-                }
                 else if (type == 2)
-                {
                     data[i] = (byte)rand1.Next(48, 57);
-                }
             }
 
             char[] chars = new char[size];
             for (var i = 0; i < size; i++)
-            {
                 chars[i] = (char)data[i];
-            }
 
             return new string(chars);
         }
