@@ -1,4 +1,5 @@
-﻿using Jint;
+﻿using EnoughHookLite.Logging;
+using Jint;
 using Jint.Runtime.Interop;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ namespace EnoughHookLite.Scripting
 {
     public sealed class ScriptLoader
     {
-        internal const string Logit = "[ScriptEngine]";
         private Dictionary<string, Script> Scripts;
         private string Path;
 
@@ -20,12 +20,17 @@ namespace EnoughHookLite.Scripting
 
         internal App App;
 
+        private LogEntry LogScriptLoader;
+
         public ScriptLoader(App app)
         {
             Scripts = new Dictionary<string, Script>();
             Path = AppDomain.CurrentDomain.BaseDirectory + "\\scripts";
             App = app;
             JSApi = new ScriptAPI(app);
+
+            LogScriptLoader = new LogEntry(() => { return "[ScriptLoader] "; });
+            App.LogHandler.AddEntry("ScriptLoader", LogScriptLoader);
         }
 
         public void SetupAll()
@@ -39,7 +44,7 @@ namespace EnoughHookLite.Scripting
 
         public void AllocateScripts()
         {
-            LogIt($"Allocating scripts...");
+            LogScriptLoader.Log($"Allocating scripts...");
             if (!Directory.Exists(Path))
                 Directory.CreateDirectory(Path);
 
@@ -62,7 +67,7 @@ namespace EnoughHookLite.Scripting
                     Scripts.Add(fpath, sc);
                 }
             }
-            LogIt($"Allocated {Scripts.Count} scripts.");
+            LogScriptLoader.Log($"Allocated {Scripts.Count} scripts.");
         }
 
         public void StartAll()
@@ -72,11 +77,6 @@ namespace EnoughHookLite.Scripting
                 var script = item.Value;
                 script.Start();
             }    
-        }
-
-        private void LogIt(string log)
-        {
-            App.Log.LogIt($"{Logit} " + log);
         }
     }
 }

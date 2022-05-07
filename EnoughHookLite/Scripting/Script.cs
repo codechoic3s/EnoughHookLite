@@ -1,4 +1,5 @@
-﻿using EnoughHookLite.Utilities.Conf;
+﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Utilities.Conf;
 using Jint;
 using Jint.Parser;
 using Jint.Runtime;
@@ -24,6 +25,8 @@ namespace EnoughHookLite.Scripting
         internal ScriptConfig Config;
         internal ScriptLocal Local;
 
+        internal LogEntry LogScript;
+
         public Script(ScriptLoader loader, string name, string script)
         {
             Name = name;
@@ -31,6 +34,9 @@ namespace EnoughHookLite.Scripting
             Loader = loader;
             Config = new ScriptConfig();
             Local = new ScriptLocal(loader.App.SubAPI, this, Loader.JSApi);
+
+            LogScript = new LogEntry(() => { return $"({Name}) "; });
+            App.LogHandler.AddEntry($"Script:{Name}", LogScript);
         }
 
         public void Setup()
@@ -53,7 +59,7 @@ namespace EnoughHookLite.Scripting
 
         private void Execution()
         {
-            LogIt("Started.");
+            LogScript.Log("Started.");
             try
             {
                 JSEngine.Execute(RawScript);
@@ -63,11 +69,11 @@ namespace EnoughHookLite.Scripting
                 var cfg = Loader.App.ConfigManager.Debug.Config;
                 if (cfg.ScriptFullDebug)
                 {
-                    LogIt($"Exception on execution: {ex}");
+                    LogScript.Log($"Exception on execution: {ex}");
                 }
                 else
                 {
-                    LogIt($"Exception on execution: {ex.Message}");
+                    LogScript.Log($"Exception on execution: {ex.Message}");
                 }
                 HandleException(cfg);
             }
@@ -80,7 +86,47 @@ namespace EnoughHookLite.Scripting
                 Start();
             }
         }
+        private bool HasAction(List<(string, Script)> actions, string act_name)
+        {
+            var aco = actions.Count;
+            for (var i = 0; i < aco; i++)
+            {
+                var action = actions[i];
+                if (action.Item1 == act_name)
+                    return true;
+            }
+            return false;
+        }
+        private void HasActionRemove(List<(string, Script)> actions, string act_name)
+        {
+            var aco = actions.Count;
+            for (var i = 0; i < aco; i++)
+            {
+                var action = actions[i];
+                if (action.Item1 == act_name)
+                {
+                    actions.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+        internal void OnRemEvent(string name, string del_name)
+        {
+            bool state;
 
+            state = Loader.JSApi.Callbacks.TryGetValue(name, out List<(string, Script)> actions);
+            if (state)
+            {
+                HasActionRemove(actions, del_name);
+                return;
+            }
+            state = Loader.JSApi.CustomCallbacks.TryGetValue(name, out actions);
+            if (state)
+            {
+                HasActionRemove(actions, del_name);
+                return;
+            }
+        }
         internal ScriptEvent OnNewEvent(string name, string del_name)
         {
             bool state;
@@ -99,11 +145,6 @@ namespace EnoughHookLite.Scripting
             }
 
             return null;
-        }
-
-        internal void LogIt(string log)
-        {
-            App.Log.LogIt($"({Name}) {log}");
         }
     }
 }

@@ -177,7 +177,6 @@
     <Compile Include="Utilities\ClientClassManaging\ClientClassParser.cs" />
     <Compile Include="Utilities\Conf\MainConfig.cs" />
     <Compile Include="Utilities\Conf\ConfigManager.cs" />
-    <Compile Include="Utilities\Log.cs" />
     <Compile Include="Utilities\MinConf.cs" />
     <Compile Include="Utilities\Conf\AModules.cs" />
     <Compile Include="Utilities\RemoteDebugger.cs" />
@@ -209,7 +208,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseUniversalClock="False" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_StartDate="2021/10/10" BuildVersion_BuildVersioningStyle="None.None.Increment.None" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_StartDate="2021/10/10" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_UseUniversalClock="False" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

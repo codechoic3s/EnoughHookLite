@@ -1,4 +1,5 @@
-﻿using EnoughHookLite.Modules;
+﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Modules;
 using EnoughHookLite.Pointing;
 using EnoughHookLite.Sys;
 using EnoughHookLite.Utilities.Conf;
@@ -18,18 +19,23 @@ namespace EnoughHookLite
         public TypesParser TypesParser { get; private set; }
 
         public AModules AModules { get; private set; }
+
+        private LogEntry LogSubAPI;
         public SubAPI(AModules am)
         {
             PointManager = new PointManager(this);
             TypesParser = new TypesParser(PointManager);
             ParseModules(am);
+
+            LogSubAPI = new LogEntry(() => { return $"[SubAPI] "; });
+            App.LogHandler.AddEntry($"SubAPI", LogSubAPI);
         }
 
         public bool ParseDefaultModules()
         {
             if (!TypesParser.TryParse(Engine, true))
             {
-                LogIt("Failed parse Engine.");
+                LogSubAPI.Log("Failed parse Engine.");
                 return false;
             }
             return true;
@@ -62,7 +68,7 @@ namespace EnoughHookLite
                 Module custommodule = Process.GetModule(modulename, out bool cmb);
                 if (!cmb)
                 {
-                    LogIt($"Not founded custom module {AModules.ClientModule}");
+                    LogSubAPI.Log($"Not founded custom module {AModules.ClientModule}");
                     continue;
                 }
 
@@ -72,13 +78,13 @@ namespace EnoughHookLite
 
         public void ProcessFetch(string processname)
         {
-            LogIt($@"Waiting process ""{processname}""...");
+            LogSubAPI.Log($@"Waiting process ""{processname}""...");
             while (Process is null)
             {
                 Process = Process.FindProcess(processname);
                 Thread.Sleep(1000);
             }
-            LogIt("Process finded!");
+            LogSubAPI.Log("Process finded!");
             Process.AllocateHandles();
         }
         public bool ModulesFetch()
@@ -88,12 +94,12 @@ namespace EnoughHookLite
 
             if (!cf)
             {
-                LogIt($"Not founded client as {'"'}{AModules.ClientModule}{'"'}");
+                LogSubAPI.Log($"Not founded client as {'"'}{AModules.ClientModule}{'"'}");
                 return false;
             }
             else if (!ef)
             {
-                LogIt($"Not founded engine as {'"'}{AModules.EngineModule}{'"'}");
+                LogSubAPI.Log($"Not founded engine as {'"'}{AModules.EngineModule}{'"'}");
                 return false;
             }
             Client = new Client(clientm, this);
@@ -104,11 +110,6 @@ namespace EnoughHookLite
         public void StartAll()
         {
             Client.Start();
-        }
-
-        private void LogIt(string log)
-        {
-            App.Log.LogIt("[SubAPI] " + log);
         }
     }
 }

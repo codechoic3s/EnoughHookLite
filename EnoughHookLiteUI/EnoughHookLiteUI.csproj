@@ -61,8 +61,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Drawing.Common.4.7.3\lib\net461\System.Drawing.Common.dll</HintPath>
+    <Reference Include="System.Drawing.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.6.0.0\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
@@ -96,8 +96,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ScriptAPI\DrawAPI.cs" />
+    <Compile Include="ScriptAPI\Wraps\DrawingAPI.cs" />
     <Compile Include="Utils\Drawer.cs" />
+    <Compile Include="Utils\WinAPI.cs" />
     <Compile Include="Utils\Windowing\Window.cs" />
+    <Compile Include="Utils\Windowing\WindowDrawer.cs" />
+    <Compile Include="Utils\Windowing\WindowDrawStyle.cs" />
     <Compile Include="Utils\Windowing\WindowSystem.cs" />
     <Compile Include="Windows\EHLWindow.xaml.cs">
       <DependentUpon>EHLWindow.xaml</DependentUpon>

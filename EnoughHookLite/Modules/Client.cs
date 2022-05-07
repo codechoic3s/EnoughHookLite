@@ -1,4 +1,5 @@
 ﻿using EnoughHookLite.GameClasses;
+using EnoughHookLite.Logging;
 using EnoughHookLite.Sys;
 using EnoughHookLite.Utilities;
 using System;
@@ -16,6 +17,7 @@ namespace EnoughHookLite.Modules
         public SubAPI SubAPI { get; private set; }
 
         private Thread ClientThread;
+        private LogEntry LogClient;
 
         public Client(Module m, SubAPI api) : base(m)
         {
@@ -23,6 +25,8 @@ namespace EnoughHookLite.Modules
             EntityList = new EntityList(SubAPI);
             Camera = new Camera(SubAPI);
             PlayerResource = new PlayerResource(this);
+            LogClient = new LogEntry(() => { return "[Client] "; });
+            App.LogHandler.AddEntry("Client", LogClient);
         }
 
         public void Start()
@@ -35,24 +39,20 @@ namespace EnoughHookLite.Modules
         {
             if (!SubAPI.TypesParser.TryParse(EntityList))
             {
-                LogIt("Failed parse EntityList to offsets");
+                LogClient.Log("Failed parse EntityList to offsets");
             }
             if (!SubAPI.TypesParser.TryParse(PlayerResource))
             {
-                LogIt("Failed parse PlayerResource to offsets");
+                LogClient.Log("Failed parse PlayerResource to offsets");
             }
             if (!SubAPI.TypesParser.TryParse(Camera))
             {
-                LogIt("Failed parse Camera to offsets");
+                LogClient.Log("Failed parse Camera to offsets");
             }
 
             EntityList.FetchEntityList();
             PlayerResource.FetchMemoryAddress();
             Camera.ViewMatrixFetcher();
-        }
-        private void LogIt(string log)
-        {
-            App.Log.LogIt("[Client] " + log);
         }
 
         public EntityList EntityList { get; private set; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EnoughHookLite.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,14 @@ namespace EnoughHookLite.Sys
     public sealed class SignatureDumper
     {
         internal Dictionary<Module, List<Signature>> Modules { get; private set; }
-
+        
+        private LogEntry LogSigDump;
         public SignatureDumper()
         {
             Modules = new Dictionary<Module, List<Signature>>();
+
+            LogSigDump = new LogEntry(() => { return $"[SignatureDumper] "; });
+            App.LogHandler.AddEntry($"SignatureDumper", LogSigDump);
         }
 
         public void AddSignature(Signature sig)
@@ -37,7 +42,7 @@ namespace EnoughHookLite.Sys
         public void ScanSignatures(bool logging = false)
         {
             if (logging)
-                LogIt($"Started scanning {CountAllSignatures(Modules)}...");
+                LogSigDump.Log($"Started scanning {CountAllSignatures(Modules)}...");
             ulong scanned = 0;
 
             foreach (var item in Modules)
@@ -93,7 +98,7 @@ namespace EnoughHookLite.Sys
 
                                 tsig.Pointer = result;
                                 tsig.Finded = true;
-                                LogIt($"founded {tsig.Name} at {tsig.Pointer}");
+                                LogSigDump.Log($"founded {tsig.Name} at {tsig.Pointer}");
                                 scanned++;
                             }
                         }
@@ -102,7 +107,7 @@ namespace EnoughHookLite.Sys
             }
 
             if (logging)
-                LogIt($"Ended scanning with {scanned}/{CountAllSignatures(Modules)} signatures.");
+                LogSigDump.Log($"Ended scanning with {scanned}/{CountAllSignatures(Modules)} signatures.");
         }
 
         private ulong CountAllSignatures(Dictionary<Module, List<Signature>> modules)
@@ -113,11 +118,6 @@ namespace EnoughHookLite.Sys
                 count += (ulong)module.Value.Count;
             }
             return count;
-        }
-
-        private void LogIt(string log)
-        {
-            App.Log.LogIt("[SignatureDumper] " + log, false);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using EnoughHookLite.Modules;
+﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Modules;
 using EnoughHookLite.OtherCode;
 using EnoughHookLite.OtherCode.Structs;
 using EnoughHookLite.Pointing;
@@ -24,6 +25,8 @@ namespace EnoughHookLite.GameClasses
         [Signature(SignaturesConsts.dwEntityList)]
         private PointerCached pEntityList;
 
+        private LogEntry LogEntityList;
+
         public Entity[] pEntities => Entities.Values.ToArray();
 
         public EntityList(SubAPI api)
@@ -31,6 +34,9 @@ namespace EnoughHookLite.GameClasses
             SubAPI = api;
             Entities = new Dictionary<int, Entity>();
             LocalPlayer = new Entity(api, 0, 0);
+
+            LogEntityList = new LogEntry(() => { return "[EntityList] "; });
+            App.LogHandler.AddEntry("EntityList", LogEntityList);
         }
 
         public Entity GetByID(int id)
@@ -78,10 +84,6 @@ namespace EnoughHookLite.GameClasses
             }
 
             RemoveEntities(removeids.ToArray());
-        }
-        private void LogIt(string log)
-        {
-            App.Log.LogIt("[EntityList] " + log);
         }
         private void ParseCEntInfo(CEntInfo info, ref uint prev)
         {
@@ -151,7 +153,7 @@ namespace EnoughHookLite.GameClasses
             }
             catch (Exception ex)
             {
-                LogIt(ex.ToString());
+                LogEntityList.Log(ex);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using EnoughHookLite.Sys;
+﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Sys;
 using EnoughHookLite.Utilities;
 using EnoughHookLite.Utilities.ClientClassManaging;
 using EnoughHookLite.Utilities.Conf;
@@ -18,12 +19,16 @@ namespace EnoughHookLite.Pointing
         private Dictionary<ulong, PointerCached> Signatures;
         private Dictionary<string, PointerCached> Netvars;
 
+        private LogEntry LogPM;
         private SubAPI SubAPI;
         public PointManager(SubAPI subAPI)
         {
             Signatures = new Dictionary<ulong, PointerCached>();
             Netvars = new Dictionary<string, PointerCached>();
             SubAPI = subAPI;
+
+            LogPM = new LogEntry(() => { return "[PointManager] "; });
+            App.LogHandler.AddEntry("PointManager", LogPM);
         }
 
         public bool AllocateSignature(SignaturesConsts id, out PointerCached pc)
@@ -63,18 +68,13 @@ namespace EnoughHookLite.Pointing
             return true;
         }
 
-        private void LogIt(string log)
-        {
-            App.Log.LogIt("[PointManager] " + log);
-        }
-
         public bool InitClientClasses()
         {
-            LogIt("Initing ClientClasses...");
+            LogPM.Log("Initing ClientClasses...");
             ClientClassParser = new ClientClassParser(SubAPI);
             if (!SubAPI.TypesParser.TryParse(ClientClassParser))
             {
-                LogIt("Failed parse ClientClass for signatures.");
+                LogPM.Log("Failed parse ClientClass for signatures.");
                 return false;
             }
             ClientClassParser.Parsing();
@@ -82,7 +82,7 @@ namespace EnoughHookLite.Pointing
         }
         public void InitSignatures(EngineConfig sc)
         {
-            LogIt("Initing signatures...");
+            LogPM.Log("Initing signatures...");
             SignatureManager = new SignatureManager(SubAPI);
             SignatureManager.ParseFromConfig(sc);
             SignatureManager.LoadSignatures();

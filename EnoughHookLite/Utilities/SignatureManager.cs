@@ -1,4 +1,5 @@
-﻿using EnoughHookLite.Modules;
+﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Modules;
 using EnoughHookLite.Sys;
 using EnoughHookLite.Utilities.Conf;
 using System;
@@ -16,11 +17,15 @@ namespace EnoughHookLite.Utilities
 
         private SubAPI SubAPI;
 
+        private LogEntry LogSigMgr;
         public SignatureManager(SubAPI api)
         {
             SubAPI = api;
             SignatureDumper = new SignatureDumper();
             SignatureList = new Dictionary<string, Signature>();
+
+            LogSigMgr = new LogEntry(() => { return $"[SignatureManager] "; });
+            App.LogHandler.AddEntry($"SignatureManager", LogSigMgr);
         }
 
         public void LoadSignatures()
@@ -30,11 +35,6 @@ namespace EnoughHookLite.Utilities
                 SignatureDumper.AddSignature(item.Value);
             }
             SignatureDumper.ScanSignatures(true);
-        }
-
-        private void LogIt(string log)
-        {
-            App.Log.LogIt("[SignatureManager] " + log);
         }
 
         public void ParseFromConfig(EngineConfig sc)
@@ -48,7 +48,7 @@ namespace EnoughHookLite.Utilities
 
                 if (!SubAPI.TryGetModule(component.Module, out ManagedModule module))
                 {
-                    LogIt($"Failed get module {component.Module} by signature {component.Name}");
+                    LogSigMgr.Log($"Failed get module {component.Module} by signature {component.Name}");
                     continue;
                 }
 

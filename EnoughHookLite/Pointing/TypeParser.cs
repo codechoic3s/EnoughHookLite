@@ -1,4 +1,5 @@
-﻿using EnoughHookLite.Pointing.Attributes;
+﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Pointing.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace EnoughHookLite.Pointing
 
         private PointManager PointManager;
 
+        private LogEntry LogTypeParser;
+
         public TypeParser(Type type, PointManager pm, bool maintype = false)
         {
             PointManager = pm;
@@ -36,6 +39,8 @@ namespace EnoughHookLite.Pointing
             NetvarFieldsLength = (ulong)NetvarsFields.LongLength;
             SignatureFieldsLength = (ulong)SignaturesFields.LongLength;
 
+            LogTypeParser = new LogEntry(() => { return $"[TypeParser:{ClassType.Name}] "; });
+            App.LogHandler.AddEntry($"TypeParser:{ClassType.Name}", LogTypeParser);
             //LogIt($"netvars: {NetvarFieldsLength} signatures: {SignatureFieldsLength}");
         }
 
@@ -72,7 +77,7 @@ namespace EnoughHookLite.Pointing
                 var id = field.Item2.Id;
                 if (!PointManager.AllocateSignature(id, out PointerCached pc))
                 {
-                    LogIt("failed get signature " + id);
+                    LogTypeParser.Log("failed get signature " + id);
 
                     return false;
                 }
@@ -87,7 +92,7 @@ namespace EnoughHookLite.Pointing
                 var nmspace = field.Item2.NameSpace;
                 if (!PointManager.AllocateNetvar(nmspace, out PointerCached pc))
                 {
-                    LogIt("failed get signature " + nmspace);
+                    LogTypeParser.Log("failed get signature " + nmspace);
 
                     return false;
                 }
@@ -96,11 +101,6 @@ namespace EnoughHookLite.Pointing
             }
 
             return true;
-        }
-
-        private void LogIt(string log)
-        {
-            App.Log.LogIt($"[TypeParser:{ClassType.Name}] " + log);
         }
     }
 }

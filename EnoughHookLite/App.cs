@@ -1,4 +1,5 @@
-﻿using EnoughHookLite.Pointing;
+﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Pointing;
 using EnoughHookLite.Scripting;
 using EnoughHookLite.Sys;
 using EnoughHookLite.Utilities;
@@ -26,11 +27,11 @@ namespace EnoughHookLite
 
         public SubAPI SubAPI { get; private set; }
 
-        public static Log Log = new Log();
-
         public ScriptLoader JSLoader { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
         public DebugTools DebugTools { get; private set; }
+        public static LogHandler LogHandler = new LogHandler();
+        private LogEntry LogFramework;
 
         public Action<App> BeforeSetupScript;
         public Action<Point, Vector2> OnUpdate;
@@ -41,11 +42,6 @@ namespace EnoughHookLite
         internal string ChangeableName;
         internal string RemoveName;
 
-        private void LogIt(string log, bool withaction = true)
-        {
-            Log.LogIt("[Framework] " + log, withaction);
-        }
-
         public void Start(string[] args)
         {
             if (args.Length == 2)
@@ -55,8 +51,11 @@ namespace EnoughHookLite
                 RemoveName = args[1];
             }
 
+            LogFramework = new LogEntry(() => { return "[Framework] "; });
+            LogHandler.AddEntry("Framework", LogFramework);
+
             if (IsWorking)
-                LogIt("Is current working!");
+                LogFramework.Log("Is current working!");
             else if (!IsWorking)
                 IsWorking = true;
             ProtectStart = false;
@@ -67,7 +66,7 @@ namespace EnoughHookLite
             ProtectStart = true;
 #endif
 */
-            Log.LogAction = ConsoleMessage;
+            LogHandler.Writer = ConsoleMessage;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             MainThread = new Thread(Work);
             MainThread.Start();
@@ -82,8 +81,8 @@ namespace EnoughHookLite
         {
             Exception exception = (Exception)e.ExceptionObject;
             Console.ForegroundColor = ConsoleColor.Red;
-            LogIt(exception.ToString());
-            string log = Log.Get();
+            LogFramework.Log(exception.ToString());
+            string log = LogHandler.GetAll();
             File.WriteAllText("log.txt", log);
         }
 
@@ -95,9 +94,9 @@ namespace EnoughHookLite
                 if (ChangeName)
                 {
                     Title = ChangeableName;
-                    LogIt($"Trying remove {RemoveName}", false);
+                    LogFramework.Log($"Trying remove {RemoveName}");
                     File.Delete(RemoveName);
-                    LogIt("Removed", false);
+                    LogFramework.Log("Removed");
                 }
                 else if (!ProtectStart)
                 {
@@ -116,7 +115,7 @@ namespace EnoughHookLite
                     "\n/EnoughHookLite/\n" +
                     "   ~ Source SDK js host ~ \n" +
                     "       build: " + ver.Build + "\n";
-                LogIt(text);
+                LogFramework.Log(text);
 
                 //Console.Title = Title;
                 SubAPI = new SubAPI(ConfigManager.Modules.Config);
@@ -150,7 +149,7 @@ namespace EnoughHookLite
                         Thread.Sleep(1000);
                     }
                 }
-                LogIt("End...");
+                LogFramework.Log("End...");
                 Console.ReadKey();
             }
             else
@@ -167,7 +166,7 @@ namespace EnoughHookLite
 
         private void LoadConfig(string basedir)
         {
-            LogIt("Loading config...");
+            LogFramework.Log("Loading config...");
             ConfigManager = new ConfigManager(basedir);
             ConfigManager.Load();
         }

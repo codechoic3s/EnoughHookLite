@@ -11,22 +11,35 @@ namespace EnoughHookLite.Logging
     {
         private ConcurrentQueue<string> _log;
         internal Action<string> OnLog;
+        public Func<string> Writer;
 
-        public LogEntry()
+        public LogEntry(Func<string> writer)
         {
             _log = new ConcurrentQueue<string>();
+            Writer = writer;
         }
 
         public void Log(string log)
         {
-            _log.Enqueue(log);
-            OnLog(log);
+            var lg = Writer() + log;
+            _log.Enqueue(lg);
+            OnLog?.Invoke(lg);
         }
         public void Log(object logobj)
         {
             var log = logobj.ToString();
-            OnLog(log);
+            var lg = Writer() + log;
             _log.Enqueue(log);
+            OnLog?.Invoke(log);
+        }
+        public string GetAll()
+        {
+            string str = "";
+            foreach (var log in _log)
+            {
+                str += log + '\n';
+            }
+            return str;
         }
     }
 }

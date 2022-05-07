@@ -12,19 +12,21 @@ namespace EnoughHookLiteUI.Utils.Windowing
 
         public string Title { get; private set; }
 
-        public Window()
+        private WindowSystem WindowSystem;
+        public Window(WindowSystem wndsys)
         {
             ID = Guid.NewGuid();
+            WindowSystem = wndsys;
         }
 
         public void Show()
         {
-
+            WindowSystem.ShowWindow(ID);
         }
 
         public void Hide()
         {
-
+            WindowSystem.HideWindow(ID);
         }
     }
 }

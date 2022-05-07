@@ -15,6 +15,13 @@
       "elements": {
         "on": true
       }
+    },
+    "overlayoutline": {
+      "elements": {
+        "on": true,
+        "color": "#ff2270",
+        "outline": 1.0
+      }
     }
   }
 }

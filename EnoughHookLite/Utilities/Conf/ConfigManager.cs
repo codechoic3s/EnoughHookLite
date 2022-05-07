@@ -1,4 +1,5 @@
-﻿using EnoughHookLite.Scripting;
+﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Scripting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace EnoughHookLite.Utilities.Conf
         public MinConf<EngineConfig> Engine { get; private set; }
         public MinConf<DebugConfig> Debug { get; private set; }
 
+        private LogEntry LogConfigManager;
         public ConfigManager(string bpath)
         {
             BasePath = bpath;
@@ -22,6 +24,9 @@ namespace EnoughHookLite.Utilities.Conf
             Modules = new MinConf<AModules>(BasePath + @"/modules.json");
             Engine = new MinConf<EngineConfig>(BasePath + @"/engine.json");
             Debug = new MinConf<DebugConfig>(BasePath + @"/debug.json");
+
+            LogConfigManager = new LogEntry(() => { return $"[ConfigManager] "; });
+            App.LogHandler.AddEntry($"ConfigManager", LogConfigManager);
         }
 
         internal void Load()
@@ -37,7 +42,7 @@ namespace EnoughHookLite.Utilities.Conf
 
             Current.DeserializeFile();
             Current.SerializeFile();
-            LogIt("Config loaded");
+            LogConfigManager.Log("Config loaded");
         }
 
         internal void SyncWithCurrentScript(string name, Script script)
@@ -62,11 +67,6 @@ namespace EnoughHookLite.Utilities.Conf
                     Current.SerializeFile();
                 }
             }
-        }
-
-        private void LogIt(string log)
-        {
-            App.Log.LogIt("[ConfigManager] " + log);
         }
     }
 }

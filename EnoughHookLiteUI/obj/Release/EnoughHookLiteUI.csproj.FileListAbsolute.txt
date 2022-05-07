@@ -46,3 +46,4 @@ E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\obj\Release\EnoughHookLi
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\obj\Release\EnoughHookLiteUI.pdb
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Release\RemoteDebugClient.dll
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Release\RemoteDebugClient.pdb
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Release\System.Drawing.Common.xml

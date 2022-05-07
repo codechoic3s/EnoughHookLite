@@ -35,7 +35,8 @@ namespace EnoughHookLite.Scripting
         private void SetupSystemAPI()
         {
             Delegates.Add("twait", (Action<int>)Thread.Sleep);
-            Delegates.Add("log", (Action<string>)Script.LogIt);
+            Delegates.Add("print", (Action<string>)Script.LogScript.Log);
+            Delegates.Add("printo", (Action<object>)Script.LogScript.Log);
         }
         private void SetupConfigAPI()
         {
@@ -45,6 +46,7 @@ namespace EnoughHookLite.Scripting
         private void SetupCallbackAPI()
         {
             Delegates.Add("cbadd", (ScriptDelegate)Script.OnNewEvent);
+            Delegates.Add("cbrem", (Action<string, string>)Script.OnRemEvent);
         }
         private void SetupValueDefinition()
         {

@@ -19,9 +19,6 @@ namespace EnoughHookLiteUI.Utils
 {
     public sealed class Drawer
     {
-        [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
-        public static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
-
         public EHLWindow Window { get; private set; }
         public Bitmap Bitmap { get; private set; }
         public Graphics Graphics { get; private set; }
@@ -52,6 +49,11 @@ namespace EnoughHookLiteUI.Utils
 
         public void Setup(ulong w, ulong h)
         {
+            if (w <= 0)
+                w = 1;
+            if (h <= 0)
+                h = 1;
+
             Width = w;
             Height = h;
             Bitmap = new Bitmap((int)w, (int)h);
@@ -98,7 +100,7 @@ namespace EnoughHookLiteUI.Utils
                 var h = (int)Height;
                 BitmapData data = Bitmap.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadOnly, Bitmap.PixelFormat);
                 WriteBitmap.Lock();
-                CopyMemory(WriteBitmap.BackBuffer, data.Scan0, (uint)((ulong)WriteBitmap.BackBufferStride * Height));
+                WinAPI.CopyMemory(WriteBitmap.BackBuffer, data.Scan0, (uint)((ulong)WriteBitmap.BackBufferStride * Height));
                 WriteBitmap.AddDirtyRect(new Int32Rect(0, 0, w, h));
                 WriteBitmap.Unlock();
                 Bitmap.UnlockBits(data);

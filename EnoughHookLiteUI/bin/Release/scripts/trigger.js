@@ -30,7 +30,7 @@ while (true)
         var lccid = rm.ReadUIntUInt(localplayer.Pointer + pCrosshairID.Pointer + 92);
         var lid = lccid - 1;
         //log("trying id " + lid);
-        if (lccid != NaN && lccid > 0)
+        if (lccid != NaN && lccid > 0 && lccid < 64)
         {
             var entity = entitylist.GetByID(lid);
 

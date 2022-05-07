@@ -1,4 +1,5 @@
-﻿using EnoughHookLite.Utilities.Conf;
+﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Utilities.Conf;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,10 +16,15 @@ namespace EnoughHookLite.Utilities
         public App App { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
         public RemoteDebugger RemoteDebugger { get; private set; }
+
+        private LogEntry LogDebugTools;
         public DebugTools(App app, ConfigManager cfgs)
         {
             App = app;
             ConfigManager = cfgs;
+
+            LogDebugTools = new LogEntry(() => { return $"[DebugTools] "; });
+            App.LogHandler.AddEntry($"DebugTools", LogDebugTools);
         }
         public void OnDumpDebug()
         {
@@ -39,19 +45,14 @@ namespace EnoughHookLite.Utilities
                 {
                     if (RemoteDebugger.HasError)
                     {
-                        LogIt("Failed connect remote debug.");
+                        LogDebugTools.Log("Failed connect remote debug.");
                         return false;
                     }
                 }
-                App.Log.AltLogAction = RemoteDebugger.Logger.SendLog;
-                LogIt("Successfully connected to remotedebugger host.");
+                App.LogHandler.AltWriter = RemoteDebugger.Logger.SendLog;
+                LogDebugTools.Log("Successfully connected to remotedebugger host.");
             }
             return true;
-        }
-
-        private void LogIt(string str)
-        {
-            App.Log.LogIt("[DebugTools] " + str);
         }
 
         private void CreateFolder(string path)

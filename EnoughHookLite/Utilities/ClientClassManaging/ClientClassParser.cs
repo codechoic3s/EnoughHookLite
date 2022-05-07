@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using EnoughHookLite.Pointing;
 using EnoughHookLite.Pointing.Attributes;
 using System.IO;
+using EnoughHookLite.Logging;
 
 namespace EnoughHookLite.Utilities.ClientClassManaging
 {
@@ -18,25 +19,26 @@ namespace EnoughHookLite.Utilities.ClientClassManaging
         public ManagedClientClass[] ClientClasses { get; private set; }
         public Dictionary<string, ManagedRecvTable> DataTables { get; private set; }
         public SubAPI SubAPI { get; private set; }
+
+        private LogEntry LogCCParser;
         public ClientClassParser(SubAPI subapi)
         {
             SubAPI = subapi;
+
+            LogCCParser = new LogEntry(() => { return $"[ClientClassParser] "; });
+            App.LogHandler.AddEntry($"ClientClassParser", LogCCParser);
         }
         [Signature(SignaturesConsts.dwGetAllClasses)]
         private PointerCached pGetAllClasses;
         public void Parsing()
         {
-            LogIt("Parsing client classes...");
+            LogCCParser.Log("Parsing client classes...");
             do
             {
                 Parse();
                 Thread.Sleep(500);
             } while (DataTables.Count == 0);
-            LogIt("Successful parsed.");
-        }
-        private void LogIt(string log)
-        {
-            App.Log.LogIt("[ClientClassParser] " + log);
+            LogCCParser.Log("Successful parsed.");
         }
         private void Parse()
         {
