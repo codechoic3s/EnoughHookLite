@@ -37,8 +37,8 @@ namespace EnoughHookLiteUI.Utils
 
         public double FrameTime { get => FrameTimeFixed.TotalMilliseconds; set => FrameTimeFixed = TimeSpan.FromMilliseconds(value); }
         public double FrameRate { get => 1000.0 / FrameTime; set => FrameTime = 1000.0 / value; }
-        public double MesureFrameTime => Mesure.Elapsed.TotalMilliseconds;
-        public double MesureFrameRate => 1000.0 / MesureFrameTime;
+        public double MesureFrameTime;
+        public double MesureFrameRate;
 
         private Thread RenderThread;
         private Thread ControlRenderThread;
@@ -144,6 +144,8 @@ namespace EnoughHookLiteUI.Utils
                 Bitmap.UnlockBits(data);
             });
             Mesure.Stop();
+            MesureFrameTime = Mesure.Elapsed.TotalMilliseconds;
+            MesureFrameRate = 1000.0 / MesureFrameTime;
         }
     }
 }

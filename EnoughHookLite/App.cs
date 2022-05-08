@@ -86,7 +86,8 @@ namespace EnoughHookLite
         {
             Exception exception = (Exception)e.ExceptionObject;
             Console.ForegroundColor = ConsoleColor.Red;
-            LogFramework.Log(exception.ToString());
+            
+            LogFramework.Log(ExceptionHandler.HandleEception(exception, true));
             string log = LogHandler.GetAll();
             File.WriteAllText("log.txt", log);
         }

@@ -16,6 +16,8 @@ namespace EnoughHookLiteUI.ScriptAPI.Wraps
         }
 
         public ulong Width => Drawer.Width;
-        public ulong height => Drawer.Height;
+        public ulong Height => Drawer.Height;
+        public double MesureFrameTime => Drawer.MesureFrameTime;
+        public double MesureFrameRate => Drawer.MesureFrameRate;
     }
 }

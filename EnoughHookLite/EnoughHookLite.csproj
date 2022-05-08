@@ -169,6 +169,7 @@
     <Compile Include="Utilities\Conf\EngineConfig.cs" />
     <Compile Include="Sys\InputHandler.cs" />
     <Compile Include="Utilities\DebugTools.cs" />
+    <Compile Include="Utilities\ExceptionHandler.cs" />
     <Compile Include="Utilities\IUnmanagedObject.cs" />
     <Compile Include="Utilities\Math.cs" />
     <Compile Include="OtherCode\Structs\Matrix.cs" />
@@ -213,7 +214,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseUniversalClock="False" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_StartDate="2021/10/10" BuildVersion_BuildVersioningStyle="None.None.Increment.None" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_StartDate="2021/10/10" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_UseUniversalClock="False" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

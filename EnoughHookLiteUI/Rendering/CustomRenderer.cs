@@ -31,7 +31,16 @@ namespace EnoughHookLiteUI.Rendering
                 var del = DrawList[i];
                 var name = del.Item1;
 
-                del.Item2.JSEngine.Invoke(name);
+                try
+                {
+                    del.Item2.JSEngine.Invoke(name);
+                }
+                catch (Exception ex)
+                {
+                    DrawList.RemoveAt(i);
+                    LogCustomRenderer.Log($"Failed render '{name}' in script '{del.Item2.Name}', callback is removed.");
+                    del.Item2.HandleException(ex);
+                }
             }
         }
     }

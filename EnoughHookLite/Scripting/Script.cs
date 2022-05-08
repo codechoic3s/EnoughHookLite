@@ -1,4 +1,5 @@
 ﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Utilities;
 using EnoughHookLite.Utilities.Conf;
 using Jint;
 using Jint.Native;
@@ -29,7 +30,7 @@ namespace EnoughHookLite.Scripting
         internal ConfigAPI ConfigAPI;
         internal ScriptLocal Local;
 
-        internal LogEntry LogScript;
+        internal LogEntry LogScript { get; private set; }
 
         public Script(ScriptLoader loader, string name, string path, string script)
         {
@@ -83,22 +84,21 @@ namespace EnoughHookLite.Scripting
             }
             catch (Exception ex)
             {
-                var cfg = Loader.App.ConfigManager.Debug.Config;
-                if (cfg.ScriptFullDebug)
-                {
-                    LogScript.Log($"Exception on execution: {ex}");
-                }
-                else
-                {
-                    LogScript.Log($"Exception on execution: {ex.Message}");
-                }
-                HandleException(cfg);
+                HandleException(ex);
+                HandleAutoReload();
             }
         }
 
-        private void HandleException(DebugConfig debug)
+        public void HandleException(Exception ex)
         {
-            if (debug.ScriptAutoReload)
+            var cfg = Loader.App.ConfigManager.Debug.Config;
+            LogScript.Log($"Exception on execution: {ExceptionHandler.HandleEception(ex, cfg.ScriptFullDebug)}");
+        }
+
+        private void HandleAutoReload()
+        {
+            var cfg = Loader.App.ConfigManager.Debug.Config;
+            if (cfg.ScriptAutoReload)
             {
                 Start();
             }

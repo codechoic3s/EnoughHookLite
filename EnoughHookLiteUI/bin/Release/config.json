@@ -25,9 +25,9 @@
     },
     "worldobject": {
       "elements": {
-        "on": false,
+        "on": true,
         "color": "#ff2270",
-        "outline": 1.0
+        "outline": 2
       }
     },
     "crosshair": {

@@ -48,19 +48,20 @@ namespace EnoughHookLite.GameClasses
 
         public Vector2 WorldToScreen(Vector3 target)
         {
-            Vector2 _worldToScreenPos;
             //Vector3 to;
             float w; // = 0.0f;
             float[] viewmatrix = ViewMatrix;
-
-            _worldToScreenPos.X = viewmatrix[0] * target.X + viewmatrix[1] * target.Y + viewmatrix[2] * target.Z + viewmatrix[3];
-            _worldToScreenPos.Y = viewmatrix[4] * target.X + viewmatrix[5] * target.Y + viewmatrix[6] * target.Z + viewmatrix[7];
 
             w = viewmatrix[12] * target.X + viewmatrix[13] * target.Y + viewmatrix[14] * target.Z + viewmatrix[15];
 
             // behind us
             if (w < 0.01f)
                 return new Vector2(0, 0);
+
+            Vector2 _worldToScreenPos;
+
+            _worldToScreenPos.X = viewmatrix[0] * target.X + viewmatrix[1] * target.Y + viewmatrix[2] * target.Z + viewmatrix[3];
+            _worldToScreenPos.Y = viewmatrix[4] * target.X + viewmatrix[5] * target.Y + viewmatrix[6] * target.Z + viewmatrix[7];
 
             _worldToScreenPos.X *= (1.0f / w);
             _worldToScreenPos.Y *= (1.0f / w);
