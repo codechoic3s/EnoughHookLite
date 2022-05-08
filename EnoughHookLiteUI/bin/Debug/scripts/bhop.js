@@ -4,29 +4,30 @@ config.SetValue("on", false);
 
 sync_config(); // sync with current configuration
 
-var subapi = getSubAPI();
+var rm = getRemoteMemory();
 
-var process = subapi.Process;
-var client = subapi.Client;
-var engine = subapi.Engine;
+var entitylist = getEntityList();
 
-var localplayer = client.EntityList.LocalPlayer;
+var localplayer = entitylist.LocalPlayer;
 
+var pFFlags = getNetvar("DT_BasePlayer.m_fFlags");
+var cached = localplayer.Pointer + pFFlags.Pointer;
 while (true)
 {
     twait(1);
-    if (!cfg.GetValue('on') || !getIsForeground())
+    if (!cfg.GetValue('on'))
     {
         twait(100);
         continue;
     }
-    if (process.GetKeyState(VK.SPACE))
+    
+    if (getKeyStateVK(VK.SPACE))
     {
-        var flags = localplayer.FFlags;
+        var flags = rm.ReadUIntUInt(cached);
         if (flags == 257 || flags == 263)
         {
-            engine.Jump(true);
-            engine.Jump(false);
+            sendKeyDown(VK.SPACE, ScanCodeShort.SPACE);
+            sendKeyUp(VK.SPACE, ScanCodeShort.SPACE);
         }
     }
 }

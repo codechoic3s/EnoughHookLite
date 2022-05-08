@@ -31,7 +31,7 @@ namespace EnoughHookLite
         public ConfigManager ConfigManager { get; private set; }
         public DebugTools DebugTools { get; private set; }
         public static LogHandler LogHandler = new LogHandler();
-        private LogEntry LogFramework;
+        private static LogEntry LogFramework;
 
         public Action<App> BeforeSetupScript;
         public Action<Point, Vector2> OnUpdate;
@@ -51,8 +51,7 @@ namespace EnoughHookLite
                 RemoveName = args[1];
             }
 
-            LogFramework = new LogEntry(() => { return "[Framework] "; });
-            LogHandler.AddEntry("Framework", LogFramework);
+            
 
             if (IsWorking)
                 LogFramework.Log("Is current working!");
@@ -67,7 +66,7 @@ namespace EnoughHookLite
 #endif
 */
             LogHandler.Writer = ConsoleMessage;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            
             MainThread = new Thread(Work);
             MainThread.Start();
         }
@@ -77,7 +76,13 @@ namespace EnoughHookLite
             Console.WriteLine(log);
         }
 
-        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        public static void SetupCrashHandler()
+        {
+            LogFramework = new LogEntry(() => { return "[Framework] "; });
+            LogHandler.AddEntry("Framework", LogFramework);
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             Exception exception = (Exception)e.ExceptionObject;
             Console.ForegroundColor = ConsoleColor.Red;

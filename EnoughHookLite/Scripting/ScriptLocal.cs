@@ -1,4 +1,5 @@
 ﻿using EnoughHookLite.Scripting.Apis;
+using Jint.Native;
 using Jint.Runtime.Interop;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,7 @@ namespace EnoughHookLite.Scripting
             Delegates.Add("twait", (Action<int>)Thread.Sleep);
             Delegates.Add("print", (Action<string>)Script.LogScript.Log);
             Delegates.Add("printo", (Action<object>)Script.LogScript.Log);
+            Delegates.Add("require", (Func<string, JsValue>)Script.LoadScript);
         }
         private void SetupConfigAPI()
         {

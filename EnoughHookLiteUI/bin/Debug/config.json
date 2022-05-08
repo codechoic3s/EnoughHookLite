@@ -1,6 +1,4 @@
 {
-  "script_fulldebug": true,
-  "script_autoreload": false,
   "script_configs": {
     "trigger": {
       "elements": {
@@ -13,10 +11,33 @@
         "on": true
       }
     },
-    "rank_reveal": {
+    "esp": {
+      "elements": {
+        "on": true
+      }
+    },
+    "overlayoutline": {
       "elements": {
         "on": true,
-        "update_key": 9.0
+        "color": "#ff2270",
+        "outline": 1.0
+      }
+    },
+    "crosshair": {
+      "elements": {
+        "on": true,
+        "color": "#ff2270",
+        "outline": 1.0,
+        "gap": 5.0,
+        "size": 5.0,
+        "dot": false
+      }
+    },
+    "worldobject": {
+      "elements": {
+        "on": true,
+        "color": "#ff2270",
+        "outline": 1.0
       }
     }
   }

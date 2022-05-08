@@ -42,8 +42,6 @@ namespace EnoughHookLite.Scripting
             SharedApis.Add(new InputAPI(app.SubAPI.Process));
             SharedApis.Add(new NumericsAPI());
             SharedApis.Add(new CameraAPI(app.SubAPI.Client.Camera));
-
-            
         }
 
         public void ClearAllCustom()

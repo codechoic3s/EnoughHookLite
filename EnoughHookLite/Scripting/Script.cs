@@ -1,11 +1,13 @@
 ﻿using EnoughHookLite.Logging;
 using EnoughHookLite.Utilities.Conf;
 using Jint;
+using Jint.Native;
 using Jint.Parser;
 using Jint.Runtime;
 using Jint.Runtime.Interop;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,22 +19,26 @@ namespace EnoughHookLite.Scripting
     {
         public string Name { get; internal set; }
         public string RawScript { get; internal set; }
+        public string Path { get; internal set; }
 
         private Thread ExecuteThread;
 
         public Engine JSEngine { get; private set; }
         internal ScriptLoader Loader;
         internal ScriptConfig Config;
+        internal ConfigAPI ConfigAPI;
         internal ScriptLocal Local;
 
         internal LogEntry LogScript;
 
-        public Script(ScriptLoader loader, string name, string script)
+        public Script(ScriptLoader loader, string name, string path, string script)
         {
             Name = name;
+            Path = path;
             RawScript = script;
             Loader = loader;
             Config = new ScriptConfig();
+            ConfigAPI = new ConfigAPI();
             Local = new ScriptLocal(loader.App.SubAPI, this, Loader.JSApi);
 
             LogScript = new LogEntry(() => { return $"({Name}) "; });
@@ -55,6 +61,17 @@ namespace EnoughHookLite.Scripting
         internal void SyncConfig()
         {
             Loader.App.ConfigManager.SyncWithCurrentScript(Name, this);
+        }
+
+        internal JsValue LoadScript(string path)
+        {
+            var cpath = Path + path;
+            if (!File.Exists(cpath))
+            {
+                LogScript.Log($"Failed load script on {cpath}");
+                return null;
+            }
+            return JSEngine.Execute(File.ReadAllText(cpath)).GetCompletionValue();
         }
 
         private void Execution()

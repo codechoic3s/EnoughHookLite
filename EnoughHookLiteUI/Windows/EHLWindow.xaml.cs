@@ -1,5 +1,7 @@
 ﻿using EnoughHookLite;
 using EnoughHookLite.Scripting;
+using EnoughHookLiteUI.Features;
+using EnoughHookLiteUI.Rendering;
 using EnoughHookLiteUI.Utils;
 using EnoughHookLiteUI.Utils.Windowing;
 using Jint.Native;
@@ -27,27 +29,23 @@ namespace EnoughHookLiteUI.Windows
     public partial class EHLWindow : System.Windows.Window
     {
         private App App;
-        private Drawer Drawer;
-        internal List<(string, Script)> DrawList;
+        
+        
         private WindowSystem WindowSystem;
+        private ManualRenderer ManualRenderer;
 
         public EHLWindow(App app, string[] args)
         {
             InitializeComponent();
             App = app;
 
-            DrawList = new List<(string, Script)>();
-            Drawer = new Drawer(this);
-
-            Drawer.Setup((ulong)Width, (ulong)Height);
-            CustomDraw.Source = Drawer.WriteBitmap;
-
-            Drawer.DrawCall = DrawAll;
-            Drawer.Start();
+            ManualRenderer = new ManualRenderer(this);
 
             App.Start(args);
             App.BeforeSetupScript = SetupDrawAPI;
             App.OnUpdate = OnUpdate;
+
+            SetupWindowSystem();
         }
 
         private void SetupWindowSystem()
@@ -62,8 +60,8 @@ namespace EnoughHookLiteUI.Windows
                 if (size.X != Width || size.Y != Height)
                 {
                     //LogIt($"Changed resolution to {size.X}:{size.y}");
-                    Drawer.Setup((ulong)size.X, (ulong)size.Y);
-                    CustomDraw.Source = Drawer.WriteBitmap;
+                    ManualRenderer.Renderer.Drawer.Setup((ulong)size.X, (ulong)size.Y);
+                    CustomDraw.Source = ManualRenderer.Renderer.Drawer.WriteBitmap;
                 }
 
                 ehlwindow.Left = pos.X;
@@ -75,19 +73,7 @@ namespace EnoughHookLiteUI.Windows
 
         private void SetupDrawAPI(App app)
         {
-            app.JSLoader.JSApi.AddSharedAPI(Drawer.DrawAPI);
-        }
-
-        private void DrawAll()
-        {
-            int dlco = DrawList.Count;
-            for (int i = 0; i < dlco; i++)
-            {
-                var del = DrawList[i];
-                var name = del.Item1;
-
-                del.Item2.JSEngine.Invoke(name);
-            }
+            app.JSLoader.JSApi.AddSharedAPI(ManualRenderer.Renderer.Drawer.DrawAPI);
         }
     }
 }

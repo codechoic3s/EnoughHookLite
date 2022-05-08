@@ -54,6 +54,9 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Jint, Version=0.0.0.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f, processorArchitecture=MSIL">
       <HintPath>..\packages\Jint.2.11.58\lib\net451\Jint.dll</HintPath>
@@ -81,6 +84,7 @@
   <ItemGroup>
     <Compile Include="API\WindowAPI.cs" />
     <Compile Include="API\WindowSystemAPI.cs" />
+    <Compile Include="Features\BackMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -95,8 +99,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Rendering\ICanRender.cs" />
+    <Compile Include="Rendering\ManualRenderer.cs" />
+    <Compile Include="Rendering\Renderer.cs" />
+    <Compile Include="Rendering\CustomRenderer.cs" />
+    <Compile Include="Rendering\WindowsRenderer.cs" />
     <Compile Include="ScriptAPI\DrawAPI.cs" />
     <Compile Include="ScriptAPI\Wraps\DrawingAPI.cs" />
+    <Compile Include="ScriptAPI\Wraps\OverlayAPI.cs" />
     <Compile Include="Utils\Drawer.cs" />
     <Compile Include="Utils\WinAPI.cs" />
     <Compile Include="Utils\Windowing\Window.cs" />
@@ -110,6 +120,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

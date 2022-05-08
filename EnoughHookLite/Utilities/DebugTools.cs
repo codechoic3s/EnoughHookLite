@@ -35,24 +35,20 @@ namespace EnoughHookLite.Utilities
                 App.SubAPI.PointManager.ClientClassParser.DumpCppClasses(path + "/" + ClientClassesDumpCPP);
             }
         }
-        public bool OnStartDebug()
+        public void OnStartDebug()
         {
             if (ConfigManager.Debug.Config.RemoteDebug)
             {
                 RemoteDebugger = new RemoteDebugger();
                 RemoteDebugger.Start(ConfigManager.Debug.Config);
-                while (!RemoteDebugger.IsConnected)
-                {
-                    if (RemoteDebugger.HasError)
-                    {
-                        LogDebugTools.Log("Failed connect remote debug.");
-                        return false;
-                    }
-                }
                 App.LogHandler.AltWriter = RemoteDebugger.Logger.SendLog;
-                LogDebugTools.Log("Successfully connected to remotedebugger host.");
+                LogDebugTools.Log("RemoteDebugger installed.");
             }
-            return true;
+        }
+
+        private void ActiveConnect()
+        {
+
         }
 
         private void CreateFolder(string path)

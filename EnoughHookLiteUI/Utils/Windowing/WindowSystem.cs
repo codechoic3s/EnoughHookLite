@@ -9,28 +9,28 @@ namespace EnoughHookLiteUI.Utils.Windowing
     public sealed class WindowSystem
     {
         private Dictionary<Guid, Window> Windows;
-        private Dictionary<Guid, Window> VisibleWindows;
+        private List<Guid> VisibleWindows;
 
         public WindowSystem()
         {
             Windows = new Dictionary<Guid, Window>();
+            VisibleWindows = new List<Guid>();
         }
-
         public bool ShowWindow(Guid guid)
         {
             if (!Windows.ContainsKey(guid))
                 return false;
-            if (VisibleWindows.ContainsKey(guid))
+            if (VisibleWindows.Contains(guid))
                 return true;
 
-            VisibleWindows.Add(guid, Windows[guid]);
+            VisibleWindows.Add(guid);
             return true;
         }
         public bool HideWindow(Guid guid)
         {
             if (!Windows.ContainsKey(guid))
                 return false;
-            if (!VisibleWindows.ContainsKey(guid))
+            if (!VisibleWindows.Contains(guid))
                 return true;
 
             VisibleWindows.Remove(guid);
@@ -44,7 +44,6 @@ namespace EnoughHookLiteUI.Utils.Windowing
         {
             return Windows.Remove(id);
         }
-        
         public Window AllocateWindow()
         {
             var wnd = new Window(this);

@@ -1,8 +1,13 @@
-﻿using EnoughHookLiteUI.API;
+﻿using EnoughHookLite;
+using EnoughHookLite.Logging;
+using EnoughHookLite.Scripting;
+using EnoughHookLiteUI.API;
+using EnoughHookLiteUI.Rendering;
 using EnoughHookLiteUI.ScriptAPI;
 using EnoughHookLiteUI.Windows;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -20,6 +25,7 @@ namespace EnoughHookLiteUI.Utils
     public sealed class Drawer
     {
         public EHLWindow Window { get; private set; }
+        public Renderer Renderer { get; private set; }
         public Bitmap Bitmap { get; private set; }
         public Graphics Graphics { get; private set; }
         public WriteableBitmap WriteBitmap { get; private set; }
@@ -31,22 +37,36 @@ namespace EnoughHookLiteUI.Utils
 
         public double FrameTime { get => FrameTimeFixed.TotalMilliseconds; set => FrameTimeFixed = TimeSpan.FromMilliseconds(value); }
         public double FrameRate { get => 1000.0 / FrameTime; set => FrameTime = 1000.0 / value; }
+        public double MesureFrameTime => Mesure.Elapsed.TotalMilliseconds;
+        public double MesureFrameRate => 1000.0 / MesureFrameTime;
 
-        private Thread CopyThread;
+        private Thread RenderThread;
+        private Thread ControlRenderThread;
         private TimeSpan FrameTimeFixed;
+
+        private Stopwatch Mesure;
+        private Task delay;
+        private Task delay2;
+
+        private LogEntry LogDrawer;
 
         public Action DrawCall { get; set; }
 
-        public Drawer(EHLWindow wnd)
+        public Drawer(EHLWindow wnd, Renderer rnd)
         {
             Window = wnd;
-        }
-        public Drawer(ulong w, ulong h, EHLWindow wnd)
-        {
-            Window = wnd;
-            Setup(w, h);
-        }
+            Renderer = rnd;
+            CurrentRender = PassiveRender;
+            delay = Task.Delay(FrameTimeFixed);
+            delay2 = Task.Delay(1000);
 
+            LogDrawer = new LogEntry(() => { return "[Drawer] "; });
+            App.LogHandler.AddEntry("Drawer", LogDrawer);
+        }
+        public void SetupDrawAPI(List<(string, Script)> drawlist)
+        {
+            DrawAPI = new DrawAPI(Graphics, this, drawlist); // setup customs
+        }
         public void Setup(ulong w, ulong h)
         {
             if (w <= 0)
@@ -58,38 +78,56 @@ namespace EnoughHookLiteUI.Utils
             Height = h;
             Bitmap = new Bitmap((int)w, (int)h);
             Graphics = Graphics.FromImage(Bitmap);
-            if (DrawAPI is null)
-                DrawAPI = new DrawAPI(Graphics, this, Window.DrawList);
-            else
+            if (DrawAPI != null)
                 DrawAPI.GFX = Graphics;
             WriteBitmap = new WriteableBitmap((int)Width, (int)Height, 96, 96, PixelFormats.Bgra32, null);
+            Mesure = new Stopwatch();
         }
         public void Start()
         {
             FrameRate = 60;
-            CopyThread = new Thread(Work);
-            CopyThread.Start();
+            RenderThread = new Thread(Rendering);
+            RenderThread.Start();
+            ControlRenderThread = new Thread(Controlling);
+            ControlRenderThread.Start();
         }
 
-        private async void Work()
+        private void Controlling()
         {
             while (true)
             {
-                if (DrawCall != null)
-                {
-                    Begin();
-                    DrawCall();
-                    End();
-                    await Task.Delay(FrameTimeFixed);
-                }
-                else
-                    await Task.Delay(1000);
+                if (DrawCall != null && CurrentRender != ActiveRender)
+                    CurrentRender = ActiveRender;
+                else if (DrawCall == null && CurrentRender != PassiveRender)
+                    CurrentRender = PassiveRender;
+                Thread.Sleep(1000);
+            }
+        }
+        private Func<Task> CurrentRender;
+        private async Task ActiveRender()
+        {
+            Begin();
+            DrawCall();
+            End();
+            await delay;
+        }
+        private async Task PassiveRender()
+        {
+            await delay2;
+        }
+
+        private async void Rendering()
+        {
+            while (true)
+            {
+                 await CurrentRender();
             }
         }
 
         internal void Begin()
         {
             Graphics.Clear(System.Drawing.Color.Transparent);
+            Mesure.Restart();
         }
 
         internal void End()
@@ -105,6 +143,7 @@ namespace EnoughHookLiteUI.Utils
                 WriteBitmap.Unlock();
                 Bitmap.UnlockBits(data);
             });
+            Mesure.Stop();
         }
     }
 }

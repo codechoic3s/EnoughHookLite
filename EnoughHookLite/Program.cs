@@ -10,6 +10,7 @@ namespace EnoughHookLite
     {
         static void Main(string[] args)
         {
+            App.SetupCrashHandler();
             Start(args);
         }
 

@@ -14,6 +14,8 @@ namespace EnoughHookLite.Scripting.Apis
             local.AddType("Vector3", typeof(Vector3));
             local.AddType("Vector2", typeof(Vector2));
             local.AddType("Vector4", typeof(Vector4));
+            local.AddType("Matrix3x2", typeof(Matrix3x2));
+            local.AddType("Matrix4x4", typeof(Matrix4x4));
         }
     }
 }

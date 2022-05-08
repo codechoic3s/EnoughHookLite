@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace EnoughHookLiteUI.Utils.Windowing
 {
-    public abstract class WindowDrawStyle
+    public sealed class WindowDrawStyle
     {
+        
     }
 }

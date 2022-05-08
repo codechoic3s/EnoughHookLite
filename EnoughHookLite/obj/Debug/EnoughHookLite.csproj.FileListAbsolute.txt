@@ -22,3 +22,5 @@ E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\Jint.dll
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\Newtonsoft.Json.dll
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\Newtonsoft.Json.xml
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\obj\Debug\EnoughHookLite.csproj.CopyComplete
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\RemoteDebugClient.dll
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLite\bin\Debug\RemoteDebugClient.pdb

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnoughHookLiteUI.Utils.Windowing
+namespace EnoughHookLite.Scripting
 {
-    public sealed class WindowDrawer
+    public sealed class ConfigAPI
     {
-        public Action<Window, WindowDrawStyle> Draw;
+        
     }
 }

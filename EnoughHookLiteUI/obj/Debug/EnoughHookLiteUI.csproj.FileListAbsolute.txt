@@ -44,3 +44,6 @@ E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\obj\Debug\EnoughHookLite
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\obj\Debug\EnoughHookLiteUI.csproj.CopyComplete
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\obj\Debug\EnoughHookLiteUI.exe
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\obj\Debug\EnoughHookLiteUI.pdb
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Debug\RemoteDebugClient.dll
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Debug\System.Drawing.Common.xml
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Debug\RemoteDebugClient.pdb

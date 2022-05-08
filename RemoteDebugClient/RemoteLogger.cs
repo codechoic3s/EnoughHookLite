@@ -13,7 +13,8 @@ namespace RemoteDebugClient
         }
         public void SendLog(string log)
         {
-            Cl.SendLog(log);
+            if (Cl.IsConnected)
+                Cl.SendLog(log);
         }
     }
 }

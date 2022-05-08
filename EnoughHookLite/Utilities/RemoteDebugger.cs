@@ -1,4 +1,5 @@
-﻿using EnoughHookLite.Utilities.Conf;
+﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Utilities.Conf;
 using RemoteDebugClient;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,14 @@ namespace EnoughHookLite.Utilities
         public Client Client { get; private set; }
         public RemoteLogger Logger { get; private set; }
         public bool IsConnected => Client.IsConnected;
-        public bool HasError { get; private set; }
+
+        private LogEntry LogRemoteDebug;
+
+        public RemoteDebugger()
+        {
+            LogRemoteDebug = new LogEntry(() => { return "[RemoteDebugger] "; });
+            App.LogHandler.AddEntry("RemoteDebugger", LogRemoteDebug);
+        }
         public void Start(DebugConfig cfg)
         {
             Client = new Client
@@ -23,21 +31,19 @@ namespace EnoughHookLite.Utilities
                     Host = cfg.RemoteDebugHost,
                     Port = cfg.RemoteDebugPort
                 },
-                FailedConnect = FailedConnect,
-                ConnectionError = ConnectionError
+                ConnectionError = ConnectionError,
+                Connected = Connected,
             };
             Logger = new RemoteLogger(Client);
             Task.Run(Client.Start);
         }
-
-        private void FailedConnect()
-        {
-            HasError = true;
-        }
         private void ConnectionError()
         {
-            HasError = true;
-            Console.WriteLine("Connection error.");
+            LogRemoteDebug.Log("Connection interrupted.");
+        }
+        private void Connected()
+        {
+            LogRemoteDebug.Log("Successfully connected to remotedebugger host.");
         }
     }
 }

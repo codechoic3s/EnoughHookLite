@@ -14,14 +14,32 @@ namespace RemoteDebugClient
         public ConnectionOptions ConnectionOptions;
         public bool IsConnected { get; private set; }
 
-        public Action FailedConnect;
         public Action ConnectionError;
+        public Action Connected;
+
+        private Thread ConnectionThread;
 
         public void Start()
         {
+            ConnectionThread = new Thread(Connecting);
+            ConnectionThread.IsBackground = true;
+            ConnectionThread.Start();
+        }
+
+        private void Connecting()
+        {
             TcpClient = new TcpClient();
-            if (!TryConnect())
-                FailedConnect?.Invoke();
+            while (true)
+            {
+                Thread.Sleep(5000);
+                if (!IsConnected)
+                {
+                    if (!TryConnect())
+                        Thread.Sleep(5000);
+                    else
+                        Connected?.Invoke();
+                }
+            }
         }
 
         private bool TryConnect()

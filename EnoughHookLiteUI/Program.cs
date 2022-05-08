@@ -18,6 +18,7 @@ namespace EnoughHookLiteUI
 
         static void Main(string[] args)
         {
+            App.SetupCrashHandler();
             App app = new App();
             Start(app, args);
         }

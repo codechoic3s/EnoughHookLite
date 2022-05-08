@@ -61,9 +61,21 @@ namespace EnoughHookLite.Scripting
                 {
                     var splited1 = fpath.Split('\\');
                     var splited2 = splited1[splited1.LongLength - 1].Split('.');
+                    var sp1 = new List<string>(splited1);
+                    sp1.RemoveAt(sp1.Count - 1);
+                    var npath = "";
+                    for (var o = 0; o < sp1.Count; o++)
+                    {
+                        npath += sp1[o];
+                        if (o != sp1.Count - 1)
+                            npath += "\\";
+                    }
+
                     var fname = splited2[0];
+
                     var rawscript = File.ReadAllText(fpath);
-                    var sc = new Script(this, fname, rawscript);
+
+                    var sc = new Script(this, fname, npath, rawscript);
                     Scripts.Add(fpath, sc);
                 }
             }

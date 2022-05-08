@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnoughHookLiteUI.Utils.Windowing
+namespace EnoughHookLiteUI.Rendering
 {
-    public sealed class WindowDrawer
+    public interface ICanRender
     {
-        public Action<Window, WindowDrawStyle> Draw;
+        void Render();
+        string Name { get; }
     }
 }
