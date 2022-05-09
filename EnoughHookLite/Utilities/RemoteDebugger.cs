@@ -43,6 +43,7 @@ namespace EnoughHookLite.Utilities
         }
         private void Connected()
         {
+            Logger.SendLog(App.LogHandler.GetAllEntriesAsString());
             LogRemoteDebug.Log("Successfully connected to remotedebugger host.");
         }
     }

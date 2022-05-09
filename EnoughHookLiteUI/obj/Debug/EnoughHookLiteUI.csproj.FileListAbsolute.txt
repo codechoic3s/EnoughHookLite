@@ -47,3 +47,5 @@ E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\obj\Debug\EnoughHookLite
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Debug\RemoteDebugClient.dll
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Debug\System.Drawing.Common.xml
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Debug\RemoteDebugClient.pdb
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Debug\SharpDX.dll
+E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Debug\SharpDX.pdb

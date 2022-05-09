@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,7 +53,7 @@ namespace RemoteDebugHost
             Client = TcpListener.AcceptTcpClient();
             NetworkStream = Client.GetStream();
 
-            Console.Title = $"Connection on {Client.Client.AddressFamily} (host_port={Port})";
+            Console.Title = $"Connection on {((IPEndPoint)Client.Client.RemoteEndPoint).Address} (host_port={Port})";
 
             TcpListener.Stop();
         }

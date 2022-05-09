@@ -32,10 +32,10 @@
     },
     "crosshair": {
       "elements": {
-        "on": true,
+        "on": false,
         "color": "#ff2270",
         "outline": 1.0,
-        "gap": 5.0,
+        "gap": 2,
         "size": 5.0,
         "dot": false
       }
