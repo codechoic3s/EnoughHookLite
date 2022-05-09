@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RemoteDebugHost
@@ -15,45 +16,60 @@ namespace RemoteDebugHost
 
         private NetworkStream NetworkStream;
         private TcpClient Client;
-        private int Port;
+        public bool IsWorking { get; private set; }
+        public Func<int> OnGetPort;
+        public int DefaultPort;
+        public int Port { get; private set; }
+
+        public Action<string> OnNewConnection;
+        public Action<string> OnConnectionInterrupt;
+        public Action OnConnectionEnd;
+        public Action<string> OnMessage;
+        public Action OnWaitingConnection;
+
+        public Host()
+        {
+            DefaultPort = 8888;
+        }
+
         public void Start()
         {
-            NativeThread = new Thread(Work);
-            NativeThread.Start();
+            if (!IsWorking)
+            {
+                IsWorking = true;
+                NativeThread = new Thread(Work);
+                NativeThread.Start();
+            }
+        }
+        /// <summary>
+        /// Set signal for stop.
+        /// </summary>
+        public void Stop()
+        {
+            IsWorking = false;
         }
 
         private void Work()
         {
-            Port = Convert.ToInt32(Ask("input port: "));
-            while (true)
+            while (IsWorking)
             {
+                Port = OnGetPort is null ? DefaultPort : OnGetPort();
                 Accept();
                 Maintain();
             }
-        }
-
-        private ConsoleKeyInfo AskKey(string str)
-        {
-            Console.Write(str);
-            return Console.ReadKey();
-        }
-        private string Ask(string str)
-        {
-            Console.Write(str);
-            return Console.ReadLine();
+            IsWorking = false;
         }
 
         private void Accept()
         {
-            Console.Clear();
-            Console.Title = $"Waiting on port: {Port}";
-            TcpListener = new TcpListener(System.Net.IPAddress.Any, Port);
+            TcpListener = new TcpListener(IPAddress.Any, Port);
             TcpListener.Start();
+            OnWaitingConnection?.Invoke();
 
             Client = TcpListener.AcceptTcpClient();
             NetworkStream = Client.GetStream();
 
-            Console.Title = $"Connection on {((IPEndPoint)Client.Client.RemoteEndPoint).Address} (host_port={Port})";
+            OnNewConnection?.Invoke(((IPEndPoint)Client.Client.RemoteEndPoint).Address.ToString());
 
             TcpListener.Stop();
         }
@@ -62,7 +78,7 @@ namespace RemoteDebugHost
         {
             try
             {
-                while (true)
+                while (IsWorking)
                 {
                     byte[] buf = new byte[1024];
                     StringBuilder sb = new StringBuilder();
@@ -73,16 +89,15 @@ namespace RemoteDebugHost
                         sb.Append(Encoding.Unicode.GetString(buf, 0, bytes));
                     }
                     while (NetworkStream.DataAvailable);
-                    
-                    Console.WriteLine(sb.ToString());
+
+                    OnMessage?.Invoke(sb.ToString());
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                Console.Title += " CONNECTION_INTERUPTED";
+                OnConnectionInterrupt?.Invoke(ex.Message);
             }
-            AskKey("Any key for host again...");
+            OnConnectionEnd?.Invoke();
         }
     }
 }
