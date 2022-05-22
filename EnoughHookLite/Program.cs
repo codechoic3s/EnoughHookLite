@@ -11,14 +11,13 @@ namespace EnoughHookLite
         static void Main(string[] args)
         {
             App.SetupCrashHandler();
-            Start(args);
+            Start(args, out App app);
         }
 
-        public static App Start(string[] args)
+        public static bool Start(string[] args, out App app)
         {
-            var app = new App();
-            app.Start(args);
-            return app;
+            app = new App();
+            return app.HandleStart(args);
         }
     }
 }

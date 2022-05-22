@@ -40,8 +40,6 @@ namespace EnoughHookLiteUI.Windows
             App = app;
 
             ManualRenderer = new ManualRenderer(this);
-
-            App.Start(args);
             App.BeforeSetupScript = SetupDrawAPI;
             App.OnUpdate = OnUpdate;
 

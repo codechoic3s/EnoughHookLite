@@ -20,7 +20,6 @@ namespace EnoughHookLite
         private string Title;
         //private const string LastBuild = "10/10/2021 8:00PM";
 
-        public bool ProtectStart { get; private set; }
         public bool IsWorking { get; private set; }
 
         internal Thread MainThread;
@@ -38,37 +37,32 @@ namespace EnoughHookLite
 
         public bool IsForeground { get; private set; }
 
-        internal bool ChangeName;
-        internal string ChangeableName;
-        internal string RemoveName;
-
-        public void Start(string[] args)
+        public bool HandleStart(string[] args)
         {
-            if (args.Length == 2)
+            ProtectStart.Setup(args);
+            if (ProtectStart.Handle())
             {
-                ChangeName = true;
-                ChangeableName = args[0];
-                RemoveName = args[1];
+                Start();
+                return true;
             }
+            return false;
+        }
 
-            
-
+        public void Start()
+        {
             if (IsWorking)
                 LogFramework.Log("Is current working!");
             else if (!IsWorking)
                 IsWorking = true;
-            ProtectStart = false;
-/*
-#if DEBUG
-            ProtectStart = false;
-#else
-            ProtectStart = true;
-#endif
-*/
+
             LogHandler.Writer = ConsoleMessage;
             
             MainThread = new Thread(Work);
             MainThread.Start();
+        }
+        public void Stop()
+        {
+            IsWorking = false;
         }
 
         private void ConsoleMessage(string log)
@@ -95,79 +89,55 @@ namespace EnoughHookLite
         private void Work()
         {
             string basedir = AppDomain.CurrentDomain.BaseDirectory;
-            if (ChangeName || !ProtectStart)
+
+            Version ver = Assembly.GetEntryAssembly().GetName().Version;
+
+            LoadConfig(basedir);
+
+            DebugTools = new DebugTools(this, ConfigManager);
+            DebugTools.OnStartDebug();
+
+            string text = "";
+            text +=
+                "\n/EnoughHookLite/\n" +
+                "   ~ Source SDK js host ~ \n" +
+                "       build: " + ver.Build + "\n";
+            LogFramework.Log(text);
+
+            //Console.Title = Title;
+            SubAPI = new SubAPI(ConfigManager.Modules.Config);
+            SubAPI.ProcessFetch(ConfigManager.Engine.Config.ProcessName);
+
+            if (SubAPI.ModulesFetch())
             {
-                if (ChangeName)
+                SubAPI.PointManager.InitSignatures(ConfigManager.Engine.Config);
+                SubAPI.PointManager.InitClientClasses();
+
+                DebugTools.OnDumpDebug();
+
+                if (!SubAPI.ParseDefaultModules())
+                    return;
+
+                JSLoader = new ScriptLoader(this);
+
+                JSLoader.AllocateScripts();
+                BeforeSetupScript?.Invoke(this);
+                JSLoader.SetupAll();
+
+                SubAPI.StartAll();
+
+                JSLoader.StartAll();
+
+                while (true)
                 {
-                    Title = ChangeableName;
-                    LogFramework.Log($"Trying remove {RemoveName}");
-                    File.Delete(RemoveName);
-                    LogFramework.Log("Removed");
+                    IsForeground = SubAPI.Process.IsForeground();
+                    SubAPI.Process.UpdateWindow();
+                    OnUpdate?.Invoke(SubAPI.Process.Position, SubAPI.Process.Size);
+                    Thread.Sleep(1000);
                 }
-                else if (!ProtectStart)
-                {
-                    Title = RandomText();
-                }
-
-                Version ver = Assembly.GetEntryAssembly().GetName().Version;
-
-                LoadConfig(basedir);
-
-                DebugTools = new DebugTools(this, ConfigManager);
-                DebugTools.OnStartDebug();
-
-                string text = "";
-                text +=
-                    "\n/EnoughHookLite/\n" +
-                    "   ~ Source SDK js host ~ \n" +
-                    "       build: " + ver.Build + "\n";
-                LogFramework.Log(text);
-
-                //Console.Title = Title;
-                SubAPI = new SubAPI(ConfigManager.Modules.Config);
-                SubAPI.ProcessFetch(ConfigManager.Engine.Config.ProcessName);
-
-                if (SubAPI.ModulesFetch())
-                {
-                    SubAPI.PointManager.InitSignatures(ConfigManager.Engine.Config);
-                    SubAPI.PointManager.InitClientClasses();
-
-                    DebugTools.OnDumpDebug();
-
-                    if (!SubAPI.ParseDefaultModules())
-                        return;
-
-                    JSLoader = new ScriptLoader(this);
-
-                    JSLoader.AllocateScripts();
-                    BeforeSetupScript?.Invoke(this);
-                    JSLoader.SetupAll();
-
-                    SubAPI.StartAll();
-
-                    JSLoader.StartAll();
-
-                    while (true)
-                    {
-                        IsForeground = SubAPI.Process.IsForeground();
-                        SubAPI.Process.UpdateWindow();
-                        OnUpdate?.Invoke(SubAPI.Process.Position, SubAPI.Process.Size);
-                        Thread.Sleep(1000);
-                    }
-                }
-                LogFramework.Log("End...");
-                Console.ReadKey();
             }
-            else
-            {
-                Title = RandomText();
-                string minpath = basedir + @"/" + Title + ".exe";
-                string thispath = basedir + @"/" + AppDomain.CurrentDomain.FriendlyName;
-                byte[] bytes = File.ReadAllBytes(thispath);
-                File.WriteAllBytes(minpath, bytes);
-                System.Diagnostics.Process.Start(new ProcessStartInfo() { FileName = minpath, Arguments = $"{Title} {thispath}" });
-                Environment.Exit(0);
-            }
+            LogFramework.Log("End...");
+            Console.ReadKey();
         }
 
         private void LoadConfig(string basedir)
@@ -175,34 +145,6 @@ namespace EnoughHookLite
             LogFramework.Log("Loading config...");
             ConfigManager = new ConfigManager(basedir);
             ConfigManager.Load();
-        }
-
-        public static string RandomText()
-        {
-            Random rand = new Random();
-
-            int size = rand.Next(5, 20);
-            byte[] data = new byte[size];
-
-            Random rand1 = new Random(rand.Next());
-
-            for (var i = 0; i < size; i++)
-            {
-                rand1 = new Random(rand1.Next());
-                int type = rand1.Next(0, 3);
-                if (type == 0)
-                    data[i] = (byte)rand1.Next(65, 90);
-                else if (type == 1)
-                    data[i] = (byte)rand1.Next(97, 122);
-                else if (type == 2)
-                    data[i] = (byte)rand1.Next(48, 57);
-            }
-
-            char[] chars = new char[size];
-            for (var i = 0; i < size; i++)
-                chars[i] = (char)data[i];
-
-            return new string(chars);
         }
     }
 }

@@ -34,7 +34,13 @@ namespace EnoughHookLiteUI
         {
             var objs = (object[])arg;
 
-            Window = new EHLWindow((App)objs[0], (string[])objs[1]);
+            var app = (App)objs[0];
+            var args = (string[])objs[1];
+
+            if (!app.HandleStart(args))
+                return;
+
+            Window = new EHLWindow(app, args);
             Window.ShowDialog();
         }
     }
