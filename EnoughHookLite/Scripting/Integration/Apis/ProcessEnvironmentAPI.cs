@@ -1,13 +1,14 @@
 ﻿using EnoughHookLite.Modules;
-using EnoughHookLite.Scripting.Apis.APIWraps;
+using EnoughHookLite.Scripting.Integration.Apis.APIWraps;
 using EnoughHookLite.Sys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnoughHookLite.Scripting.Apis
+namespace EnoughHookLite.Scripting.Integration.Apis
 {
     public sealed class ProcessEnvironmentAPI : SharedAPI
     {
@@ -17,12 +18,16 @@ namespace EnoughHookLite.Scripting.Apis
             SubAPI = subapi;
         }
 
-        public override void OnSetupAPI(ISharedHandler local)
+        protected override void OnSetupModule(ScriptModule module)
         {
-            local.AddDelegate("getModule", (Func<string, ManagedModule>)GetModule);
+            module.AddDelegate("getModule", (Func<string, ManagedModule>)GetModule);
 
-            //local.AddDelegate("getRemoteMemory", (Func<ScriptRemoteMemory>)(() => { return new ScriptRemoteMemory(SubAPI.Process.RemoteMemory); }));
-            local.AddDelegate("getRemoteMemory", (Func<ScriptRemoteMemory>)(() => { return new ScriptRemoteMemory(SubAPI.Process.RemoteMemory); }));
+            module.AddDelegate("getRemoteMemory", (Func<ScriptRemoteMemory>)(() => { return new ScriptRemoteMemory(SubAPI.Process.RemoteMemory); }));
+        }
+
+        protected override void OnSetupTypes(ISharedGlobalHandler handler)
+        {
+            
         }
 
         private ManagedModule GetModule(string name)

@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnoughHookLite.Scripting.Apis
+namespace EnoughHookLite.Scripting.Integration.Apis
 {
     public sealed class OffsetsAPI : SharedAPI
     {
@@ -16,13 +17,16 @@ namespace EnoughHookLite.Scripting.Apis
             PointManager = pm;
         }
 
-        public override void OnSetupAPI(ISharedHandler local)
+        protected override void OnSetupModule(ScriptModule module)
         {
-            local.AddType("SignaturesConsts", typeof(SignaturesConsts));
+            module.AddDelegate("getSignature", (Func<ulong, PointerCached>)AllocateSignature);
+            module.AddDelegate("getSignatureSC", (Func<SignaturesConsts, PointerCached>)AllocateSignature);
+            module.AddDelegate("getNetvar", (Func<string, PointerCached>)AllocateNetvar);
+        }
 
-            local.AddDelegate("getSignature", (Func<ulong, PointerCached>)AllocateSignature);
-            local.AddDelegate("getSignatureSC", (Func<SignaturesConsts, PointerCached>)AllocateSignature);
-            local.AddDelegate("getNetvar", (Func<string, PointerCached>)AllocateNetvar);
+        protected override void OnSetupTypes(ISharedGlobalHandler handler)
+        {
+            handler.AddType("SignaturesConsts", typeof(SignaturesConsts));
         }
 
         private PointerCached AllocateSignature(SignaturesConsts id)
@@ -43,5 +47,7 @@ namespace EnoughHookLite.Scripting.Apis
             PointManager.AllocateNetvar(id, out pointer);
             return pointer;
         }
+
+        
     }
 }

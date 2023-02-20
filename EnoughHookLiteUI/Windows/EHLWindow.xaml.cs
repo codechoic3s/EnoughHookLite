@@ -71,7 +71,7 @@ namespace EnoughHookLiteUI.Windows
 
         private void SetupDrawAPI(App app)
         {
-            app.JSLoader.JSApi.AddSharedAPI(ManualRenderer.Renderer.Drawer.DrawAPI);
+            app.ScriptHost.ScriptLoader.ScriptApi.AddSharedAPI("draw", ManualRenderer.Renderer.Drawer.DrawAPI);
         }
     }
 }

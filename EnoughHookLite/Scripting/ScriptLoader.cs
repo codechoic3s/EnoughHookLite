@@ -1,6 +1,4 @@
 ﻿using EnoughHookLite.Logging;
-using Jint;
-using Jint.Runtime.Interop;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,24 +14,29 @@ namespace EnoughHookLite.Scripting
         private Dictionary<string, Script> Scripts;
         private string Path;
 
-        public ScriptAPI JSApi { get; private set; }
+        public ScriptAPI ScriptApi { get; private set; }
 
-        internal App App;
+        internal ScriptHost ScriptHost;
 
         private LogEntry LogScriptLoader;
 
-        public ScriptLoader(App app)
+        public ScriptLoader(ScriptHost host)
         {
             Scripts = new Dictionary<string, Script>();
             Path = AppDomain.CurrentDomain.BaseDirectory + "\\scripts";
-            App = app;
-            JSApi = new ScriptAPI(app);
+            ScriptHost = host;
+            ScriptApi = new ScriptAPI(ScriptHost);
 
             LogScriptLoader = new LogEntry(() => { return "[ScriptLoader] "; });
             App.LogHandler.AddEntry("ScriptLoader", LogScriptLoader);
         }
 
-        public void SetupAll()
+        public void SetupGlobalAPI()
+        {
+            ScriptApi.Setup();
+            ScriptApi.LoadGlobalAPI();
+        }
+        public void SetupScripts()
         {
             foreach (var item in Scripts)
             {
@@ -48,9 +51,9 @@ namespace EnoughHookLite.Scripting
             if (!Directory.Exists(Path))
                 Directory.CreateDirectory(Path);
 
-            string[] filteredFiles = Directory
+            string[] filteredFiles = Directory // gettings files
             .GetFiles(Path, "*.*")
-            .Where(file => file.ToLower().EndsWith("js"))
+            .Where(file => file.ToLower().EndsWith("py"))
             .ToArray();
 
             long fco = filteredFiles.LongLength;
@@ -73,9 +76,9 @@ namespace EnoughHookLite.Scripting
 
                     var fname = splited2[0];
 
-                    var rawscript = File.ReadAllText(fpath);
+                    var rawscript = File.ReadAllText(fpath); // reading file
 
-                    var sc = new Script(this, fname, npath, rawscript);
+                    var sc = new Script(ScriptHost, fname, npath, rawscript); // creating script
                     Scripts.Add(fpath, sc);
                 }
             }

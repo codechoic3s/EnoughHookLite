@@ -3,10 +3,11 @@ using EnoughHookLite.Modules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnoughHookLite.Scripting.Apis
+namespace EnoughHookLite.Scripting.Integration.Apis
 {
     public sealed class SourceEngineAPI : SharedAPI
     {
@@ -19,9 +20,14 @@ namespace EnoughHookLite.Scripting.Apis
             Engine = eng;
         }
 
-        public override void OnSetupAPI(ISharedHandler local)
+        protected override void OnSetupModule(ScriptModule module)
         {
-            local.AddDelegate("getEntityList", (Func<EntityList>)(() => Client.EntityList));
+            module.AddDelegate("getEntityList", (Func<EntityList>)(() => Client.EntityList));
+        }
+
+        protected override void OnSetupTypes(ISharedGlobalHandler handler)
+        {
+            
         }
     }
 }

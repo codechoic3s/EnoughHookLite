@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnoughHookLite.Scripting
+namespace EnoughHookLite.Scripting.Integration
 {
     public sealed class ConfigAPI
     {

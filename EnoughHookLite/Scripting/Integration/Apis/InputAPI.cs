@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnoughHookLite.Scripting.Apis
+namespace EnoughHookLite.Scripting.Integration.Apis
 {
     public sealed class InputAPI : SharedAPI
     {
@@ -16,23 +17,26 @@ namespace EnoughHookLite.Scripting.Apis
             Process = pc;
         }
 
-        public override void OnSetupAPI(ISharedHandler local)
+        protected override void OnSetupModule(ScriptModule module)
         {
-            local.AddType("VK", typeof(VK));
-            local.AddType("ScanCodeShort", typeof(ScanCodeShort));
+            module.AddDelegate("sendKeyDown", (Action<VK, ScanCodeShort>)SendKeyDown);
+            module.AddDelegate("sendKeyUp", (Action<VK, ScanCodeShort>)SendKeyUp);
 
-            local.AddDelegate("sendKeyDown", (Action<VK, ScanCodeShort>)SendKeyDown);
-            local.AddDelegate("sendKeyUp", (Action<VK, ScanCodeShort>)SendKeyUp);
+            module.AddDelegate("sendLButtonDown", (Action)SendLButtonDown);
+            module.AddDelegate("sendLButtonUp", (Action)SendLButtonUp);
+            module.AddDelegate("sendRButtonDown", (Action)SendRButtonDown);
+            module.AddDelegate("sendRButtonUp", (Action)SendRButtonUp);
 
-            local.AddDelegate("sendLButtonDown", (Action)SendLButtonDown);
-            local.AddDelegate("sendLButtonUp", (Action)SendLButtonUp);
-            local.AddDelegate("sendRButtonDown", (Action)SendRButtonDown);
-            local.AddDelegate("sendRButtonUp", (Action)SendRButtonUp);
+            module.AddDelegate("sendString", (Action<string>)SendString);
 
-            local.AddDelegate("sendString", (Action<string>)SendString);
+            module.AddDelegate("getKeyStateInt", (Func<int, bool>)InputHandler.GetKeyState);
+            module.AddDelegate("getKeyStateVK", (Func<VK, bool>)InputHandler.GetKeyState);
+        }
 
-            local.AddDelegate("getKeyStateInt", (Func<int, bool>)InputHandler.GetKeyState);
-            local.AddDelegate("getKeyStateVK", (Func<VK, bool>)InputHandler.GetKeyState);
+        protected override void OnSetupTypes(ISharedGlobalHandler handler)
+        {
+            handler.AddType("VK", typeof(VK));
+            handler.AddType("ScanCodeShort", typeof(ScanCodeShort));
         }
         
         private void SendLButtonDown()

@@ -33,7 +33,8 @@ namespace EnoughHookLiteUI.Rendering
 
                 try
                 {
-                    del.Item2.JSEngine.Invoke(name);
+                    del.Item2.ScriptScope.Engine.Execute(name + "()", del.Item2.ScriptScope);
+                    //del.Item2.JSEngine.Invoke(name);
                 }
                 catch (Exception ex)
                 {

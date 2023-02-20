@@ -1,5 +1,44 @@
 {
-  "script_fulldebug": false,
-  "script_autoreload": false,
-  "script_configs": {}
+  "script_configs": {
+    "trigger": {
+      "elements": {
+        "on": true,
+        "key": 86
+      }
+    },
+    "bhop": {
+      "elements": {
+        "on": true
+      }
+    },
+    "esp": {
+      "elements": {
+        "on": false
+      }
+    },
+    "overlayoutline": {
+      "elements": {
+        "on": false,
+        "color": "#ff2270",
+        "outline": 1.0
+      }
+    },
+    "worldobject": {
+      "elements": {
+        "on": false,
+        "color": "#ff2270",
+        "outline": 2
+      }
+    },
+    "crosshair": {
+      "elements": {
+        "on": false,
+        "color": "#ff2270",
+        "outline": 1.0,
+        "gap": 2,
+        "size": 5.0,
+        "dot": false
+      }
+    }
+  }
 }

@@ -1,4 +1,5 @@
-﻿using EnoughHookLite.Scripting;
+﻿using EnoughHookLite.Scripting.Integration;
+using EnoughHookLite.Scripting;
 using EnoughHookLiteUI.ScriptAPI.Wraps;
 using EnoughHookLiteUI.Utils;
 using System;
@@ -8,6 +9,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace EnoughHookLiteUI.ScriptAPI
 {
@@ -27,24 +29,27 @@ namespace EnoughHookLiteUI.ScriptAPI
             OverlayAPI = new OverlayAPI(Drawer);
         }
 
-        public override void OnSetupAPI(ISharedHandler local)
+        protected override void OnSetupModule(ScriptModule module)
         {
-            local.AddDelegate("getOverlayAPI", (Func<OverlayAPI>)(() => { return OverlayAPI; }));
-            local.AddDelegate("getDrawingAPI", (Func<DrawingAPI>)(() => { return DrawingAPI; }));
+            module.AddDelegate("getOverlayAPI", (Func<OverlayAPI>)(() => { return OverlayAPI; }));
+            module.AddDelegate("getDrawingAPI", (Func<DrawingAPI>)(() => { return DrawingAPI; }));
+        }
 
-            local.AddType("Brush", typeof(Brush));
-            local.AddType("SolidBrush", typeof(SolidBrush));
-            local.AddType("LinearGradientBrush", typeof(LinearGradientBrush));
-            local.AddType("PathGradientBrush", typeof(PathGradientBrush));
-            local.AddType("HatchBrush", typeof(HatchBrush));
-            local.AddType("TextureBrush", typeof(TextureBrush));
+        protected override void OnSetupTypes(ISharedGlobalHandler handler)
+        {
+            handler.AddType("Brush", typeof(Brush));
+            handler.AddType("SolidBrush", typeof(SolidBrush));
+            handler.AddType("LinearGradientBrush", typeof(LinearGradientBrush));
+            handler.AddType("PathGradientBrush", typeof(PathGradientBrush));
+            handler.AddType("HatchBrush", typeof(HatchBrush));
+            handler.AddType("TextureBrush", typeof(TextureBrush));
 
-            local.AddType("Color", typeof(Color));
-            local.AddType("Pen", typeof(Pen));
-            local.AddType("Font", typeof(Font));
-            local.AddType("PointF", typeof(PointF));
+            handler.AddType("Color", typeof(Color));
+            handler.AddType("Pen", typeof(Pen));
+            handler.AddType("Font", typeof(Font));
+            handler.AddType("PointF", typeof(PointF));
 
-            local.AddEvent("OnDraw", DrawList);
+            handler.AddEvent("OnDraw", DrawList);
         }
     }
 }

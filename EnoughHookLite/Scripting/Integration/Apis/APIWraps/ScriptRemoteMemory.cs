@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnoughHookLite.Scripting.Apis.APIWraps
+namespace EnoughHookLite.Scripting.Integration.Apis.APIWraps
 {
     public sealed class ScriptRemoteMemory
     {

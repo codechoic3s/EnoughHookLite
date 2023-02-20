@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnoughHookLite.Scripting.Apis
+namespace EnoughHookLite.Scripting.Integration.Apis
 {
     public sealed class CameraAPI : SharedAPI
     {
@@ -17,9 +18,14 @@ namespace EnoughHookLite.Scripting.Apis
             Camera = cam;
         }
 
-        public override void OnSetupAPI(ISharedHandler local)
+        protected override void OnSetupModule(ScriptModule module)
         {
-            local.AddDelegate("WorldToScreen", (Func<Vector3, Vector2>)Camera.WorldToScreen);
+            module.AddDelegate("WorldToScreen", (Func<Vector3, Vector2>)Camera.WorldToScreen);
+        }
+
+        protected override void OnSetupTypes(ISharedGlobalHandler handler)
+        {
+            
         }
     }
 }

@@ -19,24 +19,17 @@ namespace EnoughHookLite
     {
         private string Title;
         //private const string LastBuild = "10/10/2021 8:00PM";
-
         public bool IsWorking { get; private set; }
-
         internal Thread MainThread;
-
         public SubAPI SubAPI { get; private set; }
-
-        public ScriptLoader JSLoader { get; private set; }
+        public ScriptHost ScriptHost { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
         public DebugTools DebugTools { get; private set; }
         public static LogHandler LogHandler = new LogHandler();
         private static LogEntry LogFramework;
-
         public Action<App> BeforeSetupScript;
         public Action<Point, Vector2> OnUpdate;
-
         public bool IsForeground { get; private set; }
-
         public bool HandleStart(string[] args)
         {
             ProtectStart.Setup(args);
@@ -47,7 +40,6 @@ namespace EnoughHookLite
             }
             return false;
         }
-
         public void Start()
         {
             if (IsWorking)
@@ -64,12 +56,10 @@ namespace EnoughHookLite
         {
             IsWorking = false;
         }
-
         private void ConsoleMessage(string log)
         {
             Console.WriteLine(log);
         }
-
         public static void SetupCrashHandler()
         {
             LogFramework = new LogEntry(() => { return "[Framework] "; });
@@ -85,7 +75,6 @@ namespace EnoughHookLite
             string log = LogHandler.GetAll();
             File.WriteAllText("log.txt", log);
         }
-
         private void Work()
         {
             string basedir = AppDomain.CurrentDomain.BaseDirectory;
@@ -100,14 +89,14 @@ namespace EnoughHookLite
             string text = "";
             text +=
                 "\n/EnoughHookLite/\n" +
-                "   ~ Source SDK js host ~ \n" +
-                "       build: " + ver.Build + "\n";
+                "   ~ Source SDK host ~ \n" +
+                "       build: " + 280 + "\n";
             LogFramework.Log(text);
 
             //Console.Title = Title;
             SubAPI = new SubAPI(ConfigManager.Modules.Config);
             SubAPI.ProcessFetch(ConfigManager.Engine.Config.ProcessName);
-
+            
             if (SubAPI.ModulesFetch())
             {
                 SubAPI.PointManager.InitSignatures(ConfigManager.Engine.Config);
@@ -118,16 +107,10 @@ namespace EnoughHookLite
                 if (!SubAPI.ParseDefaultModules())
                     return;
 
-                JSLoader = new ScriptLoader(this);
-
-                JSLoader.AllocateScripts();
-                BeforeSetupScript?.Invoke(this);
-                JSLoader.SetupAll();
-
-                SubAPI.StartAll();
-
-                JSLoader.StartAll();
-
+                ScriptHost = new ScriptHost(this);
+                ScriptHost.SetupHost();
+                ScriptHost.SetupLoader(this);
+                
                 while (true)
                 {
                     IsForeground = SubAPI.Process.IsForeground();
@@ -139,7 +122,6 @@ namespace EnoughHookLite
             LogFramework.Log("End...");
             Console.ReadKey();
         }
-
         private void LoadConfig(string basedir)
         {
             LogFramework.Log("Loading config...");

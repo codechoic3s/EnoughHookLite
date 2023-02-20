@@ -11,15 +11,33 @@
         "on": true
       }
     },
-    "rank_reveal": {
-      "elements": {
-        "on": true,
-        "update_key": 9.0
-      }
-    },
-    "chatspam": {
+    "esp": {
       "elements": {
         "on": false
+      }
+    },
+    "overlayoutline": {
+      "elements": {
+        "on": false,
+        "color": "#ff2270",
+        "outline": 1.0
+      }
+    },
+    "worldobject": {
+      "elements": {
+        "on": false,
+        "color": "#ff2270",
+        "outline": 2
+      }
+    },
+    "crosshair": {
+      "elements": {
+        "on": false,
+        "color": "#ff2270",
+        "outline": 1.0,
+        "gap": 2,
+        "size": 5.0,
+        "dot": false
       }
     }
   }

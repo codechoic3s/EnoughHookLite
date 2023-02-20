@@ -1,6 +1,4 @@
-﻿using EnoughHookLite.Scripting.Apis;
-using Jint.Native;
-using Jint.Runtime.Interop;
+﻿using EnoughHookLite.Scripting.Integration.Apis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,24 +10,22 @@ namespace EnoughHookLite.Scripting
 {
     public sealed class ScriptLocal
     {
-        private Dictionary<string, Type> Types;
+        //private Dictionary<string, Type> Types;
         private Dictionary<string, Delegate> Delegates;
         private Dictionary<string, object> Values;
 
-        private ScriptAPI JSApi;
+        private ScriptAPI ScriptApi;
         private Script Script;
 
         private Dictionary<string, object> LocalValues;
-        private SubAPI SubAPI;
 
-        public ScriptLocal(SubAPI subapi, Script script, ScriptAPI api)
+        public ScriptLocal(Script script, ScriptAPI api)
         {
-            SubAPI = subapi;
-            JSApi = api;
+            ScriptApi = api;
             Script = script;
             Delegates = new Dictionary<string, Delegate>();
             Values = new Dictionary<string, object>();
-            Types = new Dictionary<string, Type>();
+            //Types = new Dictionary<string, Type>();
             LocalValues = new Dictionary<string, object>();
         }
 
@@ -38,12 +34,11 @@ namespace EnoughHookLite.Scripting
             Delegates.Add("twait", (Action<int>)Thread.Sleep);
             Delegates.Add("print", (Action<string>)Script.LogScript.Log);
             Delegates.Add("printo", (Action<object>)Script.LogScript.Log);
-            Delegates.Add("require", (Func<string, JsValue>)Script.LoadScript);
         }
         private void SetupConfigAPI()
         {
             Values.Add("config", Script.Config);
-            Delegates.Add("sync_config", (Action)Script.SyncConfig);
+            Delegates.Add("configSync", (Action)Script.SyncConfig);
         }
         private void SetupCallbackAPI()
         {
@@ -61,7 +56,7 @@ namespace EnoughHookLite.Scripting
 
         private void OnDelLocalValue(string name)
         {
-            Script.JSEngine.SetValue(name, (object)null);
+            Script.ScriptScope.SetVariable(name, (object)null);
             LocalValues.Remove(name);
         }
         private void OnAddLocalValue(string name, object value)
@@ -69,20 +64,20 @@ namespace EnoughHookLite.Scripting
             if (!LocalValues.ContainsKey(name))
                 LocalValues.Add(name, value);
 
-            Script.JSEngine.SetValue(name, value);
+            Script.ScriptScope.SetVariable(name, value);
         }
 
         private void OnDelGlobalValue(string name)
         {
-            Script.JSEngine.SetValue(name, (object)null);
-            JSApi.GlobalValues.Remove(name);
+            Script.ScriptScope.SetVariable(name, (object)null);
+            ScriptApi.GlobalValues.Remove(name);
         }
         private void OnAddGlobalValue(string name, object value)
         {
-            if (!JSApi.GlobalValues.ContainsKey(name))
-                JSApi.GlobalValues.Add(name, value);
+            if (!ScriptApi.GlobalValues.ContainsKey(name))
+                ScriptApi.GlobalValues.Add(name, value);
 
-            Script.JSEngine.SetValue(name, value);
+            Script.ScriptScope.SetVariable(name, value);
         }
         public void SetupDefaultAPI()
         {
@@ -94,19 +89,20 @@ namespace EnoughHookLite.Scripting
 
         public void LoadAPI()
         {
+            /*
             foreach (var item in Types)
             {
-                Script.JSEngine.SetValue(item.Key, TypeReference.CreateTypeReference(Script.JSEngine, item.Value));
-            }
+                //Script.ScriptScope.SetVariable(item.Key, TypeReference.CreateTypeReference(Script.JSEngine, item.Value));
+                Script.ScriptScope.CreateObjRef(item.Value);
+            }*/
             foreach (var item in Delegates)
             {
-                Script.JSEngine.SetValue(item.Key, item.Value);
+                Script.ScriptScope.SetVariable(item.Key, item.Value);
             }
             foreach (var item in Values)
             {
-                Script.JSEngine.SetValue(item.Key, (dynamic)item.Value);
+                Script.ScriptScope.SetVariable(item.Key, (dynamic)item.Value);
             }
-            JSApi.LoadAPI(Script);
         }
     }
 }

@@ -11,7 +11,6 @@ var entitylist = getEntityList();
 var localplayer = entitylist.LocalPlayer;
 
 var pFFlags = getNetvar("DT_BasePlayer.m_fFlags");
-var cached = localplayer.Pointer + pFFlags.Pointer;
 while (true)
 {
     twait(1);
@@ -23,7 +22,7 @@ while (true)
     
     if (getKeyStateVK(VK.SPACE))
     {
-        var flags = rm.ReadIntInt(cached);
+        var flags = rm.ReadUIntUInt(localplayer.Pointer + pFFlags.Pointer);
         if (flags == 257 || flags == 263)
         {
             sendKeyDown(VK.SPACE, ScanCodeShort.SPACE);

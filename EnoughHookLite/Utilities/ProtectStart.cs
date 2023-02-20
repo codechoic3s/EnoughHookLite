@@ -22,7 +22,7 @@ namespace EnoughHookLite.Utilities
         {
             LogProtectStart = new LogEntry(() => { return "[protect_start] "; });
             App.LogHandler.AddEntry("ProtectStart", LogProtectStart);
-            return false;
+            return true;
         }
         public static void Setup(string[] args)
         {

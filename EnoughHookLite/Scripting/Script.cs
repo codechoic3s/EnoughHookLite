@@ -1,11 +1,9 @@
 ﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Scripting.Integration;
 using EnoughHookLite.Utilities;
 using EnoughHookLite.Utilities.Conf;
-using Jint;
-using Jint.Native;
-using Jint.Parser;
-using Jint.Runtime;
-using Jint.Runtime.Interop;
+using IronPython.Hosting;
+using Microsoft.Scripting.Hosting;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,9 +20,11 @@ namespace EnoughHookLite.Scripting
         public string RawScript { get; internal set; }
         public string Path { get; internal set; }
 
-        private Thread ExecuteThread;
+        internal Thread ExecuteThread;
 
-        public Engine JSEngine { get; private set; }
+        public ScriptScope ScriptScope;
+
+        internal ScriptHost ScriptHost;
         internal ScriptLoader Loader;
         internal ScriptConfig Config;
         internal ConfigAPI ConfigAPI;
@@ -32,15 +32,17 @@ namespace EnoughHookLite.Scripting
 
         internal LogEntry LogScript { get; private set; }
 
-        public Script(ScriptLoader loader, string name, string path, string script)
+        public Script(ScriptHost host, string name, string path, string script)
         {
+            ScriptHost = host;
+            Loader = ScriptHost.ScriptLoader;
             Name = name;
             Path = path;
             RawScript = script;
-            Loader = loader;
+
             Config = new ScriptConfig();
             ConfigAPI = new ConfigAPI();
-            Local = new ScriptLocal(loader.App.SubAPI, this, Loader.JSApi);
+            Local = new ScriptLocal(this, Loader.ScriptApi);
 
             LogScript = new LogEntry(() => { return $"({Name}) "; });
             App.LogHandler.AddEntry($"Script:{Name}", LogScript);
@@ -48,7 +50,9 @@ namespace EnoughHookLite.Scripting
 
         public void Setup()
         {
-            JSEngine = new Engine();
+            ScriptScope = ScriptHost.ScriptEngine.CreateScope();
+            //ScriptScope = ScriptHost.ScriptEngine.CreateScope();
+
             Local.SetupDefaultAPI();
             Local.LoadAPI();
         }
@@ -61,18 +65,7 @@ namespace EnoughHookLite.Scripting
 
         internal void SyncConfig()
         {
-            Loader.App.ConfigManager.SyncWithCurrentScript(Name, this);
-        }
-
-        internal JsValue LoadScript(string path)
-        {
-            var cpath = Path + path;
-            if (!File.Exists(cpath))
-            {
-                LogScript.Log($"Failed load script on {cpath}");
-                return null;
-            }
-            return JSEngine.Execute(File.ReadAllText(cpath)).GetCompletionValue();
+            Loader.ScriptHost.App.ConfigManager.SyncWithCurrentScript(Name, this);
         }
 
         private void Execution()
@@ -80,7 +73,7 @@ namespace EnoughHookLite.Scripting
             LogScript.Log("Started.");
             try
             {
-                JSEngine.Execute(RawScript);
+                ScriptHost.ExecuteDyn(this);
             }
             catch (Exception ex)
             {
@@ -91,13 +84,13 @@ namespace EnoughHookLite.Scripting
 
         public void HandleException(Exception ex)
         {
-            var cfg = Loader.App.ConfigManager.Debug.Config;
+            var cfg = Loader.ScriptHost.App.ConfigManager.Debug.Config;
             LogScript.Log($"Exception on execution: {ExceptionHandler.HandleEception(ex, cfg.ScriptFullDebug)}");
         }
 
         private void HandleAutoReload()
         {
-            var cfg = Loader.App.ConfigManager.Debug.Config;
+            var cfg = Loader.ScriptHost.App.ConfigManager.Debug.Config;
             if (cfg.ScriptAutoReload)
             {
                 Start();
@@ -131,13 +124,13 @@ namespace EnoughHookLite.Scripting
         {
             bool state;
 
-            state = Loader.JSApi.Callbacks.TryGetValue(name, out List<(string, Script)> actions);
+            state = Loader.ScriptApi.Callbacks.TryGetValue(name, out List<(string, Script)> actions);
             if (state)
             {
                 HasActionRemove(actions, del_name);
                 return;
             }
-            state = Loader.JSApi.CustomCallbacks.TryGetValue(name, out actions);
+            state = Loader.ScriptApi.CustomCallbacks.TryGetValue(name, out actions);
             if (state)
             {
                 HasActionRemove(actions, del_name);
@@ -148,17 +141,17 @@ namespace EnoughHookLite.Scripting
         {
             bool state;
 
-            state = Loader.JSApi.Callbacks.TryGetValue(name, out List<(string, Script)> actions);
+            state = Loader.ScriptApi.Callbacks.TryGetValue(name, out List<(string, Script)> actions);
             if (state)
             {
                 actions.Add((del_name, this));
-                return new ScriptEvent(Loader.JSApi, (del_name, this));
+                return new ScriptEvent(Loader.ScriptApi, (del_name, this));
             }
-            state = Loader.JSApi.CustomCallbacks.TryGetValue(name, out actions);
+            state = Loader.ScriptApi.CustomCallbacks.TryGetValue(name, out actions);
             if (state)
             {
                 actions.Add((del_name, this));
-                return new ScriptEvent(Loader.JSApi, (del_name, this));
+                return new ScriptEvent(Loader.ScriptApi, (del_name, this));
             }
 
             return null;
