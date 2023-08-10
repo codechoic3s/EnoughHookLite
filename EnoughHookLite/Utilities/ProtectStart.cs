@@ -1,4 +1,5 @@
 ﻿using EnoughHookLite.Logging;
+using EnoughHookLite.Utilities.Conf;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,35 +15,41 @@ namespace EnoughHookLite.Utilities
         internal static bool ChangeName { get; private set; }
         internal static string ChangeableName { get; private set; }
         internal static string RemoveName { get; private set; }
-        public static bool ProtectedStart { get; private set; } = Init();
+        public static bool ProtectedStart { get; private set; }
         public static Action<string> SetName;
 
         private static LogEntry LogProtectStart;
-        private static bool Init()
+        public static void Setup(string[] args)
         {
             LogProtectStart = new LogEntry(() => { return "[protect_start] "; });
             App.LogHandler.AddEntry("ProtectStart", LogProtectStart);
-            return true;
-        }
-        public static void Setup(string[] args)
-        {
             if (args.Length == 2)
             {
                 ChangeName = true;
                 ChangeableName = args[0];
                 RemoveName = args[1];
+                LogProtectStart.Log("Started with protected name!");
             }
         }
-        public static bool Handle()
+        public static bool Handle(DebugConfig debugConfig)
         {
             string basedir = AppDomain.CurrentDomain.BaseDirectory;
+            ProtectedStart = debugConfig.ProtectedStart;
+
             if (ChangeName || !ProtectedStart)
             {
                 if (ChangeName)
                 {
                     SetName?.Invoke(ChangeableName);
                     LogProtectStart.Log($"Trying remove {RemoveName}");
-                    File.Delete(RemoveName);
+                    try
+                    {
+                        File.Delete(RemoveName);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogProtectStart.Log($"Failed remove old file ({RemoveName}): " + ex.Message);
+                    }
                     LogProtectStart.Log("Removed");
                 }
                 else if (!ProtectedStart)
@@ -53,13 +60,21 @@ namespace EnoughHookLite.Utilities
             }
             else
             {
-                var name = RandomText();
-                SetName?.Invoke(name);
-                string minpath = basedir + @"/" + name + ".exe";
-                string thispath = basedir + @"/" + AppDomain.CurrentDomain.FriendlyName;
-                byte[] bytes = File.ReadAllBytes(thispath);
-                File.WriteAllBytes(minpath, bytes);
-                Process.Start(new ProcessStartInfo() { FileName = minpath, Arguments = $"{name} {thispath}" });
+                LogProtectStart.Log("Restarting in Protected Mode...");
+                try
+                {
+                    var name = RandomText();
+                    SetName?.Invoke(name);
+                    string minpath = basedir + @"/" + name + ".exe";
+                    string thispath = basedir + @"/" + AppDomain.CurrentDomain.FriendlyName;
+                    byte[] bytes = File.ReadAllBytes(thispath);
+                    File.WriteAllBytes(minpath, bytes);
+                    Process.Start(new ProcessStartInfo() { FileName = minpath, Arguments = $"{name} {thispath}" });
+                }
+                catch (Exception ex)
+                {
+                    LogProtectStart.Log("Failed start in Protected Mode: " + ex.Message);
+                }
                 return false;
             }
         }

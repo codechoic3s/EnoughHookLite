@@ -85,7 +85,7 @@ namespace EnoughHookLite.Pointing
             LogPM.Log("Initing signatures...");
             SignatureManager = new SignatureManager(SubAPI);
             SignatureManager.ParseFromConfig(sc);
-            SignatureManager.LoadSignatures();
+            SignatureManager.LoadSignatures(sc);
             CacheParsedSignatures();
         }
 

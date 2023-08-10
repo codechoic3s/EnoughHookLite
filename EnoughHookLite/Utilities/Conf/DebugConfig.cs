@@ -25,11 +25,15 @@ namespace EnoughHookLite.Utilities.Conf
         [JsonProperty("remotedebug_port")]
         public int RemoteDebugPort { get; private set; }
 
+        [JsonProperty("protected_start")]
+        public bool ProtectedStart { get; private set; }
+
         public DebugConfig()
         {
             DumpClientClassesCPP = false;
             ScriptFullDebug = false;
             ScriptAutoReload = false;
+            ProtectedStart = true;
         }
     }
 }

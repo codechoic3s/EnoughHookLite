@@ -28,13 +28,16 @@ namespace EnoughHookLite.Utilities
             App.LogHandler.AddEntry($"SignatureManager", LogSigMgr);
         }
 
-        public void LoadSignatures()
+        public void LoadSignatures(EngineConfig sc)
         {
             foreach (var item in SignatureList)
             {
                 SignatureDumper.AddSignature(item.Value);
             }
-            SignatureDumper.ScanSignatures(true);
+            if (sc.ParallelSignatureScans) 
+                SignatureDumper.ScanSignaturesParallel(sc.LoggingSignatureScans);
+            else
+                SignatureDumper.ScanSignatures(sc.LoggingSignatureScans);
         }
 
         public void ParseFromConfig(EngineConfig sc)

@@ -32,7 +32,10 @@ namespace EnoughHookLite.Utilities
             if (ConfigManager.Debug.Config.DumpClientClassesCPP)
             {
                 CreateFolder(path);
-                App.SubAPI.PointManager.ClientClassParser.DumpCppClasses(path + "/" + ClientClassesDumpCPP);
+                var lpath = path + "/" + ClientClassesDumpCPP;
+                LogDebugTools?.Log("Dumping ClientClasses as classes for C++ to " + lpath + "...");
+                App.SubAPI.PointManager.ClientClassParser.DumpCppClasses(lpath);
+                LogDebugTools?.Log("Dumped!");
             }
         }
         public void OnStartDebug()

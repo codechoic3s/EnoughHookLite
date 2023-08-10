@@ -11,6 +11,10 @@ namespace EnoughHookLite.Utilities.Conf
     {
         [JsonProperty("process_name")]
         public string ProcessName { get; private set; }
+        [JsonProperty("loggingSignatureScans")]
+        public bool LoggingSignatureScans { get; private set; }
+        [JsonProperty("parallelSignatureScans")]
+        public bool ParallelSignatureScans { get; private set; }
         [JsonProperty("signatures")]
         public SignatureComponent[] Components { get; private set; }
 
@@ -18,6 +22,8 @@ namespace EnoughHookLite.Utilities.Conf
         {
             Components = new SignatureComponent[] { new SignatureComponent() };
             ProcessName = "";
+            LoggingSignatureScans = true;
+            ParallelSignatureScans = true;
         }
     }
 }

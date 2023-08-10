@@ -32,8 +32,10 @@ namespace EnoughHookLite
         public bool IsForeground { get; private set; }
         public bool HandleStart(string[] args)
         {
+            string basedir = AppDomain.CurrentDomain.BaseDirectory;
+            LoadConfig(basedir);
             ProtectStart.Setup(args);
-            if (ProtectStart.Handle())
+            if (ProtectStart.Handle(ConfigManager.Debug.Config))
             {
                 Start();
                 return true;
@@ -77,11 +79,7 @@ namespace EnoughHookLite
         }
         private void Work()
         {
-            string basedir = AppDomain.CurrentDomain.BaseDirectory;
-
             Version ver = Assembly.GetEntryAssembly().GetName().Version;
-
-            LoadConfig(basedir);
 
             DebugTools = new DebugTools(this, ConfigManager);
             DebugTools.OnStartDebug();
@@ -90,7 +88,7 @@ namespace EnoughHookLite
             text +=
                 "\n/EnoughHookLite/\n" +
                 "   ~ Source SDK host ~ \n" +
-                "       build: " + 280 + "\n";
+                "       build: " + 291 + "\n";
             LogFramework.Log(text);
 
             //Console.Title = Title;

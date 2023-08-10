@@ -49,3 +49,7 @@ E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Debug\System.Drawing
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Debug\RemoteDebugClient.pdb
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Debug\SharpDX.dll
 E:\VisualStudioProjects\EnoughHookLite\EnoughHookLiteUI\bin\Debug\SharpDX.pdb
+F:\repos\EnoughHookLite\EnoughHookLiteUI\obj\Debug\EnoughHookLiteUI.csproj.AssemblyReference.cache
+F:\repos\EnoughHookLite\EnoughHookLiteUI\obj\Debug\EnoughHookLiteUI.csproj.SuggestedBindingRedirects.cache
+F:\repos\EnoughHookLite\EnoughHookLiteUI\obj\Debug\EnoughHookLiteUI.exe
+F:\repos\EnoughHookLite\EnoughHookLiteUI\obj\Debug\EnoughHookLiteUI.pdb

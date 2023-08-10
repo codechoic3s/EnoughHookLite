@@ -48,6 +48,7 @@ namespace EnoughHookLite.Scripting
 
         public void SetupHost()
         {
+            LogScriptHost.Log("Initing ScriptEngine...");
             ScriptRuntime = Python.CreateRuntime();
             ScriptEngine = ScriptRuntime.GetEngine("Python");
             LogScriptHost.Log("Inited.");
