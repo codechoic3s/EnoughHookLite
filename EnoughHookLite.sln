@@ -5,13 +5,13 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnoughHookLite", "EnoughHookLite\EnoughHookLite.csproj", "{4C5F922E-07EF-49CA-948B-6B8D4CB4B127}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnoughHookLiteUI", "EnoughHookLiteUI\EnoughHookLiteUI.csproj", "{D2564669-EAA6-4FA2-9FBC-8FCF6F6B9B3E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteDebugClient", "RemoteDebugClient\RemoteDebugClient.csproj", "{1567D713-D6BF-4A34-90D5-E1C0DCB66845}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteDebugHost", "RemoteDebugHost\RemoteDebugHost.csproj", "{544D8DE7-CBA3-4C2C-BA64-6BDA595090D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteDebugHost", "RemoteDebugHost\RemoteDebugHost.csproj", "{544D8DE7-CBA3-4C2C-BA64-6BDA595090D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDHConsole", "RDHConsole\RDHConsole.csproj", "{14A96426-B75F-4763-B2D5-04A2045639F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDHConsole", "RDHConsole\RDHConsole.csproj", "{14A96426-B75F-4763-B2D5-04A2045639F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnoughHookLite.NET", "EnoughHookLite.NET\EnoughHookLite.NET.csproj", "{CAA2998B-A08D-459B-95DB-3C86AF21AA52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,14 +29,6 @@ Global
 		{4C5F922E-07EF-49CA-948B-6B8D4CB4B127}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C5F922E-07EF-49CA-948B-6B8D4CB4B127}.Release|x64.ActiveCfg = Release|x64
 		{4C5F922E-07EF-49CA-948B-6B8D4CB4B127}.Release|x64.Build.0 = Release|x64
-		{D2564669-EAA6-4FA2-9FBC-8FCF6F6B9B3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D2564669-EAA6-4FA2-9FBC-8FCF6F6B9B3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D2564669-EAA6-4FA2-9FBC-8FCF6F6B9B3E}.Debug|x64.ActiveCfg = Debug|x64
-		{D2564669-EAA6-4FA2-9FBC-8FCF6F6B9B3E}.Debug|x64.Build.0 = Debug|x64
-		{D2564669-EAA6-4FA2-9FBC-8FCF6F6B9B3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D2564669-EAA6-4FA2-9FBC-8FCF6F6B9B3E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D2564669-EAA6-4FA2-9FBC-8FCF6F6B9B3E}.Release|x64.ActiveCfg = Release|x64
-		{D2564669-EAA6-4FA2-9FBC-8FCF6F6B9B3E}.Release|x64.Build.0 = Release|x64
 		{1567D713-D6BF-4A34-90D5-E1C0DCB66845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1567D713-D6BF-4A34-90D5-E1C0DCB66845}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1567D713-D6BF-4A34-90D5-E1C0DCB66845}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -61,12 +53,20 @@ Global
 		{14A96426-B75F-4763-B2D5-04A2045639F5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14A96426-B75F-4763-B2D5-04A2045639F5}.Release|x64.ActiveCfg = Release|Any CPU
 		{14A96426-B75F-4763-B2D5-04A2045639F5}.Release|x64.Build.0 = Release|Any CPU
+		{CAA2998B-A08D-459B-95DB-3C86AF21AA52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAA2998B-A08D-459B-95DB-3C86AF21AA52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAA2998B-A08D-459B-95DB-3C86AF21AA52}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CAA2998B-A08D-459B-95DB-3C86AF21AA52}.Debug|x64.Build.0 = Debug|Any CPU
+		{CAA2998B-A08D-459B-95DB-3C86AF21AA52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAA2998B-A08D-459B-95DB-3C86AF21AA52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAA2998B-A08D-459B-95DB-3C86AF21AA52}.Release|x64.ActiveCfg = Release|Any CPU
+		{CAA2998B-A08D-459B-95DB-3C86AF21AA52}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {06A3EEB1-B525-4323-8707-B0273C0E64D8}
 		BuildVersion_StartDate = 2000/1/1
+		SolutionGuid = {06A3EEB1-B525-4323-8707-B0273C0E64D8}
 	EndGlobalSection
 EndGlobal

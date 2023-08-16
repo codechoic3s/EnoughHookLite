@@ -17,7 +17,6 @@ namespace EnoughHookLite
 {
     public class App
     {
-        private string Title;
         //private const string LastBuild = "10/10/2021 8:00PM";
         public bool IsWorking { get; private set; }
         internal Thread MainThread;
@@ -106,7 +105,6 @@ namespace EnoughHookLite
                     return;
 
                 ScriptHost = new ScriptHost(this);
-                ScriptHost.SetupHost();
                 ScriptHost.SetupLoader(this);
                 
                 while (true)

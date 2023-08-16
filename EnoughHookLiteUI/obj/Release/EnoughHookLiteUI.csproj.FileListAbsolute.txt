@@ -128,3 +128,5 @@ F:\repos\EnoughHookLite\EnoughHookLiteUI\obj\Release\EnoughHookLiteUI.csproj.Cor
 F:\repos\EnoughHookLite\EnoughHookLiteUI\obj\Release\EnoughHookLiteUI.csproj.CopyComplete
 F:\repos\EnoughHookLite\EnoughHookLiteUI\obj\Release\EnoughHookLiteUI.exe
 F:\repos\EnoughHookLite\EnoughHookLiteUI\obj\Release\EnoughHookLiteUI.pdb
+F:\repos\EnoughHookLite\EnoughHookLiteUI\obj\Release\EnoughHookLiteUI.csproj.SuggestedBindingRedirects.cache
+F:\repos\EnoughHookLite\EnoughHookLiteUI\obj\Release\EnoughHookLiteUI.exe.config
